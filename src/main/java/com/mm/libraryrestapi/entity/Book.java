@@ -11,8 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Entity
-@Table(name = "books")
+@Entity(name="books")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="book_type",  discriminatorType = DiscriminatorType.STRING)
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
