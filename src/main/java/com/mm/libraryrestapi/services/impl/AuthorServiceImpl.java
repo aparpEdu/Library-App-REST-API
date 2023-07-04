@@ -6,7 +6,7 @@ import com.mm.libraryrestapi.payload.AuthorDto;
 import com.mm.libraryrestapi.payload.AuthorResponse;
 import com.mm.libraryrestapi.repositories.AuthorRepository;
 import com.mm.libraryrestapi.services.AuthorService;
-import org.modelmapper.ModelMapper;
+import com.mm.libraryrestapi.utils.CustomMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    private AuthorRepository authorRepository;
-    private ModelMapper mapper;
+    private final AuthorRepository authorRepository;
+    private final CustomMapper mapper;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository, ModelMapper mapper) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, CustomMapper mapper) {
         this.authorRepository = authorRepository;
         this.mapper = mapper;
     }

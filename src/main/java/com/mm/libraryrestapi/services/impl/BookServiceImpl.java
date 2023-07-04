@@ -6,7 +6,7 @@ import com.mm.libraryrestapi.payload.BookDto;
 import com.mm.libraryrestapi.payload.BookResponse;
 import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.services.BookService;
-import org.modelmapper.ModelMapper;
+import com.mm.libraryrestapi.utils.CustomMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private BookRepository bookRepository;
-    private ModelMapper mapper;
+    private final BookRepository bookRepository;
+    private final CustomMapper mapper;
+
+    public BookServiceImpl(BookRepository bookRepository, CustomMapper mapper) {
+        this.bookRepository = bookRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public BookDto createBook(BookDto bookDto) {
