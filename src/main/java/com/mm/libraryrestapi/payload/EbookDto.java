@@ -1,6 +1,6 @@
 package com.mm.libraryrestapi.payload;
 
-import com.mm.libraryrestapi.entity.Book;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.URL;

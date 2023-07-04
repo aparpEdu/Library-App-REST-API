@@ -10,8 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookResponse {
-
-    private List<BookDto> bookDtoList;
     private int pageNo;
     private int pageSize;
     private long totalElements;

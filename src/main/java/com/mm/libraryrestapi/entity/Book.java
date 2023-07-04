@@ -3,17 +3,15 @@ package com.mm.libraryrestapi.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 
-@Entity(name="books")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="book_type",  discriminatorType = DiscriminatorType.STRING)
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +29,6 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
-
+    private int availableCopies;
+    private int totalCopies;
 }
