@@ -1,13 +1,14 @@
 package com.mm.libraryrestapi.payload;
 
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.modelmapper.internal.bytebuddy.asm.Advice;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -31,8 +32,11 @@ public class RegisterDto {
     @Email
     private String email;
 
-    @NotEmpty(message = "Age should not be null or empty")
     private long age;
+
+    @NotNull(message = "Birthday should not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth;
 
     @NotEmpty(message = "Gender should not be null or empty")
     private String gender;
@@ -46,10 +50,10 @@ public class RegisterDto {
     private String city;
 
     @NotEmpty(message = "Country should not be null or empty")
-    @Size(min = 4, message = "Country should have at least 4 characters")
+    @Size(min = 2, message = "Country should have at least 4 characters")
     private String country;
 
     @NotEmpty(message = "GDPR should not be empty")
-    @AssertTrue
+    @AssertTrue(message = "GDPR Should be accepted!")
     private boolean euGdpr;
 }

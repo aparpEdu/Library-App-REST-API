@@ -1,6 +1,7 @@
 package com.mm.libraryrestapi.payload;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +23,10 @@ public class AuthorDto {
     private String lastName;
 
     @NotEmpty(message = "Country should not be null or empty")
-    @Size(min = 4, message = "Country should have at least 4 characters")
+    @Size(min = 2, message = "Country should have at least 4 characters")
     private String country;
 
-    @NotEmpty(message = "Birth date should not be null or empty")
+    @NotNull(message = "Birth date should not be null ")
     private LocalDate birthDate;
     private LocalDate deathDate;
 }

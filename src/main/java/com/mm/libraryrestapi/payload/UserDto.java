@@ -3,11 +3,14 @@ package com.mm.libraryrestapi.payload;
 import com.mm.libraryrestapi.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Set;
 @Data
 @NoArgsConstructor
@@ -45,8 +48,12 @@ public class UserDto {
     @Size(min = 4, message = "City should have at least 6 characters")
     private String city;
 
+    @NotNull(message = "Birthday should not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth;
+
     @NotEmpty(message = "Country should not be null or empty")
-    @Size(min = 4, message = "Country should have at least 6 characters")
+    @Size(min = 2, message = "Country should have at least 6 characters")
     private String country;
 
     @NotEmpty(message = "Role should not be null or empty")
