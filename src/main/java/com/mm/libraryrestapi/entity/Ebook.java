@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("ebook")
 public class Ebook extends Book{
-    String downloadLink;
-    String purchaseLink;
+    private String downloadLink;
+    private String purchaseLink;
 
 }
