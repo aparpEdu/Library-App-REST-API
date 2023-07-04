@@ -70,8 +70,8 @@ public class EbookServiceImpl implements EbookService {
         if(ebookDto.getDownloadLink()!= null) {
             eBookToUpdate.setDownloadLink(ebookDto.getDownloadLink());
         }
-        if(ebookDto.getPurchaseLink()!= null) {
-            eBookToUpdate.setPurchaseLink(ebookDto.getPurchaseLink());
+        if(ebookDto.getReadingLink()!= null) {
+            eBookToUpdate.setReadingLink(ebookDto.getReadingLink());
         }
         return mapToDTO(ebookRepository.save(eBookToUpdate));
     }

@@ -10,5 +10,5 @@ public class EbookDto extends BookDto {
     @URL
     private String downloadLink;
     @URL
-    private String purchaseLink;
+    private String readingLink;
 }

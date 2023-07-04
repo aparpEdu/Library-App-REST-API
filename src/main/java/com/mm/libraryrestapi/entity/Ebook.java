@@ -30,6 +30,6 @@ public class Ebook {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
     private String downloadLink;
-    private String purchaseLink;
+    private String readingLink;
 
 }
