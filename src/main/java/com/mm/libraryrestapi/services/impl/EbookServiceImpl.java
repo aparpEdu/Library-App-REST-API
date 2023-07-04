@@ -9,7 +9,13 @@ import com.mm.libraryrestapi.repositories.AuthorRepository;
 import com.mm.libraryrestapi.repositories.EbookRepository;
 import com.mm.libraryrestapi.services.EbookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EbookServiceImpl implements EbookService {
@@ -35,7 +41,11 @@ public class EbookServiceImpl implements EbookService {
 
     @Override
     public EbookResponse getAllEbooks(int pageNo, int pageSize, String sortBy, String sortDir) {
-        return null;
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Ebook> content = ebookRepository.findAll(pageable);
+        return getEbookResponse(content);
     }
 
     @Override
@@ -78,5 +88,18 @@ public class EbookServiceImpl implements EbookService {
 
     private EbookDto mapToDTO(Ebook ebook) {
         return mapper.map(ebook, EbookDto.class);
+    }
+
+    private EbookResponse getEbookResponse(Page<Ebook> ebooks) {
+        List<Ebook> listOfPosts = ebooks.getContent();
+        List<EbookDto> content = listOfPosts.stream().map(this::mapToDTO).toList();
+        EbookResponse ebookResponse = new EbookResponse();
+        ebookResponse.setContent(content);
+        ebookResponse.setPageNo(ebooks.getNumber());
+        ebookResponse.setPageSize(ebooks.getSize());
+        ebookResponse.setTotalElements(ebooks.getTotalElements());
+        ebookResponse.setLast(ebooks.isLast());
+        ebookResponse.setTotalPages(ebooks.getTotalPages());
+        return ebookResponse;
     }
 }
