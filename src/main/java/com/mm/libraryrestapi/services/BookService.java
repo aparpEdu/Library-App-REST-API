@@ -9,7 +9,7 @@ public interface BookService {
 
     BookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir);
 
-    BookDto getBookById(long id);
+    BookDto getBookById(Long id);
 
     BookDto updateBookById(BookDto bookDto, long id);
 
