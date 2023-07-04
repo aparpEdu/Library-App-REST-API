@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class LibraryRestApiApplication implements CommandLineRunner {
+public class LibraryRestApiApplication  {
     public static void main(String[] args) {
         SpringApplication.run(LibraryRestApiApplication.class, args);
     }
@@ -23,14 +23,14 @@ public class LibraryRestApiApplication implements CommandLineRunner {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
-        Role adminRole = new Role();
-        adminRole.setName("ROLE_ADMIN");
-        roleRepository.save(adminRole);
-
-        Role userRole = new Role();
-        userRole.setName("ROLE_USER");
-        roleRepository.save(userRole);
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        Role adminRole = new Role();
+//        adminRole.setName("ROLE_ADMIN");
+//        roleRepository.save(adminRole);
+//
+//        Role userRole = new Role();
+//        userRole.setName("ROLE_USER");
+//        roleRepository.save(userRole);
+//    }
 }

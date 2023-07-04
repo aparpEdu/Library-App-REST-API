@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @DiscriminatorValue("paperbook")
-public class Paperbook extends Book{
+public class PaperBook extends Book{
     private int availableCopies;
     private int totalCopies;
 }
