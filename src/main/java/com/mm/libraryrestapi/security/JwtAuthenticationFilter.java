@@ -1,7 +1,5 @@
 package com.mm.libraryrestapi.security;
 
-import io.micrometer.common.lang.NonNullApi;
-import io.micrometer.common.lang.NonNullFields;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@NonNullApi
-@NonNullFields
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
