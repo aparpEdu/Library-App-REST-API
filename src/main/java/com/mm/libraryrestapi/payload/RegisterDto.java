@@ -20,4 +20,5 @@ public class RegisterDto {
     private String address;
     private String city;
     private String country;
+    private boolean euGdpr;
 }
