@@ -1,12 +1,10 @@
 package com.mm.libraryrestapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 
 @NoArgsConstructor
 @AllArgsConstructor
