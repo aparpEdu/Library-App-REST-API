@@ -7,6 +7,7 @@ import com.mm.libraryrestapi.utils.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,7 @@ public class EbookController {
         return ResponseEntity.ok(ebookService.getEbookById(ebookId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<EbookDto> createEbook(@Valid @RequestBody EbookDto ebookDto) {
         return new ResponseEntity<>(ebookService.createEbook(ebookDto), HttpStatus.CREATED);
@@ -39,11 +41,13 @@ public class EbookController {
         return ResponseEntity.ok(ebookService.getAllEbooks(pageNo, pageSize, sortBy, sortDir));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{ebookId}")
     public ResponseEntity<EbookDto> updateEbookById(@Valid @RequestBody EbookDto ebookDto, @PathVariable Long ebookId){
         return ResponseEntity.ok(ebookService.updateEbookById(ebookDto, ebookId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{ebookId}")
     public ResponseEntity<String> deleteEbookById(@PathVariable Long ebookId){
         ebookService.deleteEbookById(ebookId);
