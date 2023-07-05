@@ -1,5 +1,6 @@
 package com.mm.libraryrestapi.services;
 
+import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.payload.BookDto;
 import com.mm.libraryrestapi.payload.PaperBookResponse;
 
@@ -14,4 +15,6 @@ public interface BookService {
     BookDto updateBookById(BookDto bookDto, Long id);
 
     void deleteBookById(Long id);
+
+    void updateAvailableBooks(Long bookId, int booksToAdd);
 }

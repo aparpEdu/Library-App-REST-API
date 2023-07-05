@@ -79,6 +79,13 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(bookToUpdate);
     }
 
+    @Override
+    public void updateAvailableBooks(Long bookId, int booksToAdd) {
+        Book bookToUpdate = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookId));
+        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()+booksToAdd);
+    }
+
     private PaperBookResponse getBookResponse(Page<Book> ebooks) {
         List<Book> listOfPosts = ebooks.getContent();
         List<BookDto> content = listOfPosts.stream().map(this::mapToDTO).toList();
