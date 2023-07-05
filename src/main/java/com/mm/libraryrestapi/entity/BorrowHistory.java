@@ -21,7 +21,7 @@ public class BorrowHistory {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", nullable = false)
-    private PaperBook paperBook;
+    private Book book;
 
     private LocalDate borrowDate;
     private LocalDate returnDate;
