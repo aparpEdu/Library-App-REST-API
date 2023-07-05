@@ -5,12 +5,17 @@ import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
+import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -131,8 +136,34 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
         return mapToDTO(borrowHistoryRepository.save(borrowHistoryToUpdate));    }
 
-    private BorrowHistory mapToEntity(BorrowHistoryDto borrowHistoryDto) {
-        return mapper.map(borrowHistoryDto, BorrowHistory.class);
+    @Override
+    public BorrowHistoryResponse getAllBooksBorrowedByUser(Long userId, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        Page<BorrowHistory> content = borrowHistoryRepository.findBorrowHistoryByUserId(user.getId(), pageable);
+        return getBorrowHistoryResponse(content);
+    }
+
+    @Override
+    public BorrowHistoryResponse getAllBooksBorrowedByLoggedUser(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        User user = getLoggedUser();
+        Page<BorrowHistory> content = borrowHistoryRepository.findBorrowHistoryByUserId(user.getId(), pageable);
+        return getBorrowHistoryResponse(content);
+    }
+
+    @Override
+    public BorrowHistoryResponse getAllBooksBorrowed(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<BorrowHistory> content = borrowHistoryRepository.findAll(pageable);
+        return getBorrowHistoryResponse(content);
     }
 
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
@@ -146,4 +177,16 @@ public class BorrowBookServiceImpl implements BorrowBookService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
     }
 
+    private BorrowHistoryResponse getBorrowHistoryResponse(Page<BorrowHistory> borrowHistoryPage) {
+        List<BorrowHistory> borrowHistoryList = borrowHistoryPage.getContent();
+        List<BorrowHistoryDto> content = borrowHistoryList.stream().map(this::mapToDTO).toList();
+        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
+        borrowHistoryResponse.setContent(content);
+        borrowHistoryResponse.setPageNo(borrowHistoryPage.getNumber());
+        borrowHistoryResponse.setPageSize(borrowHistoryPage.getSize());
+        borrowHistoryResponse.setTotalElements(borrowHistoryPage.getTotalElements());
+        borrowHistoryResponse.setLast(borrowHistoryPage.isLast());
+        borrowHistoryResponse.setTotalPages(borrowHistoryPage.getTotalPages());
+        return borrowHistoryResponse;
+    }
 }
