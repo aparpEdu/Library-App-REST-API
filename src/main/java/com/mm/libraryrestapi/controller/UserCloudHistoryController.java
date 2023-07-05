@@ -7,6 +7,9 @@ import com.mm.libraryrestapi.payload.UserCloudHistoryResponse;
 import com.mm.libraryrestapi.repositories.UserCloudHistoryRepository;
 import com.mm.libraryrestapi.services.UserCloudHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Tag(name = "CRUD REST APIs for User Clod History Resource")
 public class UserCloudHistoryController {
     private final UserCloudHistoryService userCloudHistoryService;
     private final UserCloudHistoryRepository userCloudHistoryRepository;
@@ -25,18 +29,42 @@ public class UserCloudHistoryController {
         this.userCloudHistoryRepository = userCloudHistoryRepository;
     }
 
+    @Operation(
+            summary = "Read An EBook REST API",
+            description = "Read An EBook REST API is used to read an ebook from database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("{userId}/read/{ebookId}")
     public ResponseEntity<UserCloudHistoryDto> readABook(@PathVariable Long userId, @PathVariable Long ebookId) {
         return new ResponseEntity<>(userCloudHistoryService.readABook(ebookId, userId), HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Read An EBook By User REST API",
+            description = "Read An EBook By User REST API is used to read an ebook by user from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/ebooks/{ebookId}")
     public ResponseEntity<UserCloudHistoryDto> getReadBookByUser(@PathVariable Long userId, @PathVariable Long ebookId) {
         return ResponseEntity.ok(userCloudHistoryService.getUserReadBook(ebookId, userId));
     }
 
+    @Operation(
+            summary = "Get Read EBook By User REST API",
+            description = "Get Read EBook By User REST API is used to get all read ebooks by a user from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/ebooks")
     public ResponseEntity<UserCloudHistoryResponse> getReadBookByUser
@@ -48,11 +76,27 @@ public class UserCloudHistoryController {
         return ResponseEntity.ok(userCloudHistoryService.getAllReadBooksByUser(userId, pageNo, pageSize, sortBy, sortDir));
     }
 
+    @Operation(
+            summary = "Get User Cloud History By User Id REST API",
+            description = "Search User Cloud History By User Id API is used to search for cloud history by user id in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("user")
     public ResponseEntity<List<UserCloudHistory>> getUserCloudHistoryByUserId(Long userId) {
         return ResponseEntity.ok(userCloudHistoryRepository.findByUserId(userId));
     }
 
+    @Operation(
+            summary = "Get User Cloud History By EBook Id REST API",
+            description = "Search User Cloud History By EBook Id REST API is used to search for cloud history by ebook id in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("ebook")
     public ResponseEntity<List<UserCloudHistory>> getUserCloudHistoryByEbookId(Long ebookId) {
         return ResponseEntity.ok(userCloudHistoryRepository.findByEbookId(ebookId));
