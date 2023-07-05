@@ -10,12 +10,12 @@ import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class BorrowBookServiceImpl implements BorrowBookService {
@@ -40,6 +40,15 @@ public class BorrowBookServiceImpl implements BorrowBookService {
                 .getPrincipal();
         User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
+
+        //check for pending returns
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.findByUser(user);
+        borrowHistoryList.stream()
+                .filter(record -> record.getReturnDate().isBefore(LocalDate.now()) && !record.isReturned())
+                .findAny()
+                .ifPresent(record -> {
+                    throw new IllegalStateException("You have at least one book with a pending return");
+                });
 
         //search book by id provided by the PathVariable
         Book book = bookRepository.findById(bookId)
@@ -66,9 +75,4 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
     }
 
-    private Long getUserIdFromAuthentication(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(),userDetails.getUsername()).orElse(null);
-        return (user != null) ? user.getId() : null;
-    }
 }
