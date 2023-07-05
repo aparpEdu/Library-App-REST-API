@@ -40,18 +40,18 @@ public class AuthorServiceImpl implements AuthorService {
                 : Sort.by(sortBy).descending();
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<Author> authors = authorRepository.findAll(pageable);
+        Page<Author> allAuthors = authorRepository.findAll(pageable);
 
-        List<Author> authorList = authors.getContent();
+        List<Author> authorList = allAuthors.getContent();
 
-        List<AuthorDto> authorDtoList = authorList.stream().map(this::mapToDTO).collect(Collectors.toList());
+        List<AuthorDto> authors = authorList.stream().map(this::mapToDTO).collect(Collectors.toList());
         AuthorResponse authorResponse = new AuthorResponse();
-        authorResponse.setAuthorDtoList(authorDtoList);
-        authorResponse.setPageNo(authors.getNumber());
-        authorResponse.setPageSize(authors.getSize());
-        authorResponse.setTotalElements(authors.getTotalElements());
-        authorResponse.setTotalPages(authors.getTotalPages());
-        authorResponse.setLast(authors.isLast());
+        authorResponse.setAuthorDtoList(authors);
+        authorResponse.setPageNo(allAuthors.getNumber());
+        authorResponse.setPageSize(allAuthors.getSize());
+        authorResponse.setTotalElements(allAuthors.getTotalElements());
+        authorResponse.setTotalPages(allAuthors.getTotalPages());
+        authorResponse.setLast(allAuthors.isLast());
         return authorResponse;
     }
 
