@@ -28,7 +28,7 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
-//    @Transient
+    @Transient
     private long age;
    // @Column(nullable = false)
     private LocalDate dateOfBirth;

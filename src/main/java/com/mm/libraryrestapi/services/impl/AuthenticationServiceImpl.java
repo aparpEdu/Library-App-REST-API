@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -61,7 +63,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setCity(registerDto.getCity());
-        user.setAge(registerDto.getAge());
+        int userAge = LocalDate.now().getYear() - user.getDateOfBirth().getYear();
+        user.setAge(userAge);
         user.setAddress(registerDto.getAddress());
         user.setCountry(registerDto.getCountry());
         user.setGender(registerDto.getGender());
