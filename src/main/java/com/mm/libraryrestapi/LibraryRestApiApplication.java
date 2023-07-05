@@ -15,10 +15,10 @@ public class LibraryRestApiApplication  {
         SpringApplication.run(LibraryRestApiApplication.class, args);
     }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+//    @Bean
+//    public ModelMapper modelMapper() {
+//        return new ModelMapper();
+//    }
 
     @Autowired
     private RoleRepository roleRepository;

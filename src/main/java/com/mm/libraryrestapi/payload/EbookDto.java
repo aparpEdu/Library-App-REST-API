@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.URL;
 
 @Data
 public class EbookDto  {
+
+    private Long id;
     @NotEmpty(message = "Book title should not be null or empty")
     @Size(min = 2, message = "Book title should have at least 2 characters")
     private String title;
