@@ -15,18 +15,10 @@ import java.time.LocalDate;
 public class BorrowHistoryDto {
     private long id;
 
-    @NotEmpty(message = "Book user should not be null or empty")
-    private User user;
+    @NotNull(message = "Book user should not be null")
+    private Long userId;
 
-    @NotEmpty(message = "Book should not be null or empty")
-    private PaperBook paperBook;
+    @NotNull(message = "Paper Book cannot be null")
+    private Long paperBookId;
 
-    @NotEmpty(message = "Book borrow date should not be null or empty")
-    private LocalDate borrowDate;
-
-    @NotEmpty(message = "Book return date should not be null or empty")
-    private LocalDate returnDate;
-
-    @NotNull(message = "Book should be returned or not")
-    private Boolean returned;
 }
