@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserReadHistoryResponse {
-    private List<UserReadHistoryDto> content;
+public class UserCloudHistoryResponse {
+    private List<UserCloudHistoryDto> content;
     private int pageNo;
     private int pageSize;
     private long totalElements;

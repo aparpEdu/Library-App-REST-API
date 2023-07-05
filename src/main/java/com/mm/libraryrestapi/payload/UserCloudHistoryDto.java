@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserReadHistoryDto {
-    private Long ebookId;
+public class UserCloudHistoryDto {
+    private EbookDto ebookDto;
     private Long userId;
 }

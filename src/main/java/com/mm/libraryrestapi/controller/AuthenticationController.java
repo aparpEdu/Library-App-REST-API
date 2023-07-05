@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/auth")
-public class AuthController {
+public class AuthenticationController {
 
     private final AuthenticationService  authService;
 
-    public AuthController(AuthenticationService authService) {
+    public AuthenticationController(AuthenticationService authService) {
         this.authService = authService;
     }
     @PostMapping(value = {"/login", "/signin"})

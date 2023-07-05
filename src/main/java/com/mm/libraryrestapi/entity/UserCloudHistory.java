@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user_reading_history")
+@Table(name = "user_cloud_history")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserReadHistory {
+public class UserCloudHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
