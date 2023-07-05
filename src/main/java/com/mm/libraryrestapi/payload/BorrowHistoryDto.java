@@ -13,10 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BorrowHistoryDto {
     private long id;
-
-    @NotNull(message = "Book user id should not be null")
     private Long userId;
-
     private Long bookId;
     private LocalDate borrowDate;
     private LocalDate returnDate;

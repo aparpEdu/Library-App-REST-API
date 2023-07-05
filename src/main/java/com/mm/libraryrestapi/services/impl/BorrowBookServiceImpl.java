@@ -10,6 +10,9 @@ import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,11 +35,17 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
     @Override
     public BorrowHistoryDto borrowBook(Long bookId, BorrowHistoryDto borrowHistoryDto) {
-        User user = userRepository.findById(borrowHistoryDto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", borrowHistoryDto.getUserId()));
+        //search for the current Logged User
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
+
+        //search book by id provided by the PathVariable
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", bookId));
 
+        //Create instance of borrow History
         BorrowHistory borrowHistoryToCreate = mapToEntity(borrowHistoryDto);
 
         borrowHistoryToCreate.setBook(book);
@@ -55,5 +64,11 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
+    }
+
+    private Long getUserIdFromAuthentication(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(),userDetails.getUsername()).orElse(null);
+        return (user != null) ? user.getId() : null;
     }
 }
