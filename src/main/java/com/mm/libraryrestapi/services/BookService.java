@@ -1,17 +1,18 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.BookDto;
 import com.mm.libraryrestapi.payload.BookResponse;
+import com.mm.libraryrestapi.payload.PaperBookDto;
+import com.mm.libraryrestapi.payload.PaperBookResponse;
 
 public interface BookService {
 
-    BookDto createBook(BookDto bookDto);
+    PaperBookDto createBook(PaperBookDto bookDto);
 
-    BookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir);
+    PaperBookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir);
 
-    BookDto getBookById(Long id);
+    PaperBookDto getBookById(Long id);
 
-    BookDto updateBookById(BookDto bookDto, long id);
+    PaperBookDto updateBookById(PaperBookDto bookDto, Long id);
 
-    void deleteBookById(long id);
+    void deleteBookById(Long id);
 }

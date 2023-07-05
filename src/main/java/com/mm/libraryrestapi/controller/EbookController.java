@@ -5,6 +5,7 @@ import com.mm.libraryrestapi.payload.EbookResponse;
 import com.mm.libraryrestapi.services.EbookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class EbookController {
 
     @PostMapping("")
     public ResponseEntity<EbookDto> createEbook(@Valid @RequestBody EbookDto ebookDto) {
-        return ResponseEntity.ok(ebookService.createEbook(ebookDto));
+        return new ResponseEntity<>(ebookService.createEbook(ebookDto), HttpStatus.CREATED);
     }
 
     @GetMapping("")

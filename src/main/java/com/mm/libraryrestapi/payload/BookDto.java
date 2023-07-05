@@ -1,7 +1,5 @@
 package com.mm.libraryrestapi.payload;
 
-import com.mm.libraryrestapi.entity.Author;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -36,11 +34,7 @@ public class BookDto {
     private String genre;
     @NotNull(message = "Author cannot be null")
     private Long authorId;
-    @NotEmpty(message = "Book publication year should not be null or empty")
-    private int publicationYear;
+    @NotNull(message = "Book publication year cannot be null")
+    private Integer publicationYear;
 
-//    @NotEmpty(message = "Book author should not be null or empty")
-//    private Author author;
-    @NotEmpty(message = "Book should have a specific type!")
-    private String bookType;
 }

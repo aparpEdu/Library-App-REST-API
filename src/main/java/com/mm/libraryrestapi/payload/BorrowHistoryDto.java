@@ -28,5 +28,5 @@ public class BorrowHistoryDto {
     private LocalDate returnDate;
 
     @NotNull(message = "Book should be returned or not")
-    private boolean returned;
+    private Boolean returned;
 }

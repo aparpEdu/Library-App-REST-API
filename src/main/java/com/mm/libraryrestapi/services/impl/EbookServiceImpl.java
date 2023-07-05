@@ -24,6 +24,7 @@ public class EbookServiceImpl implements EbookService {
     private final AuthorRepository authorRepository;
     private final EbookRepository ebookRepository;
 
+
     public EbookServiceImpl(CustomMapper mapper, AuthorRepository authorRepository, EbookRepository ebookRepository) {
         this.mapper = mapper;
         this.authorRepository = authorRepository;
@@ -75,6 +76,7 @@ public class EbookServiceImpl implements EbookService {
         }
         return mapToDTO(ebookRepository.save(eBookToUpdate));
     }
+
 
     @Override
     public void deleteEbookById(Long ebookId) {
