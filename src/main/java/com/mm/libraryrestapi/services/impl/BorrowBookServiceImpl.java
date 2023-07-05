@@ -10,9 +10,12 @@ import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class BorrowBookServiceImpl implements BorrowBookService {
@@ -31,12 +34,27 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
 
     @Override
-    public BorrowHistoryDto borrowBook(BorrowHistoryDto borrowHistoryDto) {
-        User user = userRepository.findById(borrowHistoryDto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", borrowHistoryDto.getUserId()));
-        Book book = bookRepository.findById(borrowHistoryDto.getPaperBookId())
-                .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", borrowHistoryDto.getPaperBookId()));
+    public BorrowHistoryDto borrowBook(Long bookId, BorrowHistoryDto borrowHistoryDto) {
+        //search for the current Logged User
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
 
+        //check for pending returns
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.findByUser(user);
+        borrowHistoryList.stream()
+                .filter(record -> record.getReturnDate().isBefore(LocalDate.now()) && !record.isReturned())
+                .findAny()
+                .ifPresent(record -> {
+                    throw new IllegalStateException("You have at least one book with a pending return");
+                });
+
+        //search book by id provided by the PathVariable
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", bookId));
+
+        //Create instance of borrow History
         BorrowHistory borrowHistoryToCreate = mapToEntity(borrowHistoryDto);
 
         borrowHistoryToCreate.setBook(book);
@@ -56,4 +74,5 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
     }
+
 }
