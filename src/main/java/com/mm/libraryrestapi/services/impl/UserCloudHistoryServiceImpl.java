@@ -68,7 +68,9 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
-        Page<UserCloudHistory> content = userCloudHistoryRepository.findAllByUserId(userId, pageable);
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        Page<UserCloudHistory> content = userCloudHistoryRepository.findAllByUserId(user.getId(), pageable);
         return getUserClodHistoryResponse(content);
 
    }
