@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class BorrowBookServiceImpl implements BorrowBookService {
     private final CustomMapper mapper;
@@ -24,6 +26,10 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+
+    private final int DAYS_TO_RETURN = 7;
+    private final int MAX_POSTPONEMENT_DAYS = 14;
+
 
     public BorrowBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository) {
         this.mapper = mapper;
@@ -34,7 +40,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
 
     @Override
-    public BorrowHistoryDto borrowBook(Long bookId, BorrowHistoryDto borrowHistoryDto) {
+    public BorrowHistoryDto borrowBook(Long bookId) {
         //search for the current Logged User
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -55,17 +61,41 @@ public class BorrowBookServiceImpl implements BorrowBookService {
                 .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", bookId));
 
         //Create instance of borrow History
-        BorrowHistory borrowHistoryToCreate = mapToEntity(borrowHistoryDto);
+        BorrowHistory borrowHistoryToCreate = new BorrowHistory();
 
         borrowHistoryToCreate.setBook(book);
         borrowHistoryToCreate.setUser(user);
         borrowHistoryToCreate.setBorrowDate(LocalDate.now());
-        borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(7));
+        borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(DAYS_TO_RETURN));
         borrowHistoryToCreate.setReturned(false);
 
         return mapToDTO(borrowHistoryRepository.save(borrowHistoryToCreate));
 
     }
+
+    @Override
+    public BorrowHistoryDto postponeReturnDate(Long borrowHistoryId, Long days) {
+        // Find the existing BorrowHistory record by ID
+        BorrowHistory borrowHistoryToUpdate = borrowHistoryRepository.findById(borrowHistoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Borrow History","borrowHistoryId",borrowHistoryId));
+
+        //check if we are adding negative or zero days
+        if(days<1)
+            throw new IllegalStateException("Postponement days need to be a value greater than 0");
+
+        // Check if the postpone date isn't after the max postponement date allowed
+        if(DAYS.between(borrowHistoryToUpdate.getBorrowDate(), borrowHistoryToUpdate.getReturnDate().plusDays(days)) > MAX_POSTPONEMENT_DAYS)
+            throw new IllegalStateException("You can't postpone the return date to more than 14 dates from the borrow date");
+
+        //Update the postponement date
+        borrowHistoryToUpdate.setReturnDate(borrowHistoryToUpdate.getReturnDate().plusDays(days));
+
+        // Save the updated BorrowHistory record
+        BorrowHistory updatedBorrowHistory = borrowHistoryRepository.save(borrowHistoryToUpdate);
+
+        return mapToDTO(updatedBorrowHistory);
+    }
+
 
     private BorrowHistory mapToEntity(BorrowHistoryDto borrowHistoryDto) {
         return mapper.map(borrowHistoryDto, BorrowHistory.class);
