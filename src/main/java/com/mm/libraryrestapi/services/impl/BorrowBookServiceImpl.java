@@ -8,6 +8,7 @@ import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
+import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,16 +28,18 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final BookService bookService;
 
     private final int DAYS_TO_RETURN = 7;
     private final int MAX_POSTPONEMENT_DAYS = 14;
 
 
-    public BorrowBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public BorrowBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository, BookService bookService) {
         this.mapper = mapper;
         this.borrowHistoryRepository = borrowHistoryRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
+        this.bookService = bookService;
     }
 
 
@@ -58,6 +61,10 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", bookId));
 
+        //check if there are available books
+        if(book.getAvailableCopies()<1)
+            throw new IllegalStateException("There are no more paper books available");
+
         //Create instance of borrow History
         BorrowHistory borrowHistoryToCreate = new BorrowHistory();
 
@@ -67,11 +74,11 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(DAYS_TO_RETURN));
         borrowHistoryToCreate.setReturned(false);
 
+        //Update the available books by subtracting one
+        bookService.updateAvailableBooks(bookId, -1);
+
         return mapToDTO(borrowHistoryRepository.save(borrowHistoryToCreate));
-
     }
-
-
 
     @Override
     public BorrowHistoryDto postponeReturnDate(Long borrowHistoryId, Long days) {
@@ -119,11 +126,10 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         //Update the return status
         borrowHistoryToUpdate.setReturned(true);
 
-        // Save the updated BorrowHistory record
-        BorrowHistory updatedBorrowHistory = borrowHistoryRepository.save(borrowHistoryToUpdate);
+        // Update the available books by adding 1
+        bookService.updateAvailableBooks(borrowHistoryToUpdate.getBook().getId(), 1);
 
-        return mapToDTO(updatedBorrowHistory);    }
-
+        return mapToDTO(borrowHistoryRepository.save(borrowHistoryToUpdate));    }
 
     private BorrowHistory mapToEntity(BorrowHistoryDto borrowHistoryDto) {
         return mapper.map(borrowHistoryDto, BorrowHistory.class);
@@ -132,6 +138,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
     }
+
     private User getLoggedUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
