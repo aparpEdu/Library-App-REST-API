@@ -1,8 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.payload.*;
-import com.mm.libraryrestapi.services.BookService;
+import com.mm.libraryrestapi.services.PaperBookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,21 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/books")
-public class BookController {
+public class PaperBookController {
 
-    private final BookService bookService;
+    private final PaperBookService paperBookService;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    public PaperBookController(PaperBookService paperBookService) {
+        this.paperBookService = paperBookService;
     }
     @GetMapping("{bookId}")
     public ResponseEntity<PaperBookDto> getBookById(@PathVariable Long bookId) {
-        return ResponseEntity.ok(bookService.getBookById(bookId));
+        return ResponseEntity.ok(paperBookService.getBookById(bookId));
     }
 
     @PostMapping("")
     public ResponseEntity<PaperBookDto> createEbook(@Valid @RequestBody PaperBookDto paperBookDto) {
-        return new ResponseEntity<>(bookService.createBook(paperBookDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(paperBookService.createBook(paperBookDto), HttpStatus.CREATED);
     }
 
     @GetMapping("")
@@ -36,17 +35,17 @@ public class BookController {
              @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
             )
     {
-        return ResponseEntity.ok(bookService.getAllBooks(pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(paperBookService.getAllBooks(pageNo, pageSize, sortBy, sortDir));
     }
 
     @PutMapping("{bookId}")
     public ResponseEntity<PaperBookDto> updateEbookById(@Valid @RequestBody PaperBookDto paperBookDto, @PathVariable Long bookId){
-        return ResponseEntity.ok(bookService.updateBookById(paperBookDto, bookId));
+        return ResponseEntity.ok(paperBookService.updateBookById(paperBookDto, bookId));
     }
 
     @DeleteMapping("{bookId}")
     public ResponseEntity<String> deleteEbookById(@PathVariable Long bookId){
-        bookService.deleteBookById(bookId);
+        paperBookService.deleteBookById(bookId);
         return ResponseEntity.ok("Book was successfully deleted");
     }
     }

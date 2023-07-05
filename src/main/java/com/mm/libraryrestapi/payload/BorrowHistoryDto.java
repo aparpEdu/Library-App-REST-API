@@ -1,6 +1,6 @@
 package com.mm.libraryrestapi.payload;
 
-import com.mm.libraryrestapi.entity.Book;
+import com.mm.libraryrestapi.entity.PaperBook;
 import com.mm.libraryrestapi.entity.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +19,7 @@ public class BorrowHistoryDto {
     private User user;
 
     @NotEmpty(message = "Book should not be null or empty")
-    private Book book;
+    private PaperBook paperBook;
 
     @NotEmpty(message = "Book borrow date should not be null or empty")
     private LocalDate borrowDate;

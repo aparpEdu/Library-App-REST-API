@@ -1,10 +1,9 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.BookResponse;
 import com.mm.libraryrestapi.payload.PaperBookDto;
 import com.mm.libraryrestapi.payload.PaperBookResponse;
 
-public interface BookService {
+public interface PaperBookService {
 
     PaperBookDto createBook(PaperBookDto bookDto);
 
