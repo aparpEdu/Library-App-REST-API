@@ -1,9 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
-import com.mm.libraryrestapi.payload.PaperBookDto;
-import com.mm.libraryrestapi.services.BorrowPaperBookService;
-import com.mm.libraryrestapi.services.PaperBookService;
+import com.mm.libraryrestapi.services.BorrowBookService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/borrow")
 public class BorrowHistoryController {
 
-    private final BorrowPaperBookService borrowPaperBookService;
+    private final BorrowBookService borrowBookService;
 
-    public BorrowHistoryController(BorrowPaperBookService borrowPaperBookService) {
-        this.borrowPaperBookService = borrowPaperBookService;
+    public BorrowHistoryController(BorrowBookService borrowBookService) {
+        this.borrowBookService = borrowBookService;
     }
 
     @PostMapping("")
     public ResponseEntity<BorrowHistoryDto> borrowPaperBook(@Valid @RequestBody BorrowHistoryDto borrowHistoryDto) {
-        return new ResponseEntity<>(borrowPaperBookService.borrowPaperBook(borrowHistoryDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(borrowBookService.borrowBook(borrowHistoryDto), HttpStatus.CREATED);
     }
 }

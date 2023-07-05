@@ -7,5 +7,5 @@ import java.util.List;
 @Getter
 @Setter
 public class PaperBookResponse extends BookResponse{
-    private List<PaperBookDto> content;
+    private List<BookDto> content;
 }

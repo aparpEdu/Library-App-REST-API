@@ -1,45 +1,45 @@
 package com.mm.libraryrestapi.services.impl;
 
 import com.mm.libraryrestapi.entity.BorrowHistory;
-import com.mm.libraryrestapi.entity.PaperBook;
+import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
-import com.mm.libraryrestapi.repositories.PaperBookRepository;
+import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
-import com.mm.libraryrestapi.services.BorrowPaperBookService;
+import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 @Service
-public class BorrowPaperBookServiceImpl implements BorrowPaperBookService {
+public class BorrowBookServiceImpl implements BorrowBookService {
     private final CustomMapper mapper;
     private final BorrowHistoryRepository borrowHistoryRepository;
 
     private final UserRepository userRepository;
-    private final PaperBookRepository paperBookRepository;
+    private final BookRepository bookRepository;
 
-    public BorrowPaperBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, PaperBookRepository paperBookRepository) {
+    public BorrowBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository) {
         this.mapper = mapper;
         this.borrowHistoryRepository = borrowHistoryRepository;
         this.userRepository = userRepository;
-        this.paperBookRepository = paperBookRepository;
+        this.bookRepository = bookRepository;
     }
 
 
     @Override
-    public BorrowHistoryDto borrowPaperBook(BorrowHistoryDto borrowHistoryDto) {
+    public BorrowHistoryDto borrowBook(BorrowHistoryDto borrowHistoryDto) {
         User user = userRepository.findById(borrowHistoryDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", borrowHistoryDto.getUserId()));
-        PaperBook paperBook = paperBookRepository.findById(borrowHistoryDto.getPaperBookId())
+        Book book = bookRepository.findById(borrowHistoryDto.getPaperBookId())
                 .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", borrowHistoryDto.getPaperBookId()));
 
         BorrowHistory borrowHistoryToCreate = mapToEntity(borrowHistoryDto);
 
-        borrowHistoryToCreate.setPaperBook(paperBook);
+        borrowHistoryToCreate.setBook(book);
         borrowHistoryToCreate.setUser(user);
         borrowHistoryToCreate.setBorrowDate(LocalDate.now());
         borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(7));

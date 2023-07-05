@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaperBookDto {
+public class BookDto {
     private long id;
 
     @NotEmpty(message = "Book title should not be null or empty")
@@ -32,7 +32,7 @@ public class PaperBookDto {
     @NotEmpty(message = "Book genre should not be null or empty")
     @Size(min = 4, message = "Book genre should have at least 4 characters")
     private String genre;
-    @NotNull(message = "Author cannot be null")
+    @NotNull(message = "Author id cannot be null")
     private Long authorId;
     @NotNull(message = "Book publication year cannot be null")
     private Integer publicationYear;
