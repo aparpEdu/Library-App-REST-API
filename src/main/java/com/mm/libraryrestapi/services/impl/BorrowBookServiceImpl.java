@@ -31,11 +31,11 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
 
     @Override
-    public BorrowHistoryDto borrowBook(BorrowHistoryDto borrowHistoryDto) {
+    public BorrowHistoryDto borrowBook(Long bookId, BorrowHistoryDto borrowHistoryDto) {
         User user = userRepository.findById(borrowHistoryDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", borrowHistoryDto.getUserId()));
-        Book book = bookRepository.findById(borrowHistoryDto.getPaperBookId())
-                .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", borrowHistoryDto.getPaperBookId()));
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("PaperBook", "id", bookId));
 
         BorrowHistory borrowHistoryToCreate = mapToEntity(borrowHistoryDto);
 
