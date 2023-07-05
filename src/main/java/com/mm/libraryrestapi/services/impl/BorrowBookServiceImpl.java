@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -42,13 +43,10 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     @Override
     public BorrowHistoryDto borrowBook(Long bookId) {
         //search for the current Logged User
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
+        User loggedUser = getLoggedUser();
 
         //check for pending returns
-        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.findByUser(user);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.findByUser(loggedUser);
         borrowHistoryList.stream()
                 .filter(record -> record.getReturnDate().isBefore(LocalDate.now()) && !record.isReturned())
                 .findAny()
@@ -64,7 +62,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         BorrowHistory borrowHistoryToCreate = new BorrowHistory();
 
         borrowHistoryToCreate.setBook(book);
-        borrowHistoryToCreate.setUser(user);
+        borrowHistoryToCreate.setUser(loggedUser);
         borrowHistoryToCreate.setBorrowDate(LocalDate.now());
         borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(DAYS_TO_RETURN));
         borrowHistoryToCreate.setReturned(false);
@@ -73,11 +71,18 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
     }
 
+
+
     @Override
     public BorrowHistoryDto postponeReturnDate(Long borrowHistoryId, Long days) {
         // Find the existing BorrowHistory record by ID
         BorrowHistory borrowHistoryToUpdate = borrowHistoryRepository.findById(borrowHistoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Borrow History","borrowHistoryId",borrowHistoryId));
+
+        //check if the borrowHistory correspond to the user
+        User loggedUser= getLoggedUser();
+        if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
+            throw new IllegalStateException("The borrow history in not from the current user");
 
         //check if we are adding negative or zero days
         if(days<1)
@@ -96,6 +101,29 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         return mapToDTO(updatedBorrowHistory);
     }
 
+    @Override
+    public BorrowHistoryDto returnPaperBook(Long borrowHistoryId) {
+        // Find the existing BorrowHistory record by ID
+        BorrowHistory borrowHistoryToUpdate = borrowHistoryRepository.findById(borrowHistoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Borrow History","borrowHistoryId",borrowHistoryId));
+
+        //check if the borrowHistory correspond to the user
+        User loggedUser= getLoggedUser();
+        if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
+            throw new IllegalStateException("The borrow history in not from the current user");
+
+        //check if the book has not been returned yet
+        if(borrowHistoryToUpdate.isReturned())
+            throw new IllegalStateException("The book was already returned");
+
+        //Update the return status
+        borrowHistoryToUpdate.setReturned(true);
+
+        // Save the updated BorrowHistory record
+        BorrowHistory updatedBorrowHistory = borrowHistoryRepository.save(borrowHistoryToUpdate);
+
+        return mapToDTO(updatedBorrowHistory);    }
+
 
     private BorrowHistory mapToEntity(BorrowHistoryDto borrowHistoryDto) {
         return mapper.map(borrowHistoryDto, BorrowHistory.class);
@@ -103,6 +131,12 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
+    }
+    private User getLoggedUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
     }
 
 }

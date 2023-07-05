@@ -22,7 +22,11 @@ public class BorrowBookController {
     }
     @PatchMapping("/{borrowId}/postpone")
     public ResponseEntity<BorrowHistoryDto> borrowPaperBook(@PathVariable Long borrowId, @RequestParam("days") Long days) {
-        return new ResponseEntity<>(borrowBookService.postponeReturnDate(borrowId, days), HttpStatus.CREATED);
+        return new ResponseEntity<>(borrowBookService.postponeReturnDate(borrowId, days), HttpStatus.OK);
+    }
+    @PatchMapping("/{borrowId}/return")
+    public ResponseEntity<BorrowHistoryDto> returnPaperBook(@PathVariable Long borrowId) {
+        return new ResponseEntity<>(borrowBookService.returnPaperBook(borrowId), HttpStatus.OK);
     }
 
 
