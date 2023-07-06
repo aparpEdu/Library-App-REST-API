@@ -1,14 +1,13 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.payload.BookDto;
-import com.mm.libraryrestapi.payload.PaperBookResponse;
+import com.mm.libraryrestapi.payload.BookResponse;
 
 public interface BookService {
 
     BookDto createBook(BookDto bookDto);
 
-    PaperBookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir);
+    BookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir);
 
     BookDto getBookById(Long id);
 
@@ -17,4 +16,10 @@ public interface BookService {
     void deleteBookById(Long id);
 
     void updateAvailableBooks(Long bookId, int booksToAdd);
+
+    BookDto getBookByTitle(String title);
+    BookResponse getAllBooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir);
+    BookResponse getAllBooksByGenre(String genre, int pageNo, int pageSize, String sortBy, String sortDir);
+    BookResponse getAllBooksByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir);
+    BookResponse getAllBooksByAuthorName(String authorFirstName, String authorLastName, int pageNo, int pageSize, String sortBy, String sortDir);
 }
