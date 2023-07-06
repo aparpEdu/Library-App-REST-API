@@ -19,6 +19,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Book findByTitle(String title);
 
     @Operation(
+            summary = "Get Books By Title",
+            description = "Search Book By Title is used to get a list of books from the database"
+    )
+    List<Book> findByTitleContaining(String title);
+
+    @Operation(
             summary = "Get Books By Tags",
             description = "Search Books By Tags is used to get books from the database"
     )

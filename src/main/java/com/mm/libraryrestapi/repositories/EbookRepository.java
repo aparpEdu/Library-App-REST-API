@@ -14,9 +14,15 @@ public interface EbookRepository extends JpaRepository<Ebook, Long> {
 
     @Operation(
             summary = "Get EBook By Title",
-            description = "Search EBook By Title is used to get a single book from the database"
+            description = "Search EBook By Title is used to get a single ebook from the database"
     )
     Ebook findByTitle(String title);
+
+    @Operation(
+            summary = "Get EBooks By Title",
+            description = "Search EBook By Title is used to get a list of ebooks from the database"
+    )
+    List<Ebook> findByTitleContaining(String title);
 
     @Operation(
             summary = "Get EBooks By Tags",
