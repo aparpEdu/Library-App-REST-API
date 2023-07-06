@@ -54,7 +54,7 @@ public class BorrowBookController {
             description = "Http Status 200 SUCCESS"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @PatchMapping("/{borrowId}/postpone")
+    @PatchMapping("/postpone/{borrowId}")
     public ResponseEntity<BorrowHistoryDto> borrowBook(@PathVariable Long borrowId, @RequestParam("days") Long days) {
         return new ResponseEntity<>(borrowBookService.postponeReturnDate(borrowId, days), HttpStatus.OK);
     }
@@ -68,7 +68,7 @@ public class BorrowBookController {
             description = "Http Status 200 SUCCESS"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @PatchMapping("/{borrowId}/return")
+    @PatchMapping("/return/{borrowId}")
     public ResponseEntity<BorrowHistoryDto> returnBook(@PathVariable Long borrowId) {
         return new ResponseEntity<>(borrowBookService.returnPaperBook(borrowId), HttpStatus.OK);
     }

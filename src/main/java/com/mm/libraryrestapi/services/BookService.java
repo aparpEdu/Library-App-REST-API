@@ -15,7 +15,8 @@ public interface BookService {
 
     void deleteBookById(Long id);
 
-    void updateAvailableBooks(Long bookId, int booksToAdd);
+    void updateNumberOfBooksAfterBorrowing(Long bookId);
+    void updateNumberOfBooksAfterReturning(Long bookId);
 
     BookResponse getBooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir);
     BookResponse getAllBooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir);

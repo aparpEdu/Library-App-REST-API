@@ -80,10 +80,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void updateAvailableBooks(Long bookId, int booksToAdd) {
+    public void updateNumberOfBooksAfterBorrowing(Long bookId) {
         Book bookToUpdate = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookId));
-        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()+booksToAdd);
+        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()-1);
+    } @Override
+    public void updateNumberOfBooksAfterReturning(Long bookId) {
+        Book bookToUpdate = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookId));
+        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()+1);
     }
     @Override
     public BookResponse getBooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir){

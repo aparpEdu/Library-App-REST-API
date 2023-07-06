@@ -79,7 +79,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         borrowHistoryToCreate.setReturned(false);
 
         //Update the available books by subtracting one
-        bookService.updateAvailableBooks(bookId, -1);
+        bookService.updateNumberOfBooksAfterBorrowing(bookId);
 
         return mapToDTO(borrowHistoryRepository.save(borrowHistoryToCreate));
     }
@@ -95,6 +95,9 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
             throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The borrow history in not from the current user");
 
+        //check if the book was already return
+        if(borrowHistoryToUpdate.isReturned())
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The book was already returned");
         //check if we are adding negative or zero days
         if(days<1)
             throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "Postponement days need to be a value greater than 0");
@@ -131,7 +134,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         borrowHistoryToUpdate.setReturned(true);
 
         // Update the available books by adding 1
-        bookService.updateAvailableBooks(borrowHistoryToUpdate.getBook().getId(), 1);
+        bookService.updateNumberOfBooksAfterReturning(borrowHistoryToUpdate.getBook().getId());
 
         return mapToDTO(borrowHistoryRepository.save(borrowHistoryToUpdate));    }
 
