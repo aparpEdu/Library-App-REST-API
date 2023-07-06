@@ -147,16 +147,16 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("authorId")
+    @GetMapping("authorFullName")
     public ResponseEntity<CombinedBookResponse> getCombinedBooksByAuthorId(
-            @RequestParam int authorId,
+            @RequestParam String authorFullName,
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
         )
     {
-        return ResponseEntity.ok(combinedBookService.findByAuthorId(authorId,pageNo,pageSize,sortBy,sortDir));
+        return ResponseEntity.ok(combinedBookService.findByAuthorFullName(authorFullName,pageNo,pageSize,sortBy,sortDir));
     }
 
 }

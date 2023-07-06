@@ -49,17 +49,18 @@ public class CombinedBookServiceImpl implements CombinedBookService {
     }
 
     @Override
-    public CombinedBookResponse findByAuthorId(int authorId, int pageNo, int pageSize, String sortBy, String sortDir) {
+    public CombinedBookResponse findByAuthorFullName(String authorFullName, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
-        List<Book> books = bookRepository.findByAuthorId(authorId);
-        List<Ebook> ebooks = ebookRepository.findByAuthorId(authorId);
+        //List<Book> books = bookRepository.findByAuthorId(authorFullName);
+        List<Ebook> ebooks = ebookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(authorFullName, authorFullName,pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
-        for (Book book : books) {
-            combinedBooks.add(mapToCombinedBook(book));
-        }
+//        for (Book book : books) {
+//            combinedBooks.add(mapToCombinedBook(book));
+//        }
         for (Ebook ebook : ebooks) {
             combinedBooks.add(mapToCombinedBook(ebook));
         }
@@ -73,9 +74,10 @@ public class CombinedBookServiceImpl implements CombinedBookService {
     public CombinedBookResponse findByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
         List<Book> books = bookRepository.findByPublicationYear(publicationYear);
-        List<Ebook> ebooks = ebookRepository.findByPublicationYear(publicationYear);
+        List<Ebook> ebooks = ebookRepository.findAllByPublicationYear(publicationYear, pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
         for (Book book : books) {
@@ -95,8 +97,10 @@ public class CombinedBookServiceImpl implements CombinedBookService {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+
         List<Book> books = bookRepository.findByGenre(genre);
-        List<Ebook> ebooks = ebookRepository.findByGenre(genre);
+        List<Ebook> ebooks = ebookRepository.findAllByGenreContainingIgnoreCase(genre,pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
         for (Book book : books) {
@@ -113,23 +117,24 @@ public class CombinedBookServiceImpl implements CombinedBookService {
 
     @Override
     public CombinedBookResponse findBySummaryContaining(String summary, int pageNo, int pageSize, String sortBy, String sortDir) {
-        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        List<Book> books = bookRepository.findBySummaryContaining(summary);
-        List<Ebook> ebooks = ebookRepository.findBySummaryContaining(summary);
-        List<CombinedBook> combinedBooks = new ArrayList<>();
-
-        for (Book book : books) {
-            combinedBooks.add(mapToCombinedBook(book));
-        }
-        for (Ebook ebook : ebooks) {
-            combinedBooks.add(mapToCombinedBook(ebook));
-        }
-
-        Page<CombinedBook> content = paginate(combinedBooks, pageNo, pageSize, sortDirection);
-
-        return getCombinedBookResponse(content);
+//        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+//                : Sort.by(sortBy).descending();
+//
+//        List<Book> books = bookRepository.findBySummaryContaining(summary);
+//        List<Ebook> ebooks = ebookRepository.findBySumaryContaing(summary);
+//        List<CombinedBook> combinedBooks = new ArrayList<>();
+//
+//        for (Book book : books) {
+//            combinedBooks.add(mapToCombinedBook(book));
+//        }
+//        for (Ebook ebook : ebooks) {
+//            combinedBooks.add(mapToCombinedBook(ebook));
+//        }
+//
+//        Page<CombinedBook> content = paginate(combinedBooks, pageNo, pageSize, sortDirection);
+//
+//        return getCombinedBookResponse(content);
+        return null;
     }
 
     @Override
@@ -137,8 +142,10 @@ public class CombinedBookServiceImpl implements CombinedBookService {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+
         List<Book> books = bookRepository.findByTagsContaining(tags);
-        List<Ebook> ebooks = ebookRepository.findByTagsContaining(tags);
+        List<Ebook> ebooks = ebookRepository.findAllByTagsContainingIgnoreCase(tags,pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
         for (Book book : books) {
@@ -158,8 +165,10 @@ public class CombinedBookServiceImpl implements CombinedBookService {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+
         List<Book> books = bookRepository.findByTitleContaining(title);
-        List<Ebook> ebooks = ebookRepository.findByTitleContaining(title);
+        List<Ebook> ebooks = ebookRepository.findByTitleContaining(title, pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
         for (Book book : books) {

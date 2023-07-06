@@ -5,7 +5,7 @@ import com.mm.libraryrestapi.payload.CombinedBookResponse;
 
 public interface CombinedBookService {
     CombinedBookResponse getAllCombinedBooks(int pageNo, int pageSize, String sortBy, String sortDir);
-    CombinedBookResponse findByAuthorId(int authorId, int pageNo, int pageSize, String sortBy, String sortDir);
+    CombinedBookResponse findByAuthorFullName(String authorFullName, int pageNo, int pageSize, String sortBy, String sortDir);
 
     CombinedBookResponse findByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir);
 
