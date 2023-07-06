@@ -1,9 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.entity.Ebook;
 import com.mm.libraryrestapi.payload.EbookDto;
 import com.mm.libraryrestapi.payload.EbookResponse;
-import com.mm.libraryrestapi.repositories.EbookRepository;
 import com.mm.libraryrestapi.services.EbookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,18 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/ebooks")
 @Tag(name = "CRUD REST APIs for EBook Resource")
 public class EbookController {
     private final EbookService ebookService;
-    private final EbookRepository ebookRepository;
 
-    public EbookController(EbookService ebookService, EbookRepository ebookRepository) {
+
+    public EbookController(EbookService ebookService) {
         this.ebookService = ebookService;
-        this.ebookRepository = ebookRepository;
     }
 
     @Operation(
@@ -121,8 +116,8 @@ public class EbookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("title")
-    public ResponseEntity<Ebook> getEBookByTitle(@RequestParam String title) {
-        return ResponseEntity.ok(ebookRepository.findByTitle(title));
+    public ResponseEntity<EbookDto> getEBookByTitle(@RequestParam String title) {
+        return ResponseEntity.ok(ebookService.getEbookByTitle(title));
     }
 
     @Operation(
@@ -134,34 +129,48 @@ public class EbookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("tags")
-    public ResponseEntity<List<Ebook>> getEBookByTags(@RequestParam String tags) {
-        return ResponseEntity.ok(ebookRepository.findByTagsContaining(tags));
+    public ResponseEntity<EbookResponse> getEbooksByTags
+            (
+                    @RequestParam String tags,
+                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(ebookService.getAllEbooksByTags(tags, pageNo, pageSize, sortBy, sortDir));
     }
+//
+//    @Operation(
+//            summary = "Get EBook By Summary REST API",
+//            description = "Search EBook By Summary REST API is used to search for ebooks by summary in the database"
+//    )
+//    @ApiResponse(
+//            responseCode = "200",
+//            description = "Http Status 200 SUCCESS"
+//    )
+//    @GetMapping("summary")
+//    public ResponseEntity<List<Ebook>> getEBookBySummary(@RequestParam String summary) {
+//        return ResponseEntity.ok(ebookRepository.findBySummaryContaining(summary));
+//    }
 
     @Operation(
-            summary = "Get EBook By Summary REST API",
-            description = "Search EBook By Summary REST API is used to search for ebooks by summary in the database"
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Http Status 200 SUCCESS"
-    )
-    @GetMapping("summary")
-    public ResponseEntity<List<Ebook>> getEBookBySummary(@RequestParam String summary) {
-        return ResponseEntity.ok(ebookRepository.findBySummaryContaining(summary));
-    }
-
-    @Operation(
-            summary = "Get EBook By Genre REST API",
-            description = "Search EBook By Genre REST API is used to search ebooks by genre in the database"
+            summary = "Get all Ebooks By Genre REST API",
+            description = "Get all Ebooks By Genre REST API is used to search ebooks by genre in the database"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("genre")
-    public ResponseEntity<List<Ebook>> getEBookByGenre(@RequestParam String genre) {
-        return ResponseEntity.ok(ebookRepository.findByGenre(genre));
+    public ResponseEntity<EbookResponse> getEbooksByGenre
+            (
+            @RequestParam String genre,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            )
+    {
+        return ResponseEntity.ok(ebookService.getAllEbooksByGenre(genre, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -173,20 +182,36 @@ public class EbookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("year")
-    public ResponseEntity<List<Ebook>> getEBookByPublicationYear(@RequestParam int publicationYear) {
-        return ResponseEntity.ok(ebookRepository.findByPublicationYear(publicationYear));
+    public ResponseEntity<EbookResponse> getEBookByPublicationYear
+            (
+                    @RequestParam int year,
+                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            )
+    {
+        return ResponseEntity.ok(ebookService.getAllEbooksByPublicationYear(year, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
-            summary = "Get EBook By Author Id REST API",
-            description = "Search EBook By Author Id REST API is used to search ebooks by author id in the database"
+            summary = "Get EBooks By Author  Name REST API",
+            description = "Search EBooks By Author  Name REST API is used to search ebooks by author in the database"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("author")
-    public ResponseEntity<List<Ebook>> getEBookByAuthorId(@RequestParam int authorId) {
-        return ResponseEntity.ok(ebookRepository.findByAuthorId(authorId));
+    public ResponseEntity<EbookResponse> getEBookByAuthorName
+            (@RequestParam(value = "firstName", required = false) String firstName,
+             @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            )
+    {
+        return ResponseEntity.ok(ebookService.getAllEbooksByAuthorName(firstName,lastName, pageNo, pageSize, sortBy, sortDir));
     }
 }
