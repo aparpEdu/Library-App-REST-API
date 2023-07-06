@@ -107,6 +107,100 @@ class EbookControllerTest {
         Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
     }
 
+    @Test
+    void shouldReturnAllEbooksByTags(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
+        String tags = "Henry IV";
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getAllEbooksByTags(tags,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEbooksByTags(tags, pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
+    }
 
+    @Test
+    void shouldReturnEbookByTitle(){
+        String title = "Henry IV";
+        EbookDto expectedEbook = new EbookDto();
+        Mockito.when(ebookService.getEbookByTitle(title)).thenReturn(expectedEbook);
+        ResponseEntity<EbookDto> receivedResponse = ebookController.getEBookByTitle(title);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbook, receivedResponse.getBody());
+    }
+
+    @Test
+    void shouldReturnAllEbooksByGenre(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
+        String genre = "Manga";
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getAllEbooksByGenre(genre,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEbooksByGenre(genre, pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
+    }
+    @Test
+    void shouldReturnAllEbooksByPublicationYear(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
+        int publicationYear = 2003;
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getAllEbooksByPublicationYear(publicationYear,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEBookByPublicationYear(publicationYear, pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
+    }
+
+    @Test
+    void shouldReturnAllEbooksByAuthorFirstName(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
+        String authorFirstName = "Alexander";
+        String authorLastName = "";
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getAllEbooksByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEBookByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
+    }
+
+    @Test
+    void shouldReturnAllEbooksByAuthorLastName(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
+        String authorFirstName = "";
+        String authorLastName = "The Great";
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getAllEbooksByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEBookByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
+    }
+
+    @Test
+    void shouldReturnAllEbooksByAuthorFirstNameAndLastName(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
+        String authorFirstName = "Alexander";
+        String authorLastName = "The Great";
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getAllEbooksByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEBookByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
+    }
 
 }
