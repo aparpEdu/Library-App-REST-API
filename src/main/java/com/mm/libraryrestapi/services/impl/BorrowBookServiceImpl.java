@@ -11,6 +11,7 @@ import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.services.BorrowBookService;
+import com.mm.libraryrestapi.utils.AppConstants;
 import com.mm.libraryrestapi.utils.CustomMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,10 +35,6 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final BookService bookService;
-
-    private final int DAYS_TO_RETURN = 7;
-    private final int MAX_POSTPONEMENT_DAYS = 14;
-
 
     public BorrowBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository, BookService bookService) {
         this.mapper = mapper;
@@ -76,7 +73,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         borrowHistoryToCreate.setBook(book);
         borrowHistoryToCreate.setUser(loggedUser);
         borrowHistoryToCreate.setBorrowDate(LocalDate.now());
-        borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(DAYS_TO_RETURN));
+        borrowHistoryToCreate.setReturnDate(LocalDate.now().plusDays(AppConstants.DAYS_TO_RETURN));
         borrowHistoryToCreate.setReturned(false);
 
         //Update the available books by subtracting one
@@ -101,7 +98,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
             throw new IllegalStateException("Postponement days need to be a value greater than 0");
 
         // Check if the postpone date isn't after the max postponement date allowed
-        if(DAYS.between(borrowHistoryToUpdate.getBorrowDate(), borrowHistoryToUpdate.getReturnDate().plusDays(days)) > MAX_POSTPONEMENT_DAYS)
+        if(DAYS.between(borrowHistoryToUpdate.getBorrowDate(), borrowHistoryToUpdate.getReturnDate().plusDays(days)) > AppConstants.MAX_POSTPONEMENT_DAYS)
             throw new IllegalStateException("You can't postpone the return date to more than 14 dates from the borrow date");
 
         //Update the postponement date
