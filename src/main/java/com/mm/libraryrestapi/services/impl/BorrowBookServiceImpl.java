@@ -3,6 +3,7 @@ package com.mm.libraryrestapi.services.impl;
 import com.mm.libraryrestapi.entity.BorrowHistory;
 import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.entity.User;
+import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -56,7 +58,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
                 .filter(record -> record.getReturnDate().isBefore(LocalDate.now()) && !record.isReturned())
                 .findAny()
                 .ifPresent(record -> {
-                    throw new IllegalStateException("You have at least one book with a pending return");
+                    throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "You have at least one book with a pending return");
                 });
 
         //search book by id provided by the PathVariable
@@ -91,15 +93,15 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         //check if the borrowHistory correspond to the user
         User loggedUser= getLoggedUser();
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
-            throw new IllegalStateException("The borrow history in not from the current user");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The borrow history in not from the current user");
 
         //check if we are adding negative or zero days
         if(days<1)
-            throw new IllegalStateException("Postponement days need to be a value greater than 0");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "Postponement days need to be a value greater than 0");
 
         // Check if the postpone date isn't after the max postponement date allowed
         if(DAYS.between(borrowHistoryToUpdate.getBorrowDate(), borrowHistoryToUpdate.getReturnDate().plusDays(days)) > AppConstants.MAX_POSTPONEMENT_DAYS)
-            throw new IllegalStateException("You can't postpone the return date to more than 14 dates from the borrow date");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "You can't postpone the return date to more than 14 dates from the borrow date");
 
         //Update the postponement date
         borrowHistoryToUpdate.setReturnDate(borrowHistoryToUpdate.getReturnDate().plusDays(days));
@@ -119,11 +121,11 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         //check if the borrowHistory correspond to the user
         User loggedUser= getLoggedUser();
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
-            throw new IllegalStateException("The borrow history in not from the current user");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The borrow history in not from the current user");
 
         //check if the book has not been returned yet
         if(borrowHistoryToUpdate.isReturned())
-            throw new IllegalStateException("The book was already returned");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The book was already returned");
 
         //Update the return status
         borrowHistoryToUpdate.setReturned(true);
