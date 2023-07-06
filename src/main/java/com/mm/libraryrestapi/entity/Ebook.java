@@ -18,7 +18,7 @@ public class Ebook {
     private String title;
     private String tags;
     private String summary;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String ISBN;
     @Column(nullable = false)
     private String genre;
