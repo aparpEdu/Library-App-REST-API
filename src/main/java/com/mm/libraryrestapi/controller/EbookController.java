@@ -138,19 +138,6 @@ public class EbookController {
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
         return ResponseEntity.ok(ebookService.getAllEbooksByTags(tags, pageNo, pageSize, sortBy, sortDir));
     }
-//
-//    @Operation(
-//            summary = "Get EBook By Summary REST API",
-//            description = "Search EBook By Summary REST API is used to search for ebooks by summary in the database"
-//    )
-//    @ApiResponse(
-//            responseCode = "200",
-//            description = "Http Status 200 SUCCESS"
-//    )
-//    @GetMapping("summary")
-//    public ResponseEntity<List<Ebook>> getEBookBySummary(@RequestParam String summary) {
-//        return ResponseEntity.ok(ebookRepository.findBySummaryContaining(summary));
-//    }
 
     @Operation(
             summary = "Get all Ebooks By Genre REST API",

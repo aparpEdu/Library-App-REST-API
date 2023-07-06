@@ -4,7 +4,7 @@ import com.mm.libraryrestapi.entity.Author;
 import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.BookDto;
-import com.mm.libraryrestapi.payload.PaperBookResponse;
+import com.mm.libraryrestapi.payload.BookResponse;
 import com.mm.libraryrestapi.repositories.AuthorRepository;
 import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.services.BookService;
@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public PaperBookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public BookResponse getAllBooks(int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
@@ -86,10 +86,49 @@ public class BookServiceImpl implements BookService {
         bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()+booksToAdd);
     }
 
-    private PaperBookResponse getBookResponse(Page<Book> ebooks) {
+    @Override
+    public BookDto getBookByTitle(String title){
+        Book foundEbook = bookRepository.findByTitle(title);
+        return mapToDTO(foundEbook);
+    }
+
+    @Override
+    public BookResponse getAllBooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Book> content = bookRepository.findAllByTagsContainingIgnoreCase(tags, pageable);
+        return getBookResponse(content);
+    }
+    @Override
+    public BookResponse getAllBooksByGenre(String genre, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Book> content = bookRepository.findAllByGenreContainingIgnoreCase(genre, pageable);
+        return getBookResponse(content);
+    }
+    @Override
+    public BookResponse getAllBooksByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Book> content = bookRepository.findAllByPublicationYear(publicationYear, pageable);
+        return getBookResponse(content);
+    }
+    @Override
+    public BookResponse getAllBooksByAuthorName(String firstName, String lastName, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Book> content = bookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(firstName,lastName, pageable);
+        return getBookResponse(content);
+    }
+
+    private BookResponse getBookResponse(Page<Book> ebooks) {
         List<Book> listOfPosts = ebooks.getContent();
         List<BookDto> content = listOfPosts.stream().map(this::mapToDTO).toList();
-        PaperBookResponse paperBookResponse = new PaperBookResponse();
+        BookResponse paperBookResponse = new BookResponse();
         paperBookResponse.setContent(content);
         paperBookResponse.setPageNo(ebooks.getNumber());
         paperBookResponse.setPageSize(ebooks.getSize());
