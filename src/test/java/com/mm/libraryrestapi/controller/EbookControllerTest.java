@@ -75,7 +75,7 @@ class EbookControllerTest {
                 "9876543567892", "Science", 1L, 2000,
                 "https://mail.google.com/mail/u/4/#chat/dm/9yUUMUAAAAE",
                 "https://mail.google.com/mail/u/4/#chat/dm/9yUUMUAAAAE");
-        Long correctEbookId = 1L;;
+        Long correctEbookId = 1L;
         Mockito.when(ebookService.updateEbookById(book, correctEbookId)).thenReturn(book);
         ResponseEntity<EbookDto> receivedResponse = ebookController.updateEbookById(book, correctEbookId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
@@ -87,7 +87,7 @@ class EbookControllerTest {
                 "9876543567892", "Science", 1L, 2000,
                 "https://mail.google.com/mail/u/4/#chat/dm/9yUUMUAAAAE",
                 "https://mail.google.com/mail/u/4/#chat/dm/9yUUMUAAAAE");
-        Long correctEbookId = 1L;;
+        Long correctEbookId = 1L;
         Long incorrectEbookId = 2L;
         Mockito.when(ebookService.updateEbookById(book, correctEbookId)).thenReturn(book);
         ResponseEntity<EbookDto> receivedResponse = ebookController.updateEbookById(book, incorrectEbookId);
@@ -123,12 +123,16 @@ class EbookControllerTest {
 
     @Test
     void shouldReturnEbookByTitle(){
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
         String title = "Henry IV";
-        EbookDto expectedEbook = new EbookDto();
-        Mockito.when(ebookService.getEbookByTitle(title)).thenReturn(expectedEbook);
-        ResponseEntity<EbookDto> receivedResponse = ebookController.getEBookByTitle(title);
+        EbookResponse expectedEbookResponse = new EbookResponse();
+        Mockito.when(ebookService.getEbooksByTitle(title,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbookResponse);
+        ResponseEntity<EbookResponse> receivedResponse = ebookController.getEBooksByTitle(title,pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assert.assertEquals(expectedEbook, receivedResponse.getBody());
+        Assert.assertEquals(expectedEbookResponse, receivedResponse.getBody());
     }
 
     @Test

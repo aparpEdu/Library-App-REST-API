@@ -49,18 +49,18 @@ public class CombinedBookServiceImpl implements CombinedBookService {
     }
 
     @Override
-    public CombinedBookResponse findByAuthorFullName(String authorFullName, int pageNo, int pageSize, String sortBy, String sortDir) {
+    public CombinedBookResponse findByAuthorFullName(String firstName,String lastName, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
-        //List<Book> books = bookRepository.findByAuthorId(authorFullName);
-        List<Ebook> ebooks = ebookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(authorFullName, authorFullName,pageable).getContent();
+        List<Book> books = bookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(firstName,lastName,pageable).getContent();
+        List<Ebook> ebooks = ebookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(firstName, lastName,pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
-//        for (Book book : books) {
-//            combinedBooks.add(mapToCombinedBook(book));
-//        }
+        for (Book book : books) {
+            combinedBooks.add(mapToCombinedBook(book));
+        }
         for (Ebook ebook : ebooks) {
             combinedBooks.add(mapToCombinedBook(ebook));
         }
@@ -76,7 +76,7 @@ public class CombinedBookServiceImpl implements CombinedBookService {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
-        List<Book> books = bookRepository.findByPublicationYear(publicationYear);
+        List<Book> books = bookRepository.findAllByPublicationYear(publicationYear,pageable).getContent();
         List<Ebook> ebooks = ebookRepository.findAllByPublicationYear(publicationYear, pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class CombinedBookServiceImpl implements CombinedBookService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
-        List<Book> books = bookRepository.findByGenre(genre);
+        List<Book> books = bookRepository.findAllByGenreContainingIgnoreCase(genre,pageable).getContent();
         List<Ebook> ebooks = ebookRepository.findAllByGenreContainingIgnoreCase(genre,pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
@@ -115,27 +115,6 @@ public class CombinedBookServiceImpl implements CombinedBookService {
         return getCombinedBookResponse(content);
     }
 
-    @Override
-    public CombinedBookResponse findBySummaryContaining(String summary, int pageNo, int pageSize, String sortBy, String sortDir) {
-//        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-//                : Sort.by(sortBy).descending();
-//
-//        List<Book> books = bookRepository.findBySummaryContaining(summary);
-//        List<Ebook> ebooks = ebookRepository.findBySumaryContaing(summary);
-//        List<CombinedBook> combinedBooks = new ArrayList<>();
-//
-//        for (Book book : books) {
-//            combinedBooks.add(mapToCombinedBook(book));
-//        }
-//        for (Ebook ebook : ebooks) {
-//            combinedBooks.add(mapToCombinedBook(ebook));
-//        }
-//
-//        Page<CombinedBook> content = paginate(combinedBooks, pageNo, pageSize, sortDirection);
-//
-//        return getCombinedBookResponse(content);
-        return null;
-    }
 
     @Override
     public CombinedBookResponse findByTagsContaining(String tags, int pageNo, int pageSize, String sortBy, String sortDir) {
@@ -144,7 +123,7 @@ public class CombinedBookServiceImpl implements CombinedBookService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
-        List<Book> books = bookRepository.findByTagsContaining(tags);
+        List<Book> books = bookRepository.findAllByTagsContainingIgnoreCase(tags,pageable).getContent();
         List<Ebook> ebooks = ebookRepository.findAllByTagsContainingIgnoreCase(tags,pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 
@@ -167,7 +146,7 @@ public class CombinedBookServiceImpl implements CombinedBookService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
 
-        List<Book> books = bookRepository.findByTitleContaining(title);
+        List<Book> books = bookRepository.findByTitleContaining(title,pageable).getContent();
         List<Ebook> ebooks = ebookRepository.findByTitleContaining(title, pageable).getContent();
         List<CombinedBook> combinedBooks = new ArrayList<>();
 

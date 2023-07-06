@@ -1,6 +1,6 @@
 package com.mm.libraryrestapi.repositories;
 
-import com.mm.libraryrestapi.entity.Ebook;;
+import com.mm.libraryrestapi.entity.Ebook;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -8,17 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
-
 @RepositoryRestResource
 @Tag(name = "EBook Repository")
 public interface EbookRepository extends JpaRepository<Ebook, Long> {
-
-    @Operation(
-            summary = "Get EBook By Title",
-            description = "Search EBook By Title is used to get a single ebook from the database"
-    )
-    Ebook findByTitle(String title);
 
     @Operation(
             summary = "Get EBooks By Title",

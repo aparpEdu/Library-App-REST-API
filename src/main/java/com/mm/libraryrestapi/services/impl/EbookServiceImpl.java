@@ -85,9 +85,12 @@ public class EbookServiceImpl implements EbookService {
         ebookRepository.delete(eBookToUpdate);
     }
     @Override
-    public EbookDto getEbookByTitle(String title){
-        Ebook foundEbook = ebookRepository.findByTitle(title);
-        return mapToDTO(foundEbook);
+    public EbookResponse getEbooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Ebook> content = ebookRepository.findByTitleContaining(title, pageable);
+        return getEbookResponse(content);
     }
 
     @Override

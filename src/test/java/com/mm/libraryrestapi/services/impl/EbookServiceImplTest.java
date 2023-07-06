@@ -11,10 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
 @RunWith(MockitoJUnitRunner.class)
 class EbookServiceImplTest {
     @Mock
@@ -83,11 +80,15 @@ class EbookServiceImplTest {
 
     @Test
     void shouldReturnEbookByTitle() {
+        int pageNumber = 0;
+        int pageSize = 10;
+        String sortBy = "id";
+        String sortDirection = "asc";
         String title = "Henry IV";
-        EbookDto expectedEbook = new EbookDto();
-        Mockito.when(ebookService.getEbookByTitle(title)).thenReturn(expectedEbook);
-        EbookDto returnedBook = ebookService.getEbookByTitle(title);
-        Assert.assertEquals(expectedEbook, returnedBook);
+        EbookResponse expectedEbooks = new EbookResponse();
+        Mockito.when(ebookService.getEbooksByTitle(title,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedEbooks);
+        EbookResponse returnedBook = ebookService.getEbooksByTitle(title,pageNumber, pageSize, sortBy, sortDirection);
+        Assert.assertEquals(expectedEbooks, returnedBook);
     }
 
     @Test

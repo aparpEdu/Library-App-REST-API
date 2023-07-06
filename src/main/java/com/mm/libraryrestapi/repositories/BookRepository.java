@@ -1,7 +1,6 @@
 package com.mm.libraryrestapi.repositories;
 
 import com.mm.libraryrestapi.entity.Book;
-import com.mm.libraryrestapi.entity.Ebook;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -9,23 +8,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
-
 @RepositoryRestResource
 @Tag(name = "Book Repository")
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Operation(
-            summary = "Get Book By Title",
-            description = "Search Book By Title is used to get a single book from the database"
-    )
-    Book findByTitle(String title);
-
-    @Operation(
             summary = "Get Books By Title",
             description = "Search Book By Title is used to get a list of books from the database"
     )
-    List<Book> findByTitleContaining(String title);
+    Page<Book> findByTitleContaining(String title, Pageable pageable);
 
     @Operation(
             summary = "Get Books By Tags",
@@ -52,7 +43,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findAllByPublicationYear(int publicationYear, Pageable pageable);
 
     @Operation(
-            summary = "Get Books By Author  name",
+            summary = "Get Books By Author name",
             description = "Search Books By Author name is used to get books from the database"
     )
     Page<Book> findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(String firstName, String lastName, Pageable pageable);

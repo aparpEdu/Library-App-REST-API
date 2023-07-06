@@ -113,6 +113,26 @@ public class BookController {
     }
 
     @Operation(
+            summary = "Get Books By Title Name REST API",
+            description = "Search Books By Title REST API is used to search books by title in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @GetMapping("title")
+    public ResponseEntity<BookResponse> getBooksByTitle
+            (@RequestParam(value = "title") String title,
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            )
+    {
+        return ResponseEntity.ok(bookService.getBooksByTitle(title, pageNo, pageSize, sortBy, sortDir));
+    }
+
+    @Operation(
             summary = "Get Books By Tags REST API",
             description = "Search books By Tags REST API is used to search for books by tags in the database"
     )

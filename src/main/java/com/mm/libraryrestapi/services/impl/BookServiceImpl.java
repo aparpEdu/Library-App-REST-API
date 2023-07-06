@@ -85,11 +85,13 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookId));
         bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()+booksToAdd);
     }
-
     @Override
-    public BookDto getBookByTitle(String title){
-        Book foundEbook = bookRepository.findByTitle(title);
-        return mapToDTO(foundEbook);
+    public BookResponse getBooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Book> content = bookRepository.findByTitleContaining(title,pageable);
+        return getBookResponse(content);
     }
 
     @Override

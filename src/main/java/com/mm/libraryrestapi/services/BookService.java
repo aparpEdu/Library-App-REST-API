@@ -17,7 +17,7 @@ public interface BookService {
 
     void updateAvailableBooks(Long bookId, int booksToAdd);
 
-    BookDto getBookByTitle(String title);
+    BookResponse getBooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir);
     BookResponse getAllBooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir);
     BookResponse getAllBooksByGenre(String genre, int pageNo, int pageSize, String sortBy, String sortDir);
     BookResponse getAllBooksByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir);
