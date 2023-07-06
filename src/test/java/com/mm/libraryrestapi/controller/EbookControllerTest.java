@@ -50,7 +50,7 @@ class EbookControllerTest {
         Assert.assertNotEquals(expectedEbook, receivedResponse.getBody());
     }
     @Test
-    void shouldCreateAndInsertEbookAndReturnCreatedResponse(){
+    void shouldCreateEbookAndReturnCreatedResponse(){
         EbookDto ebookToInsert = new EbookDto();
         Mockito.when(ebookService.createEbook(ebookToInsert)).thenReturn(ebookToInsert);
         ResponseEntity<EbookDto> receivedResponse = ebookController.createEbook(ebookToInsert);
