@@ -84,6 +84,44 @@ public class EbookServiceImpl implements EbookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Ebook", "id", ebookId));
         ebookRepository.delete(eBookToUpdate);
     }
+    @Override
+    public EbookDto getEbookByTitle(String title){
+        Ebook foundEbook = ebookRepository.findByTitle(title);
+        return mapToDTO(foundEbook);
+    }
+
+    @Override
+    public EbookResponse getAllEbooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Ebook> content = ebookRepository.findAllByTagsContainingIgnoreCase(tags, pageable);
+        return getEbookResponse(content);
+    }
+    @Override
+    public EbookResponse getAllEbooksByGenre(String genre, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Ebook> content = ebookRepository.findAllByGenreContainingIgnoreCase(genre, pageable);
+        return getEbookResponse(content);
+    }
+    @Override
+    public EbookResponse getAllEbooksByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Ebook> content = ebookRepository.findAllByPublicationYear(publicationYear, pageable);
+        return getEbookResponse(content);
+    }
+    @Override
+    public EbookResponse getAllEbooksByAuthorName(String firstName,String lastName, int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Ebook> content = ebookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(firstName,lastName, pageable);
+        return getEbookResponse(content);
+    }
     private Ebook mapToEntity(EbookDto ebookDto) {
         return mapper.map(ebookDto, Ebook.class);
     }
