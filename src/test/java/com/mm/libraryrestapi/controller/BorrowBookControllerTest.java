@@ -177,10 +177,7 @@ public class BorrowBookControllerTest {
     void testGetBorrowHistoryByUserId() {
         // Test data
         Long userId = 1L;
-        List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
-
-        // Mock the repository method
-        when(borrowHistoryRepository.getBorrowHistoryByUserId(userId)).thenReturn(borrowHistoryList);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.getBorrowHistoryByUserId(userId);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByUserId(userId);
@@ -197,10 +194,7 @@ public class BorrowBookControllerTest {
     void testGetBorrowHistoryByBookId() {
         // Test data
         Long bookId = 1L;
-        List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
-
-        // Mock the repository method
-        when(borrowHistoryRepository.getBorrowHistoryByBookId(bookId)).thenReturn(borrowHistoryList);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.getBorrowHistoryByBookId(bookId);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByBookId(bookId);
@@ -217,10 +211,7 @@ public class BorrowBookControllerTest {
     void testGetBorrowHistoryByReturned() {
         // Test data
         boolean returned = true;
-        List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
-
-        // Mock the repository method
-        when(borrowHistoryRepository.getBorrowHistoryByReturned(returned)).thenReturn(borrowHistoryList);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.getBorrowHistoryByReturned(returned);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByReturned(returned);
@@ -237,10 +228,7 @@ public class BorrowBookControllerTest {
     void testGetBorrowHistoryByBorrowDate() {
         // Test data
         LocalDate borrowDate = LocalDate.now();
-        List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
-
-        // Mock the repository method
-        when(borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate)).thenReturn(borrowHistoryList);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByBorrowDate(borrowDate);
