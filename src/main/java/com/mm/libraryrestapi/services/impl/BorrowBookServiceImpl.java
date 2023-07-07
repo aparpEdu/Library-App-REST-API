@@ -170,13 +170,21 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     }
 
     @Override
-    public List<BorrowHistory> getBorrowHistoryByUserId(Long userId) {
-        return borrowHistoryRepository.getBorrowHistoryByUserId(userId);
+    public BorrowHistoryResponse getBorrowHistoryByUserId(Long userId,  int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<BorrowHistory> content = borrowHistoryRepository.getBorrowHistoryByUserId(userId, pageable);
+        return getBorrowHistoryResponse(content);
     }
 
     @Override
-    public List<BorrowHistory> getBorrowHistoryByBookId(Long bookId) {
-        return borrowHistoryRepository.getBorrowHistoryByBookId(bookId);
+    public BorrowHistoryResponse getBorrowHistoryByBookId(Long bookId,  int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<BorrowHistory> content =  borrowHistoryRepository.getBorrowHistoryByBookId(bookId, pageable);
+        return getBorrowHistoryResponse(content);
     }
 
     @Override
