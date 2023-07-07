@@ -30,7 +30,7 @@ public class User {
     private String password;
     @Transient
     private long age;
-   // @Column(nullable = false)
+    @Column(nullable = false)
     private LocalDate dateOfBirth;
     private String gender;
     @Column(nullable = false)

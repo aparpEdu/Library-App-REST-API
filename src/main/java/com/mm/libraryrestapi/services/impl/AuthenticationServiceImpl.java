@@ -63,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setCity(registerDto.getCity());
-        int userAge = LocalDate.now().getYear() - user.getDateOfBirth().getYear();
+        int userAge = LocalDate.now().getYear() - registerDto.getDateOfBirth().getYear();
         user.setAge(userAge);
         user.setAddress(registerDto.getAddress());
         user.setCountry(registerDto.getCountry());
