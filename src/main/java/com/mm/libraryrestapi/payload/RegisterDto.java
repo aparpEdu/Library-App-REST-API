@@ -53,7 +53,7 @@ public class RegisterDto {
     @Size(min = 2, message = "Country should have at least 4 characters")
     private String country;
 
-    @NotEmpty(message = "GDPR should not be empty")
+    @NotNull(message = "GDPR should not be null")
     @AssertTrue(message = "GDPR Should be accepted!")
-    private boolean euGdpr;
+    private Boolean euGdpr;
 }
