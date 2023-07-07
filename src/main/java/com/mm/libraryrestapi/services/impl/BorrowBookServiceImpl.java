@@ -168,6 +168,26 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         return getBorrowHistoryResponse(content);
     }
 
+    @Override
+    public List<BorrowHistory> getBorrowHistoryByUserId(Long userId) {
+        return borrowHistoryRepository.getBorrowHistoryByUserId(userId);
+    }
+
+    @Override
+    public List<BorrowHistory> getBorrowHistoryByBookId(Long bookId) {
+        return borrowHistoryRepository.getBorrowHistoryByBookId(bookId);
+    }
+
+    @Override
+    public List<BorrowHistory> getBorrowHistoryByBorrowDate(LocalDate borrowDate) {
+        return borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate);
+    }
+
+    @Override
+    public List<BorrowHistory> getBorrowHistoryByReturned(boolean returned) {
+        return borrowHistoryRepository.getBorrowHistoryByReturned(returned);
+    }
+
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
     }
@@ -175,7 +195,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     private User getLoggedUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        return userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
+        return userRepository.getUserByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
     }
 

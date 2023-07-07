@@ -3,7 +3,6 @@ package com.mm.libraryrestapi.controller;
 import com.mm.libraryrestapi.entity.BorrowHistory;
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
-import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,11 +23,9 @@ import java.util.List;
 public class BorrowBookController {
 
     private final BorrowBookService borrowBookService;
-    private final BorrowHistoryRepository borrowHistoryRepository;
 
-    public BorrowBookController(BorrowBookService borrowBookService, BorrowHistoryRepository borrowHistoryRepository) {
+    public BorrowBookController(BorrowBookService borrowBookService) {
         this.borrowBookService = borrowBookService;
-        this.borrowHistoryRepository = borrowHistoryRepository;
     }
 
     @Operation(
@@ -147,7 +144,7 @@ public class BorrowBookController {
     )
     @GetMapping("user")
     public ResponseEntity<List<BorrowHistory>> getBorrowHistoryByUserId(@RequestParam Long userId) {
-        return ResponseEntity.ok(borrowHistoryRepository.findByUserId(userId));
+        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByUserId(userId));
     }
 
     @Operation(
@@ -160,7 +157,7 @@ public class BorrowBookController {
     )
     @GetMapping("book")
     public ResponseEntity<List<BorrowHistory>> getBorrowHistoryByBookId(@RequestParam Long bookId) {
-        return ResponseEntity.ok(borrowHistoryRepository.findByBookId(bookId));
+        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByBookId(bookId));
     }
 
     @Operation(
@@ -173,7 +170,7 @@ public class BorrowBookController {
     )
     @GetMapping("date")
     public ResponseEntity<List<BorrowHistory>> getBorrowHistoryByBorrowDate(@RequestParam LocalDate borrowDate) {
-        return ResponseEntity.ok(borrowHistoryRepository.findByBorrowDate(borrowDate));
+        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByBorrowDate(borrowDate));
     }
 
     @Operation(
@@ -186,6 +183,6 @@ public class BorrowBookController {
     )
     @GetMapping("returned")
     public ResponseEntity<List<BorrowHistory>> getBorrowHistoryByReturned(@RequestParam boolean returned) {
-        return ResponseEntity.ok(borrowHistoryRepository.findByReturned(returned));
+        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByReturned(returned));
     }
 }

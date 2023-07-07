@@ -10,9 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -182,13 +180,13 @@ public class BorrowBookControllerTest {
         List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
 
         // Mock the repository method
-        when(borrowHistoryRepository.findByUserId(userId)).thenReturn(borrowHistoryList);
+        when(borrowHistoryRepository.getBorrowHistoryByUserId(userId)).thenReturn(borrowHistoryList);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByUserId(userId);
 
         // Verify the repository method was called
-        verify(borrowHistoryRepository).findByUserId(userId);
+        verify(borrowHistoryRepository).getBorrowHistoryByUserId(userId);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -202,13 +200,13 @@ public class BorrowBookControllerTest {
         List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
 
         // Mock the repository method
-        when(borrowHistoryRepository.findByBookId(bookId)).thenReturn(borrowHistoryList);
+        when(borrowHistoryRepository.getBorrowHistoryByBookId(bookId)).thenReturn(borrowHistoryList);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByBookId(bookId);
 
         // Verify the repository method was called
-        verify(borrowHistoryRepository).findByBookId(bookId);
+        verify(borrowHistoryRepository).getBorrowHistoryByBookId(bookId);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -222,13 +220,13 @@ public class BorrowBookControllerTest {
         List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
 
         // Mock the repository method
-        when(borrowHistoryRepository.findByReturned(returned)).thenReturn(borrowHistoryList);
+        when(borrowHistoryRepository.getBorrowHistoryByReturned(returned)).thenReturn(borrowHistoryList);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByReturned(returned);
 
         // Verify the repository method was called
-        verify(borrowHistoryRepository).findByReturned(returned);
+        verify(borrowHistoryRepository).getBorrowHistoryByReturned(returned);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -242,13 +240,13 @@ public class BorrowBookControllerTest {
         List<BorrowHistory> borrowHistoryList = List.of(new BorrowHistory());
 
         // Mock the repository method
-        when(borrowHistoryRepository.findByBorrowDate(borrowDate)).thenReturn(borrowHistoryList);
+        when(borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate)).thenReturn(borrowHistoryList);
 
         // Call the controller method
         ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByBorrowDate(borrowDate);
 
         // Verify the repository method was called
-        verify(borrowHistoryRepository).findByBorrowDate(borrowDate);
+        verify(borrowHistoryRepository).getBorrowHistoryByBorrowDate(borrowDate);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());

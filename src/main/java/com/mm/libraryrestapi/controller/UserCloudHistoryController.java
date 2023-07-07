@@ -1,10 +1,8 @@
 package com.mm.libraryrestapi.controller;
 
 
-import com.mm.libraryrestapi.entity.UserCloudHistory;
 import com.mm.libraryrestapi.payload.UserCloudHistoryDto;
 import com.mm.libraryrestapi.payload.UserCloudHistoryResponse;
-import com.mm.libraryrestapi.repositories.UserCloudHistoryRepository;
 import com.mm.libraryrestapi.services.UserCloudHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,18 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/users")
 @Tag(name = "CRUD REST APIs for User Clod History Resource")
 public class UserCloudHistoryController {
     private final UserCloudHistoryService userCloudHistoryService;
-    private final UserCloudHistoryRepository userCloudHistoryRepository;
 
-    public UserCloudHistoryController(UserCloudHistoryService userCloudHistoryService, UserCloudHistoryRepository userCloudHistoryRepository) {
+    public UserCloudHistoryController(UserCloudHistoryService userCloudHistoryService) {
         this.userCloudHistoryService = userCloudHistoryService;
-        this.userCloudHistoryRepository = userCloudHistoryRepository;
     }
 
     @Operation(
@@ -74,31 +68,5 @@ public class UserCloudHistoryController {
              @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
              @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
         return ResponseEntity.ok(userCloudHistoryService.getAllReadBooksByUser(userId, pageNo, pageSize, sortBy, sortDir));
-    }
-
-    @Operation(
-            summary = "Get User Cloud History By User Id REST API",
-            description = "Search User Cloud History By User Id API is used to search for cloud history by user id in the database"
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Http Status 200 SUCCESS"
-    )
-    @GetMapping("user")
-    public ResponseEntity<List<UserCloudHistory>> getUserCloudHistoryByUserId(Long userId) {
-        return ResponseEntity.ok(userCloudHistoryRepository.findByUserId(userId));
-    }
-
-    @Operation(
-            summary = "Get User Cloud History By EBook Id REST API",
-            description = "Search User Cloud History By EBook Id REST API is used to search for cloud history by ebook id in the database"
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Http Status 200 SUCCESS"
-    )
-    @GetMapping("ebook")
-    public ResponseEntity<List<UserCloudHistory>> getUserCloudHistoryByEbookId(Long ebookId) {
-        return ResponseEntity.ok(userCloudHistoryRepository.findByEbookId(ebookId));
     }
 }
