@@ -1,11 +1,9 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.entity.BorrowHistory;
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public interface BorrowBookService {
     BorrowHistoryDto borrowBook(Long bookId);
