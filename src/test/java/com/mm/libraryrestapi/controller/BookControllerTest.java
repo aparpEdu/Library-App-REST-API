@@ -24,6 +24,7 @@ class BookControllerTest {
 
     @Mock
     private BookService bookService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -39,6 +40,7 @@ class BookControllerTest {
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBook, receivedResponse.getBody());
     }
+
     @Test
     void shouldNotReturnProperBookWhenProvidingIncorrectId() {
         Long correctBookId = 1L;
@@ -49,16 +51,18 @@ class BookControllerTest {
         ResponseEntity<BookDto> receivedResponse = bookController.getBookById(incorrectBookId);
         Assert.assertNotEquals(expectedBook, receivedResponse.getBody());
     }
+
     @Test
-    void shouldCreateBookAndReturnCreatedResponse(){
+    void shouldCreateBookAndReturnCreatedResponse() {
         BookDto BookToInsert = new BookDto();
         Mockito.when(bookService.createBook(BookToInsert)).thenReturn(BookToInsert);
         ResponseEntity<BookDto> receivedResponse = bookController.createBook(BookToInsert);
         Assert.assertEquals(HttpStatus.CREATED, receivedResponse.getStatusCode());
         Assert.assertEquals(BookToInsert, receivedResponse.getBody());
     }
+
     @Test
-    void shouldDeleteBookFromDatabaseAndReturnStatusOK(){
+    void shouldDeleteBookFromDatabaseAndReturnStatusOK() {
         BookDto book = new BookDto(1L, "Universe", "space ships universe", "New smart summary",
                 "9876543567892", "Science", 1L, 2000,
                 10,
@@ -70,7 +74,7 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldUpdateBookFromDatabaseAndReturnStatusOKWhenProvidedCorrectId(){
+    void shouldUpdateBookFromDatabaseAndReturnStatusOKWhenProvidedCorrectId() {
         BookDto book = new BookDto(1L, "Universe", "space ships universe", "New smart summary",
                 "9876543567892", "Science", 1L, 2000,
                 10,
@@ -81,8 +85,9 @@ class BookControllerTest {
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assertions.assertEquals(book, receivedResponse.getBody());
     }
+
     @Test
-    void shouldNotUpdateBookFromDatabaseAndReturnStatusOKWhenProvidedIncorrectId(){
+    void shouldNotUpdateBookFromDatabaseAndReturnStatusOKWhenProvidedIncorrectId() {
         BookDto book = new BookDto(1L, "Universe", "space ships universe", "New smart summary",
                 "9876543567892", "Science", 1L, 2000,
                 10,
@@ -95,7 +100,7 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldReturnAllBooksPaginated(){
+    void shouldReturnAllBooksPaginated() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
@@ -108,62 +113,63 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldReturnAllBooksByTags(){
+    void shouldReturnAllBooksByTags() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
         String sortDirection = "asc";
         String tags = "Henry IV";
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getAllBooksByTags(tags,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        Mockito.when(bookService.getAllBooksByTags(tags, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
         ResponseEntity<BookResponse> receivedResponse = bookController.getBooksByTags(tags, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }
 
     @Test
-    void shouldReturnBookByTitle(){
+    void shouldReturnBookByTitle() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
         String sortDirection = "asc";
         String title = "Henry IV";
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getBooksByTitle(title,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
-        ResponseEntity<BookResponse> receivedResponse = bookController.getBooksByTitle(title,pageNumber, pageSize, sortBy, sortDirection);
+        Mockito.when(bookService.getBooksByTitle(title, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        ResponseEntity<BookResponse> receivedResponse = bookController.getBooksByTitle(title, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }
 
     @Test
-    void shouldReturnAllBooksByGenre(){
+    void shouldReturnAllBooksByGenre() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
         String sortDirection = "asc";
         String genre = "Manga";
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getAllBooksByGenre(genre,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        Mockito.when(bookService.getAllBooksByGenre(genre, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
         ResponseEntity<BookResponse> receivedResponse = bookController.getBooksByGenre(genre, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }
+
     @Test
-    void shouldReturnAllBooksByPublicationYear(){
+    void shouldReturnAllBooksByPublicationYear() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
         String sortDirection = "asc";
         int publicationYear = 2003;
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getAllBooksByPublicationYear(publicationYear,pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        Mockito.when(bookService.getAllBooksByPublicationYear(publicationYear, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
         ResponseEntity<BookResponse> receivedResponse = bookController.getEBookByPublicationYear(publicationYear, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }
 
     @Test
-    void shouldReturnAllBooksByAuthorFirstName(){
+    void shouldReturnAllBooksByAuthorFirstName() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
@@ -171,14 +177,14 @@ class BookControllerTest {
         String authorFirstName = "Alexander";
         String authorLastName = "";
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getAllBooksByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
-        ResponseEntity<BookResponse> receivedResponse = bookController.getBookByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection);
+        Mockito.when(bookService.getAllBooksByAuthorName(authorFirstName, authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        ResponseEntity<BookResponse> receivedResponse = bookController.getBookByAuthorName(authorFirstName, authorLastName, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }
 
     @Test
-    void shouldReturnAllBooksByAuthorLastName(){
+    void shouldReturnAllBooksByAuthorLastName() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
@@ -186,14 +192,14 @@ class BookControllerTest {
         String authorFirstName = "";
         String authorLastName = "The Great";
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getAllBooksByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
-        ResponseEntity<BookResponse> receivedResponse = bookController.getBookByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection);
+        Mockito.when(bookService.getAllBooksByAuthorName(authorFirstName, authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        ResponseEntity<BookResponse> receivedResponse = bookController.getBookByAuthorName(authorFirstName, authorLastName, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }
 
     @Test
-    void shouldReturnAllBooksByAuthorFirstNameAndLastName(){
+    void shouldReturnAllBooksByAuthorFirstNameAndLastName() {
         int pageNumber = 0;
         int pageSize = 10;
         String sortBy = "id";
@@ -201,8 +207,8 @@ class BookControllerTest {
         String authorFirstName = "Alexander";
         String authorLastName = "The Great";
         BookResponse expectedBookResponse = new BookResponse();
-        Mockito.when(bookService.getAllBooksByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
-        ResponseEntity<BookResponse> receivedResponse = bookController.getBookByAuthorName(authorFirstName,authorLastName, pageNumber, pageSize, sortBy, sortDirection);
+        Mockito.when(bookService.getAllBooksByAuthorName(authorFirstName, authorLastName, pageNumber, pageSize, sortBy, sortDirection)).thenReturn(expectedBookResponse);
+        ResponseEntity<BookResponse> receivedResponse = bookController.getBookByAuthorName(authorFirstName, authorLastName, pageNumber, pageSize, sortBy, sortDirection);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedBookResponse, receivedResponse.getBody());
     }

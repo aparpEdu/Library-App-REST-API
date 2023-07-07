@@ -46,7 +46,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         List<AuthorDto> authors = authorList.stream().map(this::mapToDTO).collect(Collectors.toList());
         AuthorResponse authorResponse = new AuthorResponse();
-        authorResponse.setAuthorDtoList(authors);
+        authorResponse.setContent(authors);
         authorResponse.setPageNo(allAuthors.getNumber());
         authorResponse.setPageSize(allAuthors.getSize());
         authorResponse.setTotalElements(allAuthors.getTotalElements());
@@ -78,6 +78,46 @@ public class AuthorServiceImpl implements AuthorService {
     public void deleteAuthorById(long id) {
         Author author = authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author", "id", id));
         authorRepository.delete(author);
+    }
+
+    @Override
+    public AuthorResponse getAuthorByFirstName(String firstName, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Author> content = authorRepository.findByFirstName(firstName, pageable);
+        return getAuthorResponse(content);
+    }
+
+    @Override
+    public AuthorResponse getAuthorByLastName(String lastName, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Author> content = authorRepository.findByLastName(lastName, pageable);
+        return getAuthorResponse(content);
+    }
+
+    @Override
+    public AuthorResponse getAuthorByCountry(String country, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<Author> content = authorRepository.findByCountry(country, pageable);
+        return getAuthorResponse(content);
+    }
+
+    private AuthorResponse getAuthorResponse(Page<Author> authors) {
+        List<Author> listOfAuthors = authors.getContent();
+        List<AuthorDto> content = listOfAuthors.stream().map(this::mapToDTO).toList();
+        AuthorResponse authorResponse = new AuthorResponse();
+        authorResponse.setContent(content);
+        authorResponse.setPageNo(authors.getNumber());
+        authorResponse.setPageSize(authors.getSize());
+        authorResponse.setTotalElements(authors.getTotalElements());
+        authorResponse.setLast(authors.isLast());
+        authorResponse.setTotalPages(authors.getTotalPages());
+        return authorResponse;
     }
 
     private Author mapToEntity(AuthorDto authorDto) {

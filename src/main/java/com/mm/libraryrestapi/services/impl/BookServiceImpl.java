@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -83,52 +84,58 @@ public class BookServiceImpl implements BookService {
     public void updateNumberOfBooksAfterBorrowing(Long bookId) {
         Book bookToUpdate = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookId));
-        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()-1);
-    } @Override
+        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies() - 1);
+    }
+
+    @Override
     public void updateNumberOfBooksAfterReturning(Long bookId) {
         Book bookToUpdate = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookId));
-        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies()+1);
+        bookToUpdate.setAvailableCopies(bookToUpdate.getAvailableCopies() + 1);
     }
+
     @Override
-    public BookResponse getBooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir){
+    public BookResponse getBooksByTitle(String title, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
-        Page<Book> content = bookRepository.findByTitleContaining(title,pageable);
+        Page<Book> content = bookRepository.findByTitleContaining(title, pageable);
         return getBookResponse(content);
     }
 
     @Override
-    public BookResponse getAllBooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir){
+    public BookResponse getAllBooksByTags(String tags, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         Page<Book> content = bookRepository.findAllByTagsContainingIgnoreCase(tags, pageable);
         return getBookResponse(content);
     }
+
     @Override
-    public BookResponse getAllBooksByGenre(String genre, int pageNo, int pageSize, String sortBy, String sortDir){
+    public BookResponse getAllBooksByGenre(String genre, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         Page<Book> content = bookRepository.findAllByGenreContainingIgnoreCase(genre, pageable);
         return getBookResponse(content);
     }
+
     @Override
-    public BookResponse getAllBooksByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir){
+    public BookResponse getAllBooksByPublicationYear(int publicationYear, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         Page<Book> content = bookRepository.findAllByPublicationYear(publicationYear, pageable);
         return getBookResponse(content);
     }
+
     @Override
-    public BookResponse getAllBooksByAuthorName(String firstName, String lastName, int pageNo, int pageSize, String sortBy, String sortDir){
+    public BookResponse getAllBooksByAuthorName(String firstName, String lastName, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
-        Page<Book> content = bookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(firstName,lastName, pageable);
+        Page<Book> content = bookRepository.findAllByAuthor_FirstNameIgnoreCaseOrAuthor_LastNameIgnoreCase(firstName, lastName, pageable);
         return getBookResponse(content);
     }
 
@@ -144,6 +151,7 @@ public class BookServiceImpl implements BookService {
         paperBookResponse.setTotalPages(ebooks.getTotalPages());
         return paperBookResponse;
     }
+
     private Book mapToEntity(BookDto bookDto) {
         return mapper.map(bookDto, Book.class);
     }

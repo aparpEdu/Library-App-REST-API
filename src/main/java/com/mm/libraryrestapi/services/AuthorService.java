@@ -14,4 +14,10 @@ public interface AuthorService {
     AuthorDto updateAuthorById(AuthorDto authorDto, long id);
 
     void deleteAuthorById(long id);
+
+    AuthorResponse getAuthorByFirstName(String firstName, int pageNo, int pageSize, String sortBy, String sortDir);
+
+    AuthorResponse getAuthorByLastName(String lastName, int pageNo, int pageSize, String sortBy, String sortDir);
+
+    AuthorResponse getAuthorByCountry(String country, int pageNo, int pageSize, String sortBy, String sortDir);
 }
