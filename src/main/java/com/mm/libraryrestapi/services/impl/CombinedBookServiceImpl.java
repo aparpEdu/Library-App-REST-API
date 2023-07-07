@@ -203,6 +203,7 @@ public class CombinedBookServiceImpl implements CombinedBookService {
         combinedBook.setAuthor(book.getAuthor());
         combinedBook.setAvailableCopies(book.getAvailableCopies());
         combinedBook.setTotalCopies(book.getTotalCopies());
+        combinedBook.setBookType("book");
         return combinedBook;
     }
 
@@ -218,6 +219,7 @@ public class CombinedBookServiceImpl implements CombinedBookService {
         combinedBook.setAuthor(ebook.getAuthor());
         combinedBook.setDownloadLink(ebook.getDownloadLink());
         combinedBook.setReadingLink(ebook.getReadingLink());
+        combinedBook.setBookType("ebook");
         return combinedBook;
     }
 }

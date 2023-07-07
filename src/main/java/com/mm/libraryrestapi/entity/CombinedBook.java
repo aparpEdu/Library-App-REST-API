@@ -24,4 +24,5 @@ public class CombinedBook {
     private String readingLink;
     private int availableCopies;
     private int totalCopies;
+    private String bookType;
 }
