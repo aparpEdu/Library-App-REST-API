@@ -34,7 +34,7 @@ public class BookServiceImpl implements BookService {
     public BookDto createBook(BookDto bookDto) {
         Book bookToCreate = mapToEntity(bookDto);
         Author author = authorRepository.findById(bookDto.getAuthorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Book", "id", bookDto.getAuthorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "authorId", bookDto.getAuthorId()));
         bookToCreate.setAuthor(author);
         return mapToDTO(bookRepository.save(bookToCreate));
     }
