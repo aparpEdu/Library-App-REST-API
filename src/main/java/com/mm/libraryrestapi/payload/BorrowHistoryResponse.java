@@ -7,11 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class BorrowHistoryResponse {
+public class BorrowHistoryResponse extends GeneralResponse {
     private List<BorrowHistoryDto> content;
-    private int pageNo;
-    private int pageSize;
-    private long totalElements;
-    private int totalPages;
-    private boolean last;
+
 }

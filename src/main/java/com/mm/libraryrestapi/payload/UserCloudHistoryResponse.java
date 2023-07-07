@@ -7,11 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserCloudHistoryResponse {
+public class UserCloudHistoryResponse extends GeneralResponse {
     private List<UserCloudHistoryDto> content;
-    private int pageNo;
-    private int pageSize;
-    private long totalElements;
-    private int totalPages;
-    private boolean last;
 }

@@ -11,12 +11,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorResponse {
-
+public class AuthorResponse extends GeneralResponse {
     private List<AuthorDto> content;
-    private int pageNo;
-    private int pageSize;
-    private long totalElements;
-    private int totalPages;
-    private boolean last;
 }
