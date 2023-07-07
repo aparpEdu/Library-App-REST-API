@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,8 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping
     public ResponseEntity<CombinedBookResponse> getAllCombinedBooks(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -47,6 +49,7 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("title")
     public ResponseEntity<CombinedBookResponse> getCombinedBooksByTitle(
             @RequestParam String title,
@@ -65,6 +68,7 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("tags")
     public ResponseEntity<CombinedBookResponse> getCombinedBooksByTags(
             @RequestParam String tags,
@@ -84,6 +88,7 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("genre")
     public ResponseEntity<CombinedBookResponse> getCombinedBooksByGenre(
             @RequestParam String genre,
@@ -102,6 +107,7 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("year")
     public ResponseEntity<CombinedBookResponse> getCombinedBooksByPublicationYear(
             @RequestParam int year,
@@ -120,6 +126,7 @@ public class CombinedBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("author")
     public ResponseEntity<CombinedBookResponse> getCombinedBooksByAuthorFullName(
             @RequestParam(value = "firstName", required = false) String firstName,

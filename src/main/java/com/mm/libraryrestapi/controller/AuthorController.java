@@ -36,7 +36,7 @@ public class AuthorController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody AuthorDto authorDto) {
         return new ResponseEntity<>(authorService.createAuthor(authorDto), HttpStatus.CREATED);
     }
@@ -49,6 +49,7 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{authorId}")
     public ResponseEntity<AuthorDto> getAuthor(@PathVariable Long authorId) {
         return ResponseEntity.ok(authorService.getAuthorById(authorId));
@@ -80,7 +81,8 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping
     public ResponseEntity<AuthorResponse> getAllAuthors(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -115,6 +117,7 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/firstName")
     public ResponseEntity<AuthorResponse> getAuthorsByFirstName
             (@RequestParam(value = "firstName") String firstName,
@@ -133,6 +136,7 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/lastName")
     public ResponseEntity<AuthorResponse> getAuthorsByLastName
             (@RequestParam(value = "lastName") String lastName,
@@ -151,6 +155,7 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/country")
     public ResponseEntity<AuthorResponse> getAuthorsByCountry
             (@RequestParam(value = "country") String country,

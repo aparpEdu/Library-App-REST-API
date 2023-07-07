@@ -33,6 +33,7 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{ebookId}")
     public ResponseEntity<EbookDto> getEbookById(@PathVariable Long ebookId) {
         return ResponseEntity.ok(ebookService.getEbookById(ebookId));
@@ -63,7 +64,8 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping
     public ResponseEntity<EbookResponse> getAllEbooks
             (@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
              @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -115,6 +117,7 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("title")
     public ResponseEntity<EbookResponse> getEBooksByTitle(
             @RequestParam String title,
@@ -133,6 +136,7 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("tags")
     public ResponseEntity<EbookResponse> getEbooksByTags(
             @RequestParam String tags,
@@ -151,6 +155,7 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("genre")
     public ResponseEntity<EbookResponse> getEbooksByGenre(
             @RequestParam String genre,
@@ -169,6 +174,7 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("year")
     public ResponseEntity<EbookResponse> getEBookByPublicationYear(
             @RequestParam int year,
@@ -188,6 +194,7 @@ public class EbookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("author")
     public ResponseEntity<EbookResponse> getEBookByAuthorName
             (@RequestParam(value = "firstName", required = false) String firstName,
