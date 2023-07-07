@@ -1,9 +1,8 @@
 package com.mm.libraryrestapi.payload;
 
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.mm.libraryrestapi.utils.AppConstants;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,7 @@ import org.hibernate.validator.constraints.URL;
 public class EbookDto  {
 
     private Long id;
+
     @NotEmpty(message = "Book title should not be null or empty")
     @Size(min = 2, message = "Book title should have at least 2 characters")
     private String title;
@@ -36,9 +36,13 @@ public class EbookDto  {
     @NotEmpty(message = "Book genre should not be null or empty")
     @Size(min = 4, message = "Book genre should have at least 4 characters")
     private String genre;
+
     @NotNull(message = "Author cannot be null")
     private Long authorId;
+
     @NotNull(message = "Book publication year cannot be null")
+    @Min(value = 1400, message = "EBook publication year should be between 1400 and 2023")
+    @Max(value = AppConstants.CURRENT_YEAR)
     private Integer publicationYear;
 
     @URL

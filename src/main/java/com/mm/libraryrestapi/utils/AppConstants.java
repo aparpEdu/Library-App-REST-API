@@ -7,4 +7,5 @@ public class AppConstants {
     public static final String DEFAULT_SORT_DIRECTION= "asc";
     public static final int DAYS_TO_RETURN = 7;
     public static final int MAX_POSTPONEMENT_DAYS = 14;
+    public static final int CURRENT_YEAR = 2023;
 }
