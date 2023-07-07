@@ -14,6 +14,7 @@ import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import com.mm.libraryrestapi.utils.CustomMapper;
+import com.mm.libraryrestapi.utils.ErrorMessages;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,7 +59,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
                 .filter(record -> record.getReturnDate().isBefore(LocalDate.now()) && !record.isReturned())
                 .findAny()
                 .ifPresent(record -> {
-                    throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "You have at least one book with a pending return");
+                    throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.PENDING_RETURN);
                 });
 
         //search book by id provided by the PathVariable
@@ -67,7 +68,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
 
         //check if there are available books
         if(book.getAvailableCopies()<1)
-            throw new IllegalStateException("There are no more paper books available");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.NO_BOOKS_AVAILABLE);
 
         //Create instance of borrow History
         BorrowHistory borrowHistoryToCreate = new BorrowHistory();
@@ -93,18 +94,18 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         //check if the borrowHistory correspond to the user
         User loggedUser= getLoggedUser();
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The borrow history in not from the current user");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_USER);
 
         //check if the book was already return
         if(borrowHistoryToUpdate.isReturned())
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The book was already returned");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.BOOK_ALREADY_RETURNED);
         //check if we are adding negative or zero days
         if(days<1)
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "Postponement days need to be a value greater than 0");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_POSTPONEMENT_DAYS);
 
         // Check if the postpone date isn't after the max postponement date allowed
         if(DAYS.between(borrowHistoryToUpdate.getBorrowDate(), borrowHistoryToUpdate.getReturnDate().plusDays(days)) > AppConstants.MAX_POSTPONEMENT_DAYS)
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "You can't postpone the return date to more than 14 dates from the borrow date");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.POSTPONE_DATE_LIMIT);
 
         //Update the postponement date
         borrowHistoryToUpdate.setReturnDate(borrowHistoryToUpdate.getReturnDate().plusDays(days));
@@ -124,11 +125,11 @@ public class BorrowBookServiceImpl implements BorrowBookService {
         //check if the borrowHistory correspond to the user
         User loggedUser= getLoggedUser();
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), loggedUser.getId()))
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The borrow history in not from the current user");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_USER);
 
         //check if the book has not been returned yet
         if(borrowHistoryToUpdate.isReturned())
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "The book was already returned");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.BOOK_ALREADY_RETURNED);
 
         //Update the return status
         borrowHistoryToUpdate.setReturned(true);
