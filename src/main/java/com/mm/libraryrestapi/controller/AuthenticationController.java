@@ -35,7 +35,7 @@ public class AuthenticationController {
             description = "Http Status 200 SUCCESS"
     )
     @PostMapping(value = {"/login", "/signin"})
-    public ResponseEntity<JWTAuthenticationResponse> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<JWTAuthenticationResponse> login(@Valid @RequestBody LoginDto loginDto) {
         String token = authService.login(loginDto);
         JWTAuthenticationResponse response = new JWTAuthenticationResponse();
         response.setAccessToken(token);
