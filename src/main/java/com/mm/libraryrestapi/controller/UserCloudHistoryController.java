@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@Tag(name = "CRUD REST APIs for User Clod History Resource")
+@Tag(name = "CRUD REST APIs for User Cloud History Resource")
 public class UserCloudHistoryController {
     private final UserCloudHistoryService userCloudHistoryService;
 
