@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             summary = "Get User By Username Or Email",
             description = "Search User By Username Or Email is used to get a user from the database"
     )
-    Optional<User> findByUsernameOrEmail(String username, String email);
+    Optional<User> getUserByUsernameOrEmail(String username, String email);
 
     @Operation(
             summary = "Get User By Username",

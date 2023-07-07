@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AuthorResponse {
 
-    private List<AuthorDto> authorDtoList;
+    private List<AuthorDto> content;
     private int pageNo;
     private int pageSize;
     private long totalElements;

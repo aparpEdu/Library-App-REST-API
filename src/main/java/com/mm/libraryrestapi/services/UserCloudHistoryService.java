@@ -5,6 +5,8 @@ import com.mm.libraryrestapi.payload.UserCloudHistoryResponse;
 
 public interface UserCloudHistoryService {
     UserCloudHistoryDto readABook(Long bookId, Long userId);
+
     UserCloudHistoryDto getUserReadBook(Long bookId, Long userId);
+
     UserCloudHistoryResponse getAllReadBooksByUser(Long userId, int pageNo, int pageSize, String sortBy, String sortDir);
 }

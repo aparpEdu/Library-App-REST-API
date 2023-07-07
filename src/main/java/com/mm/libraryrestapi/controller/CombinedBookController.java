@@ -21,6 +21,7 @@ public class CombinedBookController {
     public CombinedBookController(CombinedBookService combinedBookService) {
         this.combinedBookService = combinedBookService;
     }
+
     @Operation(
             summary = "Get All Combined Books REST API",
             description = "Get All Combined Books REST API is used to get all of the ebooks and paper books from the database"
@@ -34,11 +35,10 @@ public class CombinedBookController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-    )
-    {
-        return ResponseEntity.ok(combinedBookService.getAllCombinedBooks(pageNo,pageSize,sortBy,sortDir));
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(combinedBookService.getAllCombinedBooks(pageNo, pageSize, sortBy, sortDir));
     }
+
     @Operation(
             summary = "Get Combined Books By Title REST API",
             description = "Get Combined Books REST API is used to get all of the ebooks and paper books by a title from the database"
@@ -53,10 +53,8 @@ public class CombinedBookController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-        )
-    {
-        return ResponseEntity.ok(combinedBookService.findByTitle(title,pageNo,pageSize,sortBy,sortDir));
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(combinedBookService.findByTitle(title, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -73,10 +71,8 @@ public class CombinedBookController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-        )
-    {
-        return ResponseEntity.ok(combinedBookService.findByTagsContaining(tags,pageNo,pageSize,sortBy,sortDir));
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(combinedBookService.findByTagsContaining(tags, pageNo, pageSize, sortBy, sortDir));
     }
 
 
@@ -94,10 +90,8 @@ public class CombinedBookController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-        )
-    {
-        return ResponseEntity.ok(combinedBookService.findByGenre(genre,pageNo,pageSize,sortBy,sortDir));
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(combinedBookService.findByGenre(genre, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -114,10 +108,8 @@ public class CombinedBookController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-        )
-    {
-        return ResponseEntity.ok(combinedBookService.findByPublicationYear(year,pageNo,pageSize,sortBy,sortDir));
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(combinedBookService.findByPublicationYear(year, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -135,10 +127,8 @@ public class CombinedBookController {
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-        )
-    {
-        return ResponseEntity.ok(combinedBookService.findByAuthorFullName(firstName,lastName,pageNo,pageSize,sortBy,sortDir));
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(combinedBookService.findByAuthorFullName(firstName, lastName, pageNo, pageSize, sortBy, sortDir));
     }
 
 }

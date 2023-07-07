@@ -1,9 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.entity.Author;
 import com.mm.libraryrestapi.payload.AuthorDto;
 import com.mm.libraryrestapi.payload.AuthorResponse;
-import com.mm.libraryrestapi.repositories.AuthorRepository;
 import com.mm.libraryrestapi.services.AuthorService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,18 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequestMapping("/api/v1/authors")
 @RestController
 @Tag(name = "CRUD REST APIs for Author Resource")
 public class AuthorController {
     private final AuthorService authorService;
-    private final AuthorRepository authorRepository;
 
-    public AuthorController(AuthorService authorService, AuthorRepository authorRepository) {
+    public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
-        this.authorRepository = authorRepository;
     }
 
     @Operation(
@@ -75,7 +69,7 @@ public class AuthorController {
     @DeleteMapping("{authorId}")
     public ResponseEntity<String> deleteAuthorById(@PathVariable Long authorId) {
         authorService.deleteAuthorById(authorId);
-        return ResponseEntity.ok("Author Successfully deleted");
+        return ResponseEntity.ok("Author was successfully deleted");
     }
 
     @Operation(
@@ -122,8 +116,13 @@ public class AuthorController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("/firstName")
-    public ResponseEntity<List<Author>> getAuthorsByFirstName(@RequestParam String firstName) {
-        return ResponseEntity.ok(authorRepository.findByFirstName(firstName));
+    public ResponseEntity<AuthorResponse> getAuthorsByFirstName
+            (@RequestParam(value = "firstName") String firstName,
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(authorService.getAuthorByFirstName(firstName, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -135,8 +134,13 @@ public class AuthorController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("/lastName")
-    public ResponseEntity<List<Author>> getAuthorsByLastName(@RequestParam String lastName) {
-        return ResponseEntity.ok(authorRepository.findByLastName(lastName));
+    public ResponseEntity<AuthorResponse> getAuthorsByLastName
+            (@RequestParam(value = "lastName") String lastName,
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(authorService.getAuthorByLastName(lastName, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -148,7 +152,12 @@ public class AuthorController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("/country")
-    public ResponseEntity<List<Author>> getAuthorsByCountry(@RequestParam String country) {
-        return ResponseEntity.ok(authorRepository.findByCountry(country));
+    public ResponseEntity<AuthorResponse> getAuthorsByCountry
+            (@RequestParam(value = "country") String country,
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(authorService.getAuthorByCountry(country, pageNo, pageSize, sortBy, sortDir));
     }
 }

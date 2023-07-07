@@ -38,24 +38,23 @@ public interface BorrowHistoryRepository extends JpaRepository<BorrowHistory, Lo
             summary = "Get Borrow History By User Id",
             description = "Search Borrow History By User Id is used to get borrow history for a user from the database"
     )
-    List<BorrowHistory> findByUserId(Long userId);
+    List<BorrowHistory> getBorrowHistoryByUserId(Long userId);
 
     @Operation(
             summary = "Get Borrow History By Book Id",
             description = "Search Borrow History By Book Id is used to get borrow history for a user by book id from the database"
     )
-    List<BorrowHistory> findByBookId(Long bookId);
+    List<BorrowHistory> getBorrowHistoryByBookId(Long bookId);
 
     @Operation(
             summary = "Get Borrow History By Borrow Date",
             description = "Search Borrow History By Borrow Date is used to get borrow history for a user by borrow date from the database"
     )
-    List<BorrowHistory> findByBorrowDate(LocalDate borrowDate);
+    List<BorrowHistory> getBorrowHistoryByBorrowDate(LocalDate borrowDate);
 
     @Operation(
             summary = "Get Borrow History By Returned",
             description = "Search Borrow History By Returned is used to get borrow history for a user from the database if the book is returned"
     )
-    List<BorrowHistory> findByReturned(boolean returned);
-
+    List<BorrowHistory> getBorrowHistoryByReturned(boolean returned);
 }
