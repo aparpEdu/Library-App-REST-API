@@ -24,7 +24,7 @@ public interface BorrowBookService {
 
     List<BorrowHistory> getBorrowHistoryByBookId(Long bookId);
 
-    List<BorrowHistory> getBorrowHistoryByBorrowDate(LocalDate borrowDate);
+    BorrowHistoryResponse getBorrowHistoryByBorrowDate(LocalDate borrowDate, int pageNo, int pageSize, String sortBy, String sortDir);
 
-    List<BorrowHistory> getBorrowHistoryByReturned(boolean returned);
+    BorrowHistoryResponse getBorrowHistoryByReturned(boolean returned, int pageNo, int pageSize, String sortBy, String sortDir);
 }

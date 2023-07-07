@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,22 +114,22 @@ class BorrowBookServiceImplTest {
     @Test
     void testGetBorrowHistoryByBorrowDate() {
         LocalDate borrowDate = LocalDate.now();
-        List<BorrowHistory> borrowHistoryResponse = new ArrayList<>();
+        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
         Mockito.when(borrowBookService
-                .getBorrowHistoryByBorrowDate(borrowDate)).thenReturn(borrowHistoryResponse);
-        List<BorrowHistory> newBorrowHistoryResponse = borrowBookService
-                .getBorrowHistoryByBorrowDate(borrowDate);
+                .getBorrowHistoryByBorrowDate(borrowDate, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
+        BorrowHistoryResponse newBorrowHistoryResponse = borrowBookService
+                .getBorrowHistoryByBorrowDate(borrowDate, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(borrowHistoryResponse, newBorrowHistoryResponse);
     }
 
     @Test
     void testGetBorrowHistoryByReturned() {
         boolean returned = true;
-        List<BorrowHistory> borrowHistoryResponse = new ArrayList<>();
+        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
         Mockito.when(borrowBookService
-                .getBorrowHistoryByReturned(returned)).thenReturn(borrowHistoryResponse);
-        List<BorrowHistory> newBorrowHistoryResponse = borrowBookService
-                .getBorrowHistoryByReturned(returned);
+                .getBorrowHistoryByReturned(returned, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
+        BorrowHistoryResponse newBorrowHistoryResponse = borrowBookService
+                .getBorrowHistoryByReturned(returned, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(borrowHistoryResponse, newBorrowHistoryResponse);
     }
 }

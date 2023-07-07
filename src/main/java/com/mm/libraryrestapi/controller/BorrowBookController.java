@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 @RestController
@@ -169,8 +170,13 @@ public class BorrowBookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("date")
-    public ResponseEntity<List<BorrowHistory>> getBorrowHistoryByBorrowDate(@RequestParam LocalDate borrowDate) {
-        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByBorrowDate(borrowDate));
+    public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByBorrowDate(
+            @RequestParam(value = "month") LocalDate borrowDate,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByBorrowDate(borrowDate, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -182,7 +188,12 @@ public class BorrowBookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("returned")
-    public ResponseEntity<List<BorrowHistory>> getBorrowHistoryByReturned(@RequestParam boolean returned) {
-        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByReturned(returned));
+    public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByReturned(
+            @RequestParam boolean returned,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByReturned(returned, pageNo, pageSize, sortBy, sortDir));
     }
 }

@@ -134,13 +134,12 @@ public class EbookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("tags")
-    public ResponseEntity<EbookResponse> getEbooksByTags
-            (
-                    @RequestParam String tags,
-                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+    public ResponseEntity<EbookResponse> getEbooksByTags(
+            @RequestParam String tags,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
         return ResponseEntity.ok(ebookService.getAllEbooksByTags(tags, pageNo, pageSize, sortBy, sortDir));
     }
 
@@ -153,15 +152,12 @@ public class EbookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("genre")
-    public ResponseEntity<EbookResponse> getEbooksByGenre
-            (
+    public ResponseEntity<EbookResponse> getEbooksByGenre(
             @RequestParam String genre,
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            )
-    {
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
         return ResponseEntity.ok(ebookService.getAllEbooksByGenre(genre, pageNo, pageSize, sortBy, sortDir));
     }
 
@@ -174,15 +170,13 @@ public class EbookController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("year")
-    public ResponseEntity<EbookResponse> getEBookByPublicationYear
-            (
-                    @RequestParam int year,
-                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            )
-    {
+    public ResponseEntity<EbookResponse> getEBookByPublicationYear(
+            @RequestParam int year,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
         return ResponseEntity.ok(ebookService.getAllEbooksByPublicationYear(year, pageNo, pageSize, sortBy, sortDir));
     }
 
@@ -198,12 +192,11 @@ public class EbookController {
     public ResponseEntity<EbookResponse> getEBookByAuthorName
             (@RequestParam(value = "firstName", required = false) String firstName,
              @RequestParam(value = "lastName", required = false) String lastName,
-            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            )
-    {
-        return ResponseEntity.ok(ebookService.getAllEbooksByAuthorName(firstName,lastName, pageNo, pageSize, sortBy, sortDir));
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            ) {
+        return ResponseEntity.ok(ebookService.getAllEbooksByAuthorName(firstName, lastName, pageNo, pageSize, sortBy, sortDir));
     }
 }

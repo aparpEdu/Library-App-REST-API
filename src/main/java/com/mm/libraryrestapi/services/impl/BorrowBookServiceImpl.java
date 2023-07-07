@@ -1,14 +1,14 @@
 package com.mm.libraryrestapi.services.impl;
 
-import com.mm.libraryrestapi.entity.BorrowHistory;
 import com.mm.libraryrestapi.entity.Book;
+import com.mm.libraryrestapi.entity.BorrowHistory;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
-import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.repositories.BookRepository;
+import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.services.BorrowBookService;
@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Objects;
 
@@ -180,14 +181,23 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     }
 
     @Override
-    public List<BorrowHistory> getBorrowHistoryByBorrowDate(LocalDate borrowDate) {
-        return borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate);
+    public BorrowHistoryResponse getBorrowHistoryByBorrowDate(LocalDate borrowDate, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<BorrowHistory> content = borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate, pageable);
+        return getBorrowHistoryResponse(content);
     }
 
     @Override
-    public List<BorrowHistory> getBorrowHistoryByReturned(boolean returned) {
-        return borrowHistoryRepository.getBorrowHistoryByReturned(returned);
+    public BorrowHistoryResponse getBorrowHistoryByReturned(boolean returned, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        Page<BorrowHistory> content = borrowHistoryRepository.getBorrowHistoryByReturned(returned, pageable);
+        return getBorrowHistoryResponse(content);
     }
+
 
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
