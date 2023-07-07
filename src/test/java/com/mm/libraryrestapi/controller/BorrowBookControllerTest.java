@@ -5,19 +5,16 @@ import com.mm.libraryrestapi.payload.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.services.BorrowBookService;
-import com.mm.libraryrestapi.utils.AppConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
@@ -214,25 +211,33 @@ public class BorrowBookControllerTest {
     void testGetBorrowHistoryByReturned() {
         // Test data
         boolean returned = true;
-        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-        Mockito.when(borrowBookService
-                .getBorrowHistoryByReturned(returned, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController
-                .getBorrowHistoryByReturned(returned, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.getBorrowHistoryByReturned(returned);
+
+        // Call the controller method
+        ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByReturned(returned);
+
+        // Verify the repository method was called
+        verify(borrowHistoryRepository).getBorrowHistoryByReturned(returned);
+
+        // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(borrowHistoryResponse, response.getBody());
+        Assertions.assertEquals(borrowHistoryList, response.getBody());
     }
 
     @Test
     void testGetBorrowHistoryByBorrowDate() {
         // Test data
         LocalDate borrowDate = LocalDate.now();
-        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-        Mockito.when(borrowBookService
-                .getBorrowHistoryByBorrowDate(borrowDate, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController
-                .getBorrowHistoryByBorrowDate(borrowDate, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
+        List<BorrowHistory> borrowHistoryList = borrowHistoryRepository.getBorrowHistoryByBorrowDate(borrowDate);
+
+        // Call the controller method
+        ResponseEntity<List<BorrowHistory>> response = borrowBookController.getBorrowHistoryByBorrowDate(borrowDate);
+
+        // Verify the repository method was called
+        verify(borrowHistoryRepository).getBorrowHistoryByBorrowDate(borrowDate);
+
+        // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(borrowHistoryResponse, response.getBody());
+        Assertions.assertEquals(borrowHistoryList, response.getBody());
     }
 }

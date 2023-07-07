@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
-@Tag(name = "Role Repository")
+@Tag(name = "User Cloud History Repository")
 public interface UserCloudHistoryRepository extends JpaRepository<UserCloudHistory, Long> {
 
     @Operation(
@@ -28,15 +28,4 @@ public interface UserCloudHistoryRepository extends JpaRepository<UserCloudHisto
     )
     Page<UserCloudHistory> findAllByUserId(Long userId, Pageable pageable);
 
-    @Operation(
-            summary = "Get Cloud History By User Id",
-            description = "Search Cloud History By User Id is used to get cloud history from the database"
-    )
-    List<UserCloudHistory> findByUserId(Long userId);
-
-    @Operation(
-            summary = "Get Cloud History By EBook Id",
-            description = "Search Cloud History By EBook Id is used to get cloud history from the database"
-    )
-    List<UserCloudHistory> findByEbookId(Long ebookId);
 }

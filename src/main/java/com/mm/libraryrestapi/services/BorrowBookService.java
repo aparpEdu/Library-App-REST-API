@@ -20,9 +20,9 @@ public interface BorrowBookService {
 
     BorrowHistoryResponse getAllBooksBorrowed(int pageNo, int pageSize, String sortBy, String sortDir);
 
-    List<BorrowHistory> getBorrowHistoryByUserId(Long userId);
+    BorrowHistoryResponse  getBorrowHistoryByUserId(Long userId,  int pageNo, int pageSize, String sortBy, String sortDir);
 
-    List<BorrowHistory> getBorrowHistoryByBookId(Long bookId);
+    BorrowHistoryResponse getBorrowHistoryByBookId(Long bookId, int pageNo, int pageSize, String sortBy, String sortDir);
 
     BorrowHistoryResponse getBorrowHistoryByBorrowDate(LocalDate borrowDate, int pageNo, int pageSize, String sortBy, String sortDir);
 
