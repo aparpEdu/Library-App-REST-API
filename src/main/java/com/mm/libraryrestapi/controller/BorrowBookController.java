@@ -34,6 +34,9 @@ public class BorrowBookController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("borrow/{bookId}")
     public ResponseEntity<BorrowHistoryDto> borrowBook(@PathVariable Long bookId) {
@@ -48,6 +51,9 @@ public class BorrowBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PatchMapping("/postpone/{borrowId}")
     public ResponseEntity<BorrowHistoryDto> borrowBook(@PathVariable Long borrowId, @RequestParam("days") Long days) {
@@ -61,6 +67,9 @@ public class BorrowBookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PatchMapping("/return/{borrowId}")
@@ -98,6 +107,9 @@ public class BorrowBookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("myBorrowHistory")
@@ -140,6 +152,9 @@ public class BorrowBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("user")
     public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByUserId
@@ -160,6 +175,9 @@ public class BorrowBookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("book")
@@ -182,10 +200,13 @@ public class BorrowBookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("date")
     public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByBorrowDate(
-            @RequestParam(value = "month") LocalDate borrowDate,
+            @RequestParam(value = "date") LocalDate borrowDate,
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -200,6 +221,9 @@ public class BorrowBookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("returned")

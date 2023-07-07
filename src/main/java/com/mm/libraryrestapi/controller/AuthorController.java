@@ -49,6 +49,9 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{authorId}")
     public ResponseEntity<AuthorDto> getAuthor(@PathVariable Long authorId) {
@@ -80,6 +83,9 @@ public class AuthorController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
@@ -117,6 +123,9 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/firstName")
     public ResponseEntity<AuthorResponse> getAuthorsByFirstName
@@ -136,6 +145,9 @@ public class AuthorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/lastName")
     public ResponseEntity<AuthorResponse> getAuthorsByLastName
@@ -154,6 +166,9 @@ public class AuthorController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/country")

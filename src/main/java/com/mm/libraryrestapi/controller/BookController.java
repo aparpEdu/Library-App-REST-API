@@ -35,6 +35,9 @@ public class BookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{bookId}")
     public ResponseEntity<BookDto> getBookById(@PathVariable Long bookId) {
@@ -65,6 +68,9 @@ public class BookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
@@ -119,6 +125,9 @@ public class BookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("title")
     public ResponseEntity<BookResponse> getBooksByTitle
@@ -137,6 +146,9 @@ public class BookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("tags")
@@ -158,6 +170,9 @@ public class BookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("genre")
     public ResponseEntity<BookResponse> getBooksByGenre
@@ -178,6 +193,9 @@ public class BookController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("year")
     public ResponseEntity<BookResponse> getEBookByPublicationYear
@@ -197,6 +215,9 @@ public class BookController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("author")

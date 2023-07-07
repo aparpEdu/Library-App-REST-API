@@ -7,6 +7,7 @@ import com.mm.libraryrestapi.services.UserCloudHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,9 @@ public class UserCloudHistoryController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("{userId}/read/{ebookId}")
     public ResponseEntity<UserCloudHistoryDto> readABook(@PathVariable Long userId, @PathVariable Long ebookId) {
@@ -45,6 +49,9 @@ public class UserCloudHistoryController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/ebooks/{ebookId}")
     public ResponseEntity<UserCloudHistoryDto> getReadBookByUser(@PathVariable Long userId, @PathVariable Long ebookId) {
@@ -58,6 +65,9 @@ public class UserCloudHistoryController {
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/ebooks")
