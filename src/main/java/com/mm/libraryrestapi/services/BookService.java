@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.BookDto;
-import com.mm.libraryrestapi.payload.BookResponse;
+import com.mm.libraryrestapi.payload.dtos.BookDto;
+import com.mm.libraryrestapi.payload.response.BookResponse;
 
 public interface BookService {
 

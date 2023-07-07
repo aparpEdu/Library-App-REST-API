@@ -1,5 +1,6 @@
-package com.mm.libraryrestapi.payload;
+package com.mm.libraryrestapi.payload.response;
 
+import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
 import lombok.Getter;
 import lombok.Setter;
 

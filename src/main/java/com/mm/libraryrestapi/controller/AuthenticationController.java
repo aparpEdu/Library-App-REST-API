@@ -1,8 +1,8 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.payload.JWTAuthenticationResponse;
-import com.mm.libraryrestapi.payload.LoginDto;
-import com.mm.libraryrestapi.payload.RegisterDto;
+import com.mm.libraryrestapi.payload.response.JWTAuthenticationResponse;
+import com.mm.libraryrestapi.payload.dtos.LoginDto;
+import com.mm.libraryrestapi.payload.dtos.RegisterDto;
 import com.mm.libraryrestapi.services.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

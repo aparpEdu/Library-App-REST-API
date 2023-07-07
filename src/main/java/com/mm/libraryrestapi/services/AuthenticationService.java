@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.LoginDto;
-import com.mm.libraryrestapi.payload.RegisterDto;
+import com.mm.libraryrestapi.payload.dtos.LoginDto;
+import com.mm.libraryrestapi.payload.dtos.RegisterDto;
 
 public interface AuthenticationService {
 

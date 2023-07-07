@@ -1,5 +1,4 @@
-package com.mm.libraryrestapi.payload;
-
+package com.mm.libraryrestapi.payload.dtos;
 
 import com.mm.libraryrestapi.utils.AppConstants;
 import jakarta.validation.constraints.*;
@@ -7,15 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class EbookDto  {
-
-    private Long id;
+@AllArgsConstructor
+public class BookDto {
+    private long id;
 
     @NotEmpty(message = "Book title should not be null or empty")
     @Size(min = 2, message = "Book title should have at least 2 characters")
@@ -30,23 +27,21 @@ public class EbookDto  {
     private String summary;
 
     @NotEmpty(message = "Book ISBN should not be null or empty")
-    @Size(min = 13, max = 13, message = "Book ISBN should be 13 digits long")
+    @Size(min = 13, max = 13, message = "Book ISBN should be 13 characters long")
     private String ISBN;
 
     @NotEmpty(message = "Book genre should not be null or empty")
     @Size(min = 4, message = "Book genre should have at least 4 characters")
     private String genre;
 
-    @NotNull(message = "Author cannot be null")
+    @NotNull(message = "Author id cannot be null")
     private Long authorId;
 
     @NotNull(message = "Book publication year cannot be null")
-    @Min(value = 1400, message = "EBook publication year should be between 1400 and 2023")
+    @Min(value = 1400, message = "Book publication year should be between 1400 and 2023")
     @Max(value = AppConstants.CURRENT_YEAR)
     private Integer publicationYear;
 
-    @URL
-    private String downloadLink;
-    @URL
-    private String readingLink;
+    private int availableCopies;
+    private int totalCopies;
 }

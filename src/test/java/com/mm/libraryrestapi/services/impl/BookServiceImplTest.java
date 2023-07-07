@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services.impl;
 
-import com.mm.libraryrestapi.payload.BookDto;
-import com.mm.libraryrestapi.payload.BookResponse;
+import com.mm.libraryrestapi.payload.dtos.BookDto;
+import com.mm.libraryrestapi.payload.response.BookResponse;
 import com.mm.libraryrestapi.services.BookService;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;

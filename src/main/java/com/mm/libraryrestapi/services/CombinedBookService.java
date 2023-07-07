@@ -1,6 +1,6 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.CombinedBookResponse;
+import com.mm.libraryrestapi.payload.response.CombinedBookResponse;
 
 
 public interface CombinedBookService {

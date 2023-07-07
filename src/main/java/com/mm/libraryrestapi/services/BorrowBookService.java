@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.BorrowHistoryDto;
-import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
+import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
+import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
 
 import java.time.LocalDate;
 

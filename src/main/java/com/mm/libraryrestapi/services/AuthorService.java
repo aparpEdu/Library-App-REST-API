@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.AuthorDto;
-import com.mm.libraryrestapi.payload.AuthorResponse;
+import com.mm.libraryrestapi.payload.dtos.AuthorDto;
+import com.mm.libraryrestapi.payload.response.AuthorResponse;
 
 public interface AuthorService {
 

@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.payload.UserCloudHistoryDto;
-import com.mm.libraryrestapi.payload.UserCloudHistoryResponse;
+import com.mm.libraryrestapi.payload.dtos.UserCloudHistoryDto;
+import com.mm.libraryrestapi.payload.response.UserCloudHistoryResponse;
 import com.mm.libraryrestapi.services.UserCloudHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import org.junit.jupiter.api.Assertions;

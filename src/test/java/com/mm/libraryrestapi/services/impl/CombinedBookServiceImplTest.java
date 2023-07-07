@@ -1,6 +1,6 @@
 package com.mm.libraryrestapi.services.impl;
 
-import com.mm.libraryrestapi.payload.CombinedBookResponse;
+import com.mm.libraryrestapi.payload.response.CombinedBookResponse;
 import com.mm.libraryrestapi.services.CombinedBookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import org.junit.jupiter.api.Assertions;

@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.UserCloudHistoryDto;
-import com.mm.libraryrestapi.payload.UserCloudHistoryResponse;
+import com.mm.libraryrestapi.payload.dtos.UserCloudHistoryDto;
+import com.mm.libraryrestapi.payload.response.UserCloudHistoryResponse;
 
 public interface UserCloudHistoryService {
     UserCloudHistoryDto readABook(Long bookId, Long userId);

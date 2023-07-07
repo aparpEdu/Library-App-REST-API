@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.services.impl;
 
-import com.mm.libraryrestapi.payload.EbookDto;
-import com.mm.libraryrestapi.payload.EbookResponse;
+import com.mm.libraryrestapi.payload.dtos.EbookDto;
+import com.mm.libraryrestapi.payload.response.EbookResponse;
 import com.mm.libraryrestapi.services.EbookService;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;

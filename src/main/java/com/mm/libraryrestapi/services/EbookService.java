@@ -1,9 +1,9 @@
 package com.mm.libraryrestapi.services;
 
-import com.mm.libraryrestapi.payload.EbookDto;
+import com.mm.libraryrestapi.payload.dtos.EbookDto;
 
 
-import com.mm.libraryrestapi.payload.EbookResponse;
+import com.mm.libraryrestapi.payload.response.EbookResponse;
 
 public interface EbookService {
     EbookDto createEbook(EbookDto ebookDto);

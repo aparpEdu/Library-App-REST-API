@@ -2,8 +2,8 @@ package com.mm.libraryrestapi.services.impl;
 
 import com.mm.libraryrestapi.entity.Author;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
-import com.mm.libraryrestapi.payload.AuthorDto;
-import com.mm.libraryrestapi.payload.AuthorResponse;
+import com.mm.libraryrestapi.payload.dtos.AuthorDto;
+import com.mm.libraryrestapi.payload.response.AuthorResponse;
 import com.mm.libraryrestapi.repositories.AuthorRepository;
 import com.mm.libraryrestapi.services.AuthorService;
 import com.mm.libraryrestapi.utils.CustomMapper;

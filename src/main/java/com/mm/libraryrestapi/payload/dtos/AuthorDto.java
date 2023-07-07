@@ -1,4 +1,4 @@
-package com.mm.libraryrestapi.payload;
+package com.mm.libraryrestapi.payload.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

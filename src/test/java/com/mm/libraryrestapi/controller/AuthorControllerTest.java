@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.payload.AuthorDto;
-import com.mm.libraryrestapi.payload.AuthorResponse;
+import com.mm.libraryrestapi.payload.dtos.AuthorDto;
+import com.mm.libraryrestapi.payload.response.AuthorResponse;
 import com.mm.libraryrestapi.services.AuthorService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import org.junit.jupiter.api.Assertions;

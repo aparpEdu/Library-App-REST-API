@@ -1,8 +1,7 @@
 package com.mm.libraryrestapi.services.impl;
 
-import com.mm.libraryrestapi.entity.BorrowHistory;
-import com.mm.libraryrestapi.payload.BorrowHistoryDto;
-import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
+import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
+import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import org.junit.jupiter.api.Assertions;
@@ -15,9 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 class BorrowBookServiceImplTest {

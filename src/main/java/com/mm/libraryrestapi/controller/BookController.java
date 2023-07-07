@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.payload.BookDto;
-import com.mm.libraryrestapi.payload.BookResponse;
+import com.mm.libraryrestapi.payload.dtos.BookDto;
+import com.mm.libraryrestapi.payload.response.BookResponse;
 import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;

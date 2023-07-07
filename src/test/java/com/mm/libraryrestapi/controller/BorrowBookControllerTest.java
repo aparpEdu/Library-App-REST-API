@@ -1,7 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
-import com.mm.libraryrestapi.payload.BorrowHistoryDto;
-import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
+import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
+import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.services.BorrowBookService;
 import com.mm.libraryrestapi.utils.AppConstants;

@@ -5,8 +5,8 @@ import com.mm.libraryrestapi.entity.BorrowHistory;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
-import com.mm.libraryrestapi.payload.BorrowHistoryDto;
-import com.mm.libraryrestapi.payload.BorrowHistoryResponse;
+import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
+import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
 import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
@@ -25,7 +25,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.Objects;
 
