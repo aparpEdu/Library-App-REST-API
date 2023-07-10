@@ -66,9 +66,9 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author", "id", id));
         author.setFirstName(authorDto.getFirstName());
         author.setLastName(authorDto.getLastName());
-        author.setCountry(author.getCountry());
-        author.setBirthDate(author.getBirthDate());
-        author.setDeathDate(author.getDeathDate());
+        author.setCountry(authorDto.getCountry());
+        author.setBirthDate(authorDto.getBirthDate());
+        author.setDeathDate(authorDto.getDeathDate());
 
         Author updatedAuthor = authorRepository.save(author);
         return mapToDTO(updatedAuthor);
