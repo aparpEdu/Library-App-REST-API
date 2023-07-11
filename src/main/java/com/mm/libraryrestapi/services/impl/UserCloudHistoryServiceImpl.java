@@ -41,9 +41,9 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
     @Override
     public UserCloudHistoryDto readABook(Long bookId, Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+                .orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(()-> new ResourceNotFoundException("book", "id", bookId));
+                .orElseThrow(()-> new ResourceNotFoundException("Book", "id", bookId));
         if(book.getDownloadLink().contains("No URL Available") && book.getReadingLink().contains("No URL Available")){
             throw new LibraryAPIException(HttpStatus.NOT_FOUND, "Book URL NOT FOUND");
         }
@@ -56,9 +56,9 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
     @Override
     public UserCloudHistoryDto getUserReadBook(Long bookId, Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+                .orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(()-> new ResourceNotFoundException("book", "id", bookId));
+                .orElseThrow(()-> new ResourceNotFoundException("Book", "id", bookId));
         UserCloudHistory userCloudHistory = userCloudHistoryRepository
                 .findByBookIdAndUserId(book.getId(), user.getId())
                 .orElseThrow(() -> new LibraryAPIException(HttpStatus.BAD_REQUEST, "User and book don't match"));
@@ -72,7 +72,7 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+                .orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
         Page<UserCloudHistory> content = userCloudHistoryRepository.findAllByUserId(user.getId(), pageable);
         return getUserClodHistoryResponse(content);
 
