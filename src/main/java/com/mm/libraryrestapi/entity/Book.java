@@ -32,6 +32,8 @@ public class Book {
     private Author author;
     private int availableCopies;
     private int totalCopies;
+    @Column(unique=true)
     private String downloadLink;
+    @Column(unique=true)
     private String readingLink;
 }

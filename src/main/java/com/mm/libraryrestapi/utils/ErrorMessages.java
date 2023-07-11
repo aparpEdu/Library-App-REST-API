@@ -7,4 +7,5 @@ public class ErrorMessages {
     public static final String BOOK_ALREADY_RETURNED = "The book was already returned";
     public static final String INVALID_POSTPONEMENT_DAYS = "Postponement days need to be a value greater than 0";
     public static final String POSTPONE_DATE_LIMIT = "You can't postpone the return date to more than 14 dates from the borrow date";
+    public static final String AVAILABLE_BOOKS_BIGGER_THAN_TOTAL = "Total Number of Books should be equal or greater than number of Available Books";
 }
