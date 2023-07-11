@@ -20,7 +20,7 @@ public interface UserCloudHistoryRepository extends JpaRepository<UserCloudHisto
             summary = "Get Cloud History By EBook Id and User Id",
             description = "Search Cloud History By EBook Id and User Id is used to get cloud history from the database"
     )
-    Optional<UserCloudHistory> findByEbookIdAndUserId(Long ebookId, Long userId);
+    Optional<UserCloudHistory> findByBookIdAndUserId(Long ebookId, Long userId);
 
     @Operation(
             summary = "Get Cloud Histories By User Id",

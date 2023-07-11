@@ -2,7 +2,6 @@ package com.mm.libraryrestapi.services.impl;
 
 
 import com.mm.libraryrestapi.entity.Book;
-import com.mm.libraryrestapi.entity.Ebook;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.entity.UserCloudHistory;
 import com.mm.libraryrestapi.exception.LibraryAPIException;
@@ -10,7 +9,6 @@ import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.dtos.UserCloudHistoryDto;
 import com.mm.libraryrestapi.payload.response.UserCloudHistoryResponse;
 import com.mm.libraryrestapi.repositories.BookRepository;
-import com.mm.libraryrestapi.repositories.EbookRepository;
 import com.mm.libraryrestapi.repositories.UserCloudHistoryRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.UserCloudHistoryService;
@@ -46,6 +44,9 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
                 .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("book", "id", bookId));
+        if(book.getDownloadLink().contains("No URL Available") || book.getReadingLink().contains("No URL Available")){
+            throw new LibraryAPIException(HttpStatus.NOT_FOUND, "Book URL NOT FOUND");
+        }
         UserCloudHistory userCloudHistory = new UserCloudHistory();
         userCloudHistory.setUser(user);
         userCloudHistory.setBook(book);
@@ -59,7 +60,7 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("book", "id", bookId));
         UserCloudHistory userCloudHistory = userCloudHistoryRepository
-                .findByEbookIdAndUserId(book.getId(), user.getId())
+                .findByBookIdAndUserId(book.getId(), user.getId())
                 .orElseThrow(() -> new LibraryAPIException(HttpStatus.BAD_REQUEST, "User and book don't match"));
         return mapToDTO(userCloudHistory);
     }
