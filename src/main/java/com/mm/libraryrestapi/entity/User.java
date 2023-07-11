@@ -39,6 +39,7 @@ public class User {
     private String city;
     @Column(nullable = false)
     private String country;
+    private boolean confirmed;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",

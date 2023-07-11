@@ -1,5 +1,6 @@
 package com.mm.libraryrestapi.services.impl;
 
+import com.mm.libraryrestapi.entity.ConfirmationToken;
 import com.mm.libraryrestapi.entity.Role;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.LibraryAPIException;
@@ -9,6 +10,7 @@ import com.mm.libraryrestapi.repositories.RoleRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.security.JwtTokenProvider;
 import com.mm.libraryrestapi.services.AuthenticationService;
+import com.mm.libraryrestapi.services.ConfirmationTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,9 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -30,13 +34,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager,
+                                     UserRepository userRepository, RoleRepository roleRepository,
+                                     PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider,
+                                     ConfirmationTokenService confirmationTokenService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Override
@@ -80,6 +89,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setRoles(roles);
 
         userRepository.save(user);
-        return "User registered successfully!";
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken();
+        confirmationToken.setToken(token);
+        confirmationToken.setCreatedAt(LocalDateTime.now());
+        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+        confirmationToken.setUser(user);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        return "User registered successfully! Confirmation token: "+ token;
     }
 }
