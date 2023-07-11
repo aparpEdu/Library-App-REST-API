@@ -34,27 +34,27 @@ public interface BorrowHistoryRepository extends JpaRepository<BorrowHistory, Lo
     )
     Page<BorrowHistory> findAll(Pageable pageable);
 
-    @Operation(
-            summary = "Get Borrow History By User Id",
-            description = "Search Borrow History By User Id is used to get borrow history for a user from the database"
-    )
-    Page<BorrowHistory> getBorrowHistoryByUserId(Long userId, Pageable pageable);
+//    @Operation(
+//            summary = "Get Borrow History By User Id",
+//            description = "Search Borrow History By User Id is used to get borrow history for a user from the database"
+//    )
+//    Page<BorrowHistory> getBorrowHistoryByUserId(Long userId, Pageable pageable);
 
     @Operation(
             summary = "Get Borrow History By Book Id",
             description = "Search Borrow History By Book Id is used to get borrow history for a user by book id from the database"
     )
-    Page<BorrowHistory> getBorrowHistoryByBookId(Long bookId, Pageable pageable);
+    Page<BorrowHistory> getBorrowHistoryByBookId(Long userId, Long bookId, Pageable pageable);
 
     @Operation(
             summary = "Get Borrow History By Borrow Date",
             description = "Search Borrow History By Borrow Date is used to get borrow history for a user by borrow date from the database"
     )
-    Page<BorrowHistory> getBorrowHistoryByBorrowDate(LocalDate borrowDate, Pageable pageable);
+    Page<BorrowHistory> getBorrowHistoryByBorrowDate(Long userId, LocalDate borrowDate, Pageable pageable);
 
     @Operation(
             summary = "Get Borrow History By Returned",
             description = "Search Borrow History By Returned is used to get borrow history for a user from the database if the book is returned"
     )
-    Page<BorrowHistory> getBorrowHistoryByReturned(boolean returned, Pageable pageable);
+    Page<BorrowHistory> getBorrowHistoryByReturned(Long userId, boolean returned, Pageable pageable);
 }
