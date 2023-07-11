@@ -66,7 +66,7 @@ class BookControllerTest {
         BookDto book = new BookDto(1L, "Universe", "space ships universe", "New smart summary",
                 "9876543567892", "Science", 1L, 2000,
                 10,
-                10);
+                10, "https://www.knowledgehut.com/tutorials/scrum-tutorial", "https://www.knowledgehut.com/tutorials");
         bookService.createBook(book);
         ResponseEntity<String> response = bookController.deleteBookById(book.getId());
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -78,7 +78,7 @@ class BookControllerTest {
         BookDto book = new BookDto(1L, "Universe", "space ships universe", "New smart summary",
                 "9876543567892", "Science", 1L, 2000,
                 10,
-                10);
+                10, "https://www.knowledgehut.com/tutorials/scrum-tutorial", "https://www.knowledgehut.com/tutorials");
         Long correctBookId = 1L;
         Mockito.when(bookService.updateBookById(book, correctBookId)).thenReturn(book);
         ResponseEntity<BookDto> receivedResponse = bookController.updateBookById(book, correctBookId);
@@ -91,7 +91,7 @@ class BookControllerTest {
         BookDto book = new BookDto(1L, "Universe", "space ships universe", "New smart summary",
                 "9876543567892", "Science", 1L, 2000,
                 10,
-                10);
+                10, "https://www.knowledgehut.com/tutorials/scrum-tutorial", "https://www.knowledgehut.com/tutorials");
         Long correctBookId = 1L;
         Long incorrectBookId = 2L;
         Mockito.when(bookService.updateBookById(book, correctBookId)).thenReturn(book);

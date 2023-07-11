@@ -36,9 +36,9 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @PostMapping("{userId}/read/{ebookId}")
-    public ResponseEntity<UserCloudHistoryDto> readABook(@PathVariable Long userId, @PathVariable Long ebookId) {
-        return new ResponseEntity<>(userCloudHistoryService.readABook(ebookId, userId), HttpStatus.CREATED);
+    @PostMapping("{userId}/read/{bookId}")
+    public ResponseEntity<UserCloudHistoryDto> readABook(@PathVariable Long userId, @PathVariable Long bookId) {
+        return new ResponseEntity<>(userCloudHistoryService.readABook(bookId, userId), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -53,9 +53,9 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/ebooks/{ebookId}")
-    public ResponseEntity<UserCloudHistoryDto> getReadBookByUser(@PathVariable Long userId, @PathVariable Long ebookId) {
-        return ResponseEntity.ok(userCloudHistoryService.getUserReadBook(ebookId, userId));
+    @GetMapping("{userId}/books/{bookId}")
+    public ResponseEntity<UserCloudHistoryDto> getReadBookByUser(@PathVariable Long userId, @PathVariable Long bookId) {
+        return ResponseEntity.ok(userCloudHistoryService.getUserReadBook(bookId, userId));
     }
 
     @Operation(
@@ -70,7 +70,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/ebooks")
+    @GetMapping("{userId}/books")
     public ResponseEntity<UserCloudHistoryResponse> getReadBookByUser
             (@PathVariable Long userId,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,

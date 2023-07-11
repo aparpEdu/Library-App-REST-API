@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
     public BookDto createBook(BookDto bookDto) {
         Book bookToCreate = mapToEntity(bookDto);
         Author author = authorRepository.findById(bookDto.getAuthorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Book", "authorId", bookDto.getAuthorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Author", "id", bookDto.getAuthorId()));
         if(bookDto.getDownloadLink() == null){
             bookToCreate.setDownloadLink("No URL Available");
         }
@@ -61,7 +61,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getBookById(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ebook", "id", id));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
         return mapToDTO(book);
     }
 

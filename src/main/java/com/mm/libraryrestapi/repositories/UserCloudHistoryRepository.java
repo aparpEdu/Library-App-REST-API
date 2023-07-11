@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-
-import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
@@ -20,7 +18,7 @@ public interface UserCloudHistoryRepository extends JpaRepository<UserCloudHisto
             summary = "Get Cloud History By EBook Id and User Id",
             description = "Search Cloud History By EBook Id and User Id is used to get cloud history from the database"
     )
-    Optional<UserCloudHistory> findByBookIdAndUserId(Long ebookId, Long userId);
+    Optional<UserCloudHistory> findByBookIdAndUserId(Long bookId, Long userId);
 
     @Operation(
             summary = "Get Cloud Histories By User Id",
