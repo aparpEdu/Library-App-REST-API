@@ -47,5 +47,5 @@ public class BookDto {
     @URL
     private String downloadLink;
     @URL
-    private String readingLink;
+    private String readingLink ;
 }

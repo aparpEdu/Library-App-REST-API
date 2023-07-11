@@ -35,6 +35,12 @@ public class BookServiceImpl implements BookService {
         Book bookToCreate = mapToEntity(bookDto);
         Author author = authorRepository.findById(bookDto.getAuthorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "authorId", bookDto.getAuthorId()));
+        if(bookDto.getDownloadLink() == null){
+            bookToCreate.setDownloadLink("No URL Available");
+        }
+        if(bookDto.getReadingLink() == null){
+            bookToCreate.setReadingLink("No URL Available");
+        }
         bookToCreate.setAuthor(author);
         return mapToDTO(bookRepository.save(bookToCreate));
     }

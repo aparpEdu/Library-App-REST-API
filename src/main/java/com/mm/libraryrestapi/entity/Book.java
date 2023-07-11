@@ -30,12 +30,8 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
-    @Column(columnDefinition = "integer default 0")
     private int availableCopies;
-    @Column(columnDefinition = "integer default 0")
     private int totalCopies;
-    @Column(columnDefinition = "varchar(255) default 'No URL Available'")
     private String downloadLink;
-    @Column(columnDefinition = "varchar(255) default 'No URL Available'")
     private String readingLink;
 }
