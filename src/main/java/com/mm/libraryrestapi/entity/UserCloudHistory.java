@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "user_cloud_history")
 @Getter
@@ -23,7 +25,6 @@ public class UserCloudHistory {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-
-
-
+    private LocalDateTime readTime;
+    private LocalDateTime downloadTime;
 }

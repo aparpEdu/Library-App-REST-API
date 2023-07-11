@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
+
 @RunWith(MockitoJUnitRunner.class)
 class UserCloudHistoryServiceImplTest {
 
@@ -35,6 +37,16 @@ class UserCloudHistoryServiceImplTest {
     }
 
     @Test
+    void testDownloadABook() {
+        long userId = 1L;
+        long bookId = 1L;
+        UserCloudHistoryDto userCloudHistoryDto = new UserCloudHistoryDto();
+        Mockito.when(userCloudHistoryService.downloadABook(bookId, userId)).thenReturn(userCloudHistoryDto);
+        UserCloudHistoryDto createdUserCloudHistoryDto = userCloudHistoryService.downloadABook(bookId, userId);
+        Assertions.assertEquals(userCloudHistoryDto, createdUserCloudHistoryDto);
+    }
+
+    @Test
     void testGetUserReadBook() {
         long userId = 1L;
         long bookId = 1L;
@@ -52,6 +64,30 @@ class UserCloudHistoryServiceImplTest {
                 .getAllReadBooksByUser(userId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(userCloudHistoryResponse);
         UserCloudHistoryResponse createdUserCloudHistoryResponse = userCloudHistoryService
                 .getAllReadBooksByUser(userId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
+        Assertions.assertEquals(userCloudHistoryResponse, createdUserCloudHistoryResponse);
+    }
+
+    @Test
+    void testGetAllReadBooksByReadTime() {
+        LocalDateTime readTime = LocalDateTime.now();
+        long userId = 1L;
+        UserCloudHistoryResponse userCloudHistoryResponse = new UserCloudHistoryResponse();
+        Mockito.when(userCloudHistoryService
+                .getCloudHistoryByReadTime(userId, readTime, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(userCloudHistoryResponse);
+        UserCloudHistoryResponse createdUserCloudHistoryResponse = userCloudHistoryService
+                .getCloudHistoryByReadTime(userId, readTime, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
+        Assertions.assertEquals(userCloudHistoryResponse, createdUserCloudHistoryResponse);
+    }
+
+    @Test
+    void testGetAllReadBooksByDownloadTime() {
+        LocalDateTime downloadTime = LocalDateTime.now();
+        long userId = 1L;
+        UserCloudHistoryResponse userCloudHistoryResponse = new UserCloudHistoryResponse();
+        Mockito.when(userCloudHistoryService
+                .getCloudHistoryByDownloadTime(userId, downloadTime, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(userCloudHistoryResponse);
+        UserCloudHistoryResponse createdUserCloudHistoryResponse = userCloudHistoryService
+                .getCloudHistoryByDownloadTime(userId, downloadTime, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(userCloudHistoryResponse, createdUserCloudHistoryResponse);
     }
 }

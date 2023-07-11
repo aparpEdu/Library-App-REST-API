@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RepositoryRestResource
@@ -19,6 +20,18 @@ public interface UserCloudHistoryRepository extends JpaRepository<UserCloudHisto
             description = "Search Cloud History By EBook Id and User Id is used to get cloud history from the database"
     )
     Optional<UserCloudHistory> findByBookIdAndUserId(Long bookId, Long userId);
+
+    @Operation(
+            summary = "Get Cloud History By Read Time",
+            description = "Search Cloud History By Read Time is used to get cloud history for a user by read time from the database"
+    )
+    Page<UserCloudHistory> findCloudHistoryByUserIdAndReadTime(Long userId, LocalDateTime readTime, Pageable pageable);
+
+    @Operation(
+            summary = "Get Cloud History By Download Time",
+            description = "Search Cloud History By Download Time is used to get cloud history for a user by download time from the database"
+    )
+    Page<UserCloudHistory> findCloudHistoryByUserIdAndDownloadTime(Long userId, LocalDateTime downloadTime, Pageable pageable);
 
     @Operation(
             summary = "Get Cloud Histories By User Id",

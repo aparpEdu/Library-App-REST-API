@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @Tag(name = "CRUD REST APIs for User Cloud History Resource")
@@ -42,6 +44,23 @@ public class UserCloudHistoryController {
     }
 
     @Operation(
+            summary = "Download An EBook REST API",
+            description = "Download An EBook REST API is used to download an ebook from database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PostMapping("{userId}/download/{bookId}")
+    public ResponseEntity<UserCloudHistoryDto> downloadABook(@PathVariable Long userId, @PathVariable Long bookId) {
+        return new ResponseEntity<>(userCloudHistoryService.readABook(bookId, userId), HttpStatus.CREATED);
+    }
+
+    @Operation(
             summary = "Read An EBook By User REST API",
             description = "Read An EBook By User REST API is used to read an ebook by user from database"
     )
@@ -53,7 +72,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/books/{bookId}")
+    @GetMapping("{userId}/mybooks/{bookId}")
     public ResponseEntity<UserCloudHistoryDto> getReadBookByUser(@PathVariable Long userId, @PathVariable Long bookId) {
         return ResponseEntity.ok(userCloudHistoryService.getUserReadBook(bookId, userId));
     }
@@ -70,7 +89,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/books")
+    @GetMapping("{userId}/mybooks")
     public ResponseEntity<UserCloudHistoryResponse> getReadBookByUser
             (@PathVariable Long userId,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -78,5 +97,51 @@ public class UserCloudHistoryController {
              @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
              @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
         return ResponseEntity.ok(userCloudHistoryService.getAllReadBooksByUser(userId, pageNo, pageSize, sortBy, sortDir));
+    }
+
+    @Operation(
+            summary = "Get Read EBook By Read Time REST API",
+            description = "Get Read EBook By Read Time REST API is used to get all read ebooks by a user from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("{userId}/mybooks/read")
+    public ResponseEntity<UserCloudHistoryResponse> getCloudHistoryByReadTime
+            (@PathVariable Long userId,
+             @RequestParam LocalDateTime readTime,
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(userCloudHistoryService.getCloudHistoryByReadTime(userId, readTime, pageNo, pageSize, sortBy, sortDir));
+    }
+
+    @Operation(
+            summary = "Get Read EBook By Read Time REST API",
+            description = "Get Read EBook By Read Time REST API is used to get all read ebooks by a user from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("{userId}/mybooks/downloaded")
+    public ResponseEntity<UserCloudHistoryResponse> getCloudHistoryByDownloadTime
+            (@PathVariable Long userId,
+             @RequestParam LocalDateTime downloadTime,
+             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
+        return ResponseEntity.ok(userCloudHistoryService.getCloudHistoryByDownloadTime(userId, downloadTime, pageNo, pageSize, sortBy, sortDir));
     }
 }
