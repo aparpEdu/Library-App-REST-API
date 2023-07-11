@@ -1,8 +1,6 @@
 package com.mm.libraryrestapi.payload.dtos;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +26,8 @@ public class AuthorDto {
     @Size(min = 2, message = "Country should have at least 4 characters")
     private String country;
 
-    @NotNull(message = "Birth date should not be null ")
+    @NotNull(message = "Birth date should not be null")
+    @Past
     private LocalDate birthDate;
     private LocalDate deathDate;
 }

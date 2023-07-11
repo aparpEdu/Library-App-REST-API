@@ -35,6 +35,7 @@ public class RegisterDto {
 
     @NotNull(message = "Birthday should not be empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent
     private LocalDate dateOfBirth;
 
     @NotEmpty(message = "Gender should not be null or empty")

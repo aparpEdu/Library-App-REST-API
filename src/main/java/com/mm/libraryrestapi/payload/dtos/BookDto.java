@@ -42,10 +42,18 @@ public class BookDto {
     @Min(value = 1400, message = "Book publication year should be between 1400 and 2023")
     @Max(value = AppConstants.CURRENT_YEAR)
     private Integer publicationYear;
-    private int availableCopies;
-    private int totalCopies;
+
+    @NotNull(message = "Book available copies cannot be a negative number")
+    @PositiveOrZero
+    private Integer availableCopies;
+
+    @NotNull(message = "Book total copies cannot be a negative number")
+    @PositiveOrZero
+    private Integer totalCopies;
+
     @URL
     private String downloadLink;
+
     @URL
-    private String readingLink ;
+    private String readingLink;
 }
