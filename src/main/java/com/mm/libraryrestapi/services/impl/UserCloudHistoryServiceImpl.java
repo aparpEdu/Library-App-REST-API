@@ -1,6 +1,7 @@
 package com.mm.libraryrestapi.services.impl;
 
 
+import com.mm.libraryrestapi.entity.Book;
 import com.mm.libraryrestapi.entity.Ebook;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.entity.UserCloudHistory;
@@ -8,6 +9,7 @@ import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.dtos.UserCloudHistoryDto;
 import com.mm.libraryrestapi.payload.response.UserCloudHistoryResponse;
+import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.EbookRepository;
 import com.mm.libraryrestapi.repositories.UserCloudHistoryRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
@@ -26,14 +28,14 @@ import java.util.List;
 public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
 
     private final UserRepository userRepository;
-    private final EbookRepository ebookRepository;
+    private final BookRepository bookRepository;
     private final UserCloudHistoryRepository userCloudHistoryRepository;
     private final CustomMapper mapper;
 
-    public UserCloudHistoryServiceImpl(UserRepository userRepository, EbookRepository ebookRepository,
+    public UserCloudHistoryServiceImpl(UserRepository userRepository, BookRepository bookRepository,
                                        UserCloudHistoryRepository userCloudHistoryRepository, CustomMapper mapper) {
         this.userRepository = userRepository;
-        this.ebookRepository = ebookRepository;
+        this.bookRepository = bookRepository;
         this.userCloudHistoryRepository = userCloudHistoryRepository;
         this.mapper = mapper;
     }
@@ -42,11 +44,11 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
     public UserCloudHistoryDto readABook(Long bookId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
-        Ebook ebook = ebookRepository.findById(bookId)
+        Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("book", "id", bookId));
         UserCloudHistory userCloudHistory = new UserCloudHistory();
         userCloudHistory.setUser(user);
-        userCloudHistory.setEbook(ebook);
+        userCloudHistory.setBook(book);
         return mapToDTO(userCloudHistoryRepository.save(userCloudHistory));
     }
 
@@ -54,10 +56,10 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
     public UserCloudHistoryDto getUserReadBook(Long bookId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
-        Ebook ebook = ebookRepository.findById(bookId)
+        Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("book", "id", bookId));
         UserCloudHistory userCloudHistory = userCloudHistoryRepository
-                .findByEbookIdAndUserId(ebook.getId(), user.getId())
+                .findByEbookIdAndUserId(book.getId(), user.getId())
                 .orElseThrow(() -> new LibraryAPIException(HttpStatus.BAD_REQUEST, "User and book don't match"));
         return mapToDTO(userCloudHistory);
     }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
@@ -41,7 +42,10 @@ public class BookDto {
     @Min(value = 1400, message = "Book publication year should be between 1400 and 2023")
     @Max(value = AppConstants.CURRENT_YEAR)
     private Integer publicationYear;
-
     private int availableCopies;
     private int totalCopies;
+    @URL
+    private String downloadLink;
+    @URL
+    private String readingLink;
 }

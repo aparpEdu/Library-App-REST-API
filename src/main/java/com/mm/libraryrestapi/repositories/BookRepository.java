@@ -20,15 +20,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Operation(
             summary = "Get Books By Tags",
-            description = "Search EBooks By Tags is used to get books from the database"
+            description = "Search Books By Tags is used to get books from the database"
     )
     Page<Book> findAllByTagsContainingIgnoreCase(String tags, Pageable pageable);
 
-//    @Operation(
-//            summary = "Get EBooks By Summary",
-//            description = "Search EBooks By Summary is used to get ebooks from the database"
-//    )
-//    List<Ebook> findBySummaryContaining(String summary);
 
     @Operation(
             summary = "Get Books By Genre",

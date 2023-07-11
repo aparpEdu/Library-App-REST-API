@@ -20,8 +20,8 @@ public class UserCloudHistory {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ebook_id", nullable = false)
-    private Ebook ebook;
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
 
 
 
