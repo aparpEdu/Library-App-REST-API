@@ -69,7 +69,7 @@ public class BorrowHistoryControllerTest {
         when(borrowHistoryService.postponeBookByHistoryId(userId, borrowId, days)).thenReturn(borrowHistoryDto);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryDto> response = borrowHistoryController.borrowBook(borrowId, days);
+        ResponseEntity<BorrowHistoryDto> response = borrowHistoryController.postponeBook(userId, borrowId, days);
 
         // Verify the service method was called
         verify(borrowHistoryService).postponeBookByHistoryId(userId, borrowId, days);
