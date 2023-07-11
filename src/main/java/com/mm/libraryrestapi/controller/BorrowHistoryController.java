@@ -88,7 +88,7 @@ public class BorrowHistoryController {
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/myBorrowHistory")
     public ResponseEntity<BorrowHistoryResponse> getAllBooksBorrowedByUser
             (@PathVariable Long userId,
@@ -99,74 +99,6 @@ public class BorrowHistoryController {
             ) {
         return ResponseEntity.ok(borrowHistoryService.getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir));
     }
-
-//    @Operation(
-//            summary = "Get All Borrowed Books By Logged User REST API",
-//            description = "Get All Borrowed Books By Logged User REST API is used to fetch all borrowed books by a logged user in the database"
-//    )
-//    @ApiResponse(
-//            responseCode = "200",
-//            description = "Http Status 200 SUCCESS"
-//    )
-//    @SecurityRequirement(
-//            name = "Bearer Authentication"
-//    )
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-//    @GetMapping("myBorrowHistory")
-//    public ResponseEntity<BorrowHistoryResponse> getAllBooksBorrowedByLoggedUser
-//            (
-//                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-//                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-//                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-//                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-//            ) {
-//        return ResponseEntity.ok(borrowHistoryService.getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir));
-//    }
-
-//    @Operation(
-//            summary = "Get All Borrowed Books REST API",
-//            description = "Get All Borrowed Books REST API is used to fetch all borrowed books from the database"
-//    )
-//    @ApiResponse(
-//            responseCode = "200",
-//            description = "Http Status 200 SUCCESS"
-//    )
-//    @SecurityRequirement(
-//            name = "Bearer Authentication"
-//    )
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("borrowHistory")
-//    public ResponseEntity<BorrowHistoryResponse> getAllBooksBorrowed
-//            (@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-//             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-//             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-//             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-//        return ResponseEntity.ok(borrowHistoryService.getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir));
-//    }
-
-//    @Operation(
-//            summary = "Get Borrow History By User Id REST API",
-//            description = "Search Borrow History By User Id REST API is used to search borrow history by user id from the database"
-//    )
-//    @ApiResponse(
-//            responseCode = "200",
-//            description = "Http Status 200 SUCCESS"
-//    )
-//    @SecurityRequirement(
-//            name = "Bearer Authentication"
-//    )
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-//    @GetMapping("user")
-//    public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByUserId
-//            (
-//                    @RequestParam Long userId,
-//                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-//                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-//                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-//                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-//            ) {
-//        return ResponseEntity.ok(borrowHistoryService.getBorrowHistoryByUserId(userId, pageNo, pageSize, sortBy, sortDir));
-//    }
 
     @Operation(
             summary = "Get Borrow History By Book Id REST API",

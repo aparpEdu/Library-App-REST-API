@@ -68,37 +68,6 @@ class BorrowHistoryServiceImplTest {
         Assertions.assertEquals(borrowHistoryResponse, newBorrowHistoryResponse);
     }
 
-//    @Test
-//    void testGetAllBooksBorrowedByLoggedUser() {
-//        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-//        Mockito.when(borrowHistoryService
-//                .getAllBooksBorrowedByLoggedUser(Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-//        BorrowHistoryResponse newBorrowHistoryResponse = borrowHistoryService
-//                .getAllBooksBorrowedByLoggedUser(Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
-//        Assertions.assertEquals(borrowHistoryResponse, newBorrowHistoryResponse);
-//    }
-//
-//    @Test
-//    void testGetAllBooksBorrowed() {
-//        BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-//        Mockito.when(borrowHistoryService
-//                .getAllBooksBorrowed(Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-//        BorrowHistoryResponse newBorrowHistoryResponse = borrowHistoryService
-//                .getAllBooksBorrowed(Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
-//        Assertions.assertEquals(borrowHistoryResponse, newBorrowHistoryResponse);
-//    }
-//
-//    @Test
-//    void testGetBorrowHistoryByUserId() {
-//        Long userId = 1L;
-//       BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-//        Mockito.when(borrowHistoryService
-//                .getBorrowHistoryByUserId(userId,  Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-//        BorrowHistoryResponse newBorrowHistoryResponse = borrowHistoryService
-//                .getBorrowHistoryByUserId(userId,  Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
-//        Assertions.assertEquals(borrowHistoryResponse, newBorrowHistoryResponse);
-//    }
-
     @Test
     void testGetBorrowHistoryByBookId() {
         Long userId = 1L;

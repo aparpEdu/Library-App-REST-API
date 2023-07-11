@@ -48,8 +48,6 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
 
     @Override
     public BorrowHistoryDto borrowBookById(Long userId, Long bookId) {
-        //search for the current Logged User
-//        User loggedUser = getLoggedUser();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
@@ -95,7 +93,6 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Borrow History","borrowHistoryId",borrowHistoryId));
 
         //check if the borrowHistory correspond to the user
-//        User loggedUser= getLoggedUser();
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), user.getId()))
             throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_USER);
 
@@ -129,7 +126,6 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Borrow History","borrowHistoryId",borrowHistoryId));
 
         //check if the borrowHistory correspond to the user
-//        User loggedUser= getLoggedUser();
         if(!Objects.equals(borrowHistoryToUpdate.getUser().getId(), user.getId()))
             throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_USER);
 
@@ -155,34 +151,6 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
         Page<BorrowHistory> content = borrowHistoryRepository.findBorrowHistoryByUserId(user.getId(), pageable);
         return getBorrowHistoryResponse(content);
     }
-
-//    @Override
-//    public BorrowHistoryResponse getAllBooksBorrowedByLoggedUser(int pageNo, int pageSize, String sortBy, String sortDir) {
-//        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-//                : Sort.by(sortBy).descending();
-//        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
-//        User user = getLoggedUser();
-//        Page<BorrowHistory> content = borrowHistoryRepository.findBorrowHistoryByUserId(user.getId(), pageable);
-//        return getBorrowHistoryResponse(content);
-//    }
-//
-//    @Override
-//    public BorrowHistoryResponse getAllBooksBorrowed(int pageNo, int pageSize, String sortBy, String sortDir) {
-//        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-//                : Sort.by(sortBy).descending();
-//        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
-//        Page<BorrowHistory> content = borrowHistoryRepository.findAll(pageable);
-//        return getBorrowHistoryResponse(content);
-//    }
-//
-//    @Override
-//    public BorrowHistoryResponse getBorrowHistoryByUserId(Long userId,  int pageNo, int pageSize, String sortBy, String sortDir) {
-//        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-//                : Sort.by(sortBy).descending();
-//        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
-//        Page<BorrowHistory> content = borrowHistoryRepository.getBorrowHistoryByUserId(userId, pageable);
-//        return getBorrowHistoryResponse(content);
-//    }
 
     @Override
     public BorrowHistoryResponse getBorrowHistoryByBookId(Long userId, Long bookId,  int pageNo, int pageSize, String sortBy, String sortDir) {
@@ -221,13 +189,6 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
     private BorrowHistoryDto mapToDTO(BorrowHistory borrowHistory) {
         return mapper.map(borrowHistory, BorrowHistoryDto.class);
     }
-
-//    private User getLoggedUser() {
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-//                .getPrincipal();
-//        return userRepository.getUserByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
-//                .orElseThrow(() -> new ResourceNotFoundException("User", "username",  userDetails.getUsername()));
-//    }
 
     private BorrowHistoryResponse getBorrowHistoryResponse(Page<BorrowHistory> borrowHistoryPage) {
         List<BorrowHistory> borrowHistoryList = borrowHistoryPage.getContent();

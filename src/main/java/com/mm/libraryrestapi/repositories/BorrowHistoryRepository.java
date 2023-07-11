@@ -34,12 +34,6 @@ public interface BorrowHistoryRepository extends JpaRepository<BorrowHistory, Lo
     )
     Page<BorrowHistory> findAll(Pageable pageable);
 
-//    @Operation(
-//            summary = "Get Borrow History By User Id",
-//            description = "Search Borrow History By User Id is used to get borrow history for a user from the database"
-//    )
-//    Page<BorrowHistory> getBorrowHistoryByUserId(Long userId, Pageable pageable);
-
     @Operation(
             summary = "Get Borrow History By Book Id",
             description = "Search Borrow History By Book Id is used to get borrow history for a user by book id from the database"

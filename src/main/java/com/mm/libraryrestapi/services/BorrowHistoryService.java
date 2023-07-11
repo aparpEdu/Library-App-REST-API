@@ -14,12 +14,6 @@ public interface BorrowHistoryService {
 
     BorrowHistoryResponse getAllBooksBorrowedByUser(Long userId, int pageNo, int pageSize, String sortBy, String sortDir);
 
-//    BorrowHistoryResponse getAllBooksBorrowedByLoggedUser(int pageNo, int pageSize, String sortBy, String sortDir);
-
-//    BorrowHistoryResponse getAllBooksBorrowed(int pageNo, int pageSize, String sortBy, String sortDir);
-
-//    BorrowHistoryResponse  getBorrowHistoryByUserId(Long userId,  int pageNo, int pageSize, String sortBy, String sortDir);
-
     BorrowHistoryResponse getBorrowHistoryByBookId(Long userId, Long bookId, int pageNo, int pageSize, String sortBy, String sortDir);
 
     BorrowHistoryResponse getBorrowHistoryByBorrowDate(Long userId, LocalDate borrowDate, int pageNo, int pageSize, String sortBy, String sortDir);
