@@ -2,6 +2,7 @@ package com.mm.libraryrestapi.services.impl;
 
 import com.mm.libraryrestapi.entity.Author;
 import com.mm.libraryrestapi.entity.Book;
+import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.dtos.BookDto;
 import com.mm.libraryrestapi.payload.response.BookResponse;
@@ -9,10 +10,12 @@ import com.mm.libraryrestapi.repositories.AuthorRepository;
 import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.services.BookService;
 import com.mm.libraryrestapi.utils.CustomMapper;
+import com.mm.libraryrestapi.utils.ErrorMessages;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +45,8 @@ public class BookServiceImpl implements BookService {
             bookToCreate.setReadingLink("No URL Available");
         }
         bookToCreate.setAuthor(author);
+        if(bookDto.getAvailableCopies()>bookDto.getTotalCopies())
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.AVAILABLE_BOOKS_BIGGER_THAN_TOTAL);
         return mapToDTO(bookRepository.save(bookToCreate));
     }
 
@@ -66,6 +71,8 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", paperBookId));
         Author author = authorRepository.findById(bookDto.getAuthorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Author", "id", bookDto.getAuthorId()));
+        if(bookDto.getAvailableCopies()>bookDto.getTotalCopies())
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.AVAILABLE_BOOKS_BIGGER_THAN_TOTAL);
         bookToUpdate.setAuthor(author);
         bookToUpdate.setISBN(bookDto.getISBN());
         bookToUpdate.setGenre(bookDto.getGenre());
@@ -75,6 +82,8 @@ public class BookServiceImpl implements BookService {
         bookToUpdate.setPublicationYear(bookDto.getPublicationYear());
         bookToUpdate.setAvailableCopies(bookDto.getAvailableCopies());
         bookToUpdate.setTotalCopies(bookDto.getTotalCopies());
+        bookToUpdate.setDownloadLink(bookDto.getDownloadLink());
+        bookToUpdate.setReadingLink(bookDto.getReadingLink());
         return mapToDTO(bookRepository.save(bookToUpdate));
     }
 
