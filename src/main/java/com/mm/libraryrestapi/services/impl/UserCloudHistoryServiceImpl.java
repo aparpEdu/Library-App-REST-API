@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -50,6 +51,25 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
         UserCloudHistory userCloudHistory = new UserCloudHistory();
         userCloudHistory.setUser(user);
         userCloudHistory.setBook(book);
+        userCloudHistory.setReadTime(LocalDateTime.now());
+        userCloudHistory.setDownloadTime(null);
+        return mapToDTO(userCloudHistoryRepository.save(userCloudHistory));
+    }
+
+    @Override
+    public UserCloudHistoryDto downloadABook(Long bookId, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(()-> new ResourceNotFoundException("Book", "id", bookId));
+        if(book.getDownloadLink() == null && book.getReadingLink() == null){
+            throw new LibraryAPIException(HttpStatus.NOT_FOUND, "Book URL NOT FOUND");
+        }
+        UserCloudHistory userCloudHistory = new UserCloudHistory();
+        userCloudHistory.setUser(user);
+        userCloudHistory.setBook(book);
+        userCloudHistory.setReadTime(null);
+        userCloudHistory.setDownloadTime(LocalDateTime.now());
         return mapToDTO(userCloudHistoryRepository.save(userCloudHistory));
     }
 
@@ -77,6 +97,28 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
         return getUserClodHistoryResponse(content);
 
    }
+
+    @Override
+    public UserCloudHistoryResponse getCloudHistoryByReadTime(Long userId, LocalDateTime readTime, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        Page<UserCloudHistory> content = userCloudHistoryRepository.findCloudHistoryByUserIdAndReadTime(user.getId(), readTime, pageable);
+        return getUserClodHistoryResponse(content);
+    }
+
+    @Override
+    public UserCloudHistoryResponse getCloudHistoryByDownloadTime(Long userId, LocalDateTime downloadTime, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        Page<UserCloudHistory> content = userCloudHistoryRepository.findCloudHistoryByUserIdAndDownloadTime(user.getId(), downloadTime, pageable);
+        return getUserClodHistoryResponse(content);
+    }
 
     private UserCloudHistoryResponse getUserClodHistoryResponse(Page<UserCloudHistory> userCloudHistories) {
         List<UserCloudHistory> userCloudHistory = userCloudHistories.getContent();
