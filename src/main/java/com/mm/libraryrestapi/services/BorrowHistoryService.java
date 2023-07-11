@@ -5,7 +5,7 @@ import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
 
 import java.time.LocalDate;
 
-public interface BorrowBookService {
+public interface BorrowHistoryService {
     BorrowHistoryDto borrowBook(Long bookId);
 
     BorrowHistoryDto postponeReturnDate(Long borrowHistoryId, Long days);

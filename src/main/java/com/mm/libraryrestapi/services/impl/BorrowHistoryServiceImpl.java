@@ -11,7 +11,7 @@ import com.mm.libraryrestapi.repositories.BookRepository;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.BookService;
-import com.mm.libraryrestapi.services.BorrowBookService;
+import com.mm.libraryrestapi.services.BorrowHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import com.mm.libraryrestapi.utils.CustomMapper;
 import com.mm.libraryrestapi.utils.ErrorMessages;
@@ -31,7 +31,7 @@ import java.util.Objects;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class BorrowBookServiceImpl implements BorrowBookService {
+public class BorrowHistoryServiceImpl implements BorrowHistoryService {
     private final CustomMapper mapper;
     private final BorrowHistoryRepository borrowHistoryRepository;
 
@@ -39,7 +39,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
     private final BookRepository bookRepository;
     private final BookService bookService;
 
-    public BorrowBookServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository, BookService bookService) {
+    public BorrowHistoryServiceImpl(CustomMapper mapper, BorrowHistoryRepository borrowHistoryRepository, UserRepository userRepository, BookRepository bookRepository, BookService bookService) {
         this.mapper = mapper;
         this.borrowHistoryRepository = borrowHistoryRepository;
         this.userRepository = userRepository;

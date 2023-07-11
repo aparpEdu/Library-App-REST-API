@@ -145,16 +145,16 @@ public class BookServiceImpl implements BookService {
         return getBookResponse(content);
     }
 
-    private BookResponse getBookResponse(Page<Book> ebooks) {
-        List<Book> listOfPosts = ebooks.getContent();
+    private BookResponse getBookResponse(Page<Book> books) {
+        List<Book> listOfPosts = books.getContent();
         List<BookDto> content = listOfPosts.stream().map(this::mapToDTO).toList();
         BookResponse paperBookResponse = new BookResponse();
         paperBookResponse.setContent(content);
-        paperBookResponse.setPageNo(ebooks.getNumber());
-        paperBookResponse.setPageSize(ebooks.getSize());
-        paperBookResponse.setTotalElements(ebooks.getTotalElements());
-        paperBookResponse.setLast(ebooks.isLast());
-        paperBookResponse.setTotalPages(ebooks.getTotalPages());
+        paperBookResponse.setPageNo(books.getNumber());
+        paperBookResponse.setPageSize(books.getSize());
+        paperBookResponse.setTotalElements(books.getTotalElements());
+        paperBookResponse.setLast(books.isLast());
+        paperBookResponse.setTotalPages(books.getTotalPages());
         return paperBookResponse;
     }
 

@@ -3,7 +3,7 @@ package com.mm.libraryrestapi.controller;
 import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
 import com.mm.libraryrestapi.repositories.BorrowHistoryRepository;
-import com.mm.libraryrestapi.services.BorrowBookService;
+import com.mm.libraryrestapi.services.BorrowHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +21,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class BorrowBookControllerTest {
+public class BorrowHistoryControllerTest {
     @InjectMocks
-    private BorrowBookController borrowBookController;
+    private BorrowHistoryController borrowHistoryController;
 
     @Mock
-    private BorrowBookService borrowBookService;
+    private BorrowHistoryService borrowHistoryService;
 
     @Mock
     private BorrowHistoryRepository borrowHistoryRepository;
@@ -43,13 +43,13 @@ public class BorrowBookControllerTest {
         BorrowHistoryDto borrowHistoryDto = new BorrowHistoryDto();
 
         // Mock the service method
-        when(borrowBookService.borrowBook(bookId)).thenReturn(borrowHistoryDto);
+        when(borrowHistoryService.borrowBook(bookId)).thenReturn(borrowHistoryDto);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryDto> response = borrowBookController.borrowBook(bookId);
+        ResponseEntity<BorrowHistoryDto> response = borrowHistoryController.borrowBook(bookId);
 
         // Verify the service method was called
-        verify(borrowBookService).borrowBook(bookId);
+        verify(borrowHistoryService).borrowBook(bookId);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -64,13 +64,13 @@ public class BorrowBookControllerTest {
         BorrowHistoryDto borrowHistoryDto = new BorrowHistoryDto();
 
         // Mock the service method
-        when(borrowBookService.postponeReturnDate(borrowId, days)).thenReturn(borrowHistoryDto);
+        when(borrowHistoryService.postponeReturnDate(borrowId, days)).thenReturn(borrowHistoryDto);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryDto> response = borrowBookController.borrowBook(borrowId, days);
+        ResponseEntity<BorrowHistoryDto> response = borrowHistoryController.borrowBook(borrowId, days);
 
         // Verify the service method was called
-        verify(borrowBookService).postponeReturnDate(borrowId, days);
+        verify(borrowHistoryService).postponeReturnDate(borrowId, days);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -84,13 +84,13 @@ public class BorrowBookControllerTest {
         BorrowHistoryDto borrowHistoryDto = new BorrowHistoryDto();
 
         // Mock the service method
-        when(borrowBookService.returnPaperBook(borrowId)).thenReturn(borrowHistoryDto);
+        when(borrowHistoryService.returnPaperBook(borrowId)).thenReturn(borrowHistoryDto);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryDto> response = borrowBookController.returnBook(borrowId);
+        ResponseEntity<BorrowHistoryDto> response = borrowHistoryController.returnBook(borrowId);
 
         // Verify the service method was called
-        verify(borrowBookService).returnPaperBook(borrowId);
+        verify(borrowHistoryService).returnPaperBook(borrowId);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -108,15 +108,15 @@ public class BorrowBookControllerTest {
         BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
 
         // Mock the service method
-        when(borrowBookService.getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir))
+        when(borrowHistoryService.getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir))
                 .thenReturn(borrowHistoryResponse);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController.getAllBooksBorrowedByUser(
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController.getAllBooksBorrowedByUser(
                 userId, pageNo, pageSize, sortBy, sortDir);
 
         // Verify the service method was called
-        verify(borrowBookService).getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir);
+        verify(borrowHistoryService).getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -133,15 +133,15 @@ public class BorrowBookControllerTest {
         BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
 
         // Mock the service method
-        when(borrowBookService.getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir))
+        when(borrowHistoryService.getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir))
                 .thenReturn(borrowHistoryResponse);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController.getAllBooksBorrowedByLoggedUser(
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController.getAllBooksBorrowedByLoggedUser(
                 pageNo, pageSize, sortBy, sortDir);
 
         // Verify the service method was called
-        verify(borrowBookService).getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir);
+        verify(borrowHistoryService).getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -158,15 +158,15 @@ public class BorrowBookControllerTest {
         BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
 
         // Mock the service method
-        when(borrowBookService.getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir))
+        when(borrowHistoryService.getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir))
                 .thenReturn(borrowHistoryResponse);
 
         // Call the controller method
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController.getAllBooksBorrowed(
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController.getAllBooksBorrowed(
                 pageNo, pageSize, sortBy, sortDir);
 
         // Verify the service method was called
-        verify(borrowBookService).getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir);
+        verify(borrowHistoryService).getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir);
 
         // Assert the response
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -178,9 +178,9 @@ public class BorrowBookControllerTest {
         // Test data
         BorrowHistoryResponse expectedBookResponse = new BorrowHistoryResponse();
         Long correctUserId = 1L;
-        Mockito.when(borrowBookService
+        Mockito.when(borrowHistoryService
                 .getBorrowHistoryByUserId(correctUserId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(expectedBookResponse);
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController
                 .getBorrowHistoryByUserId(correctUserId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(expectedBookResponse, response.getBody());
@@ -190,9 +190,9 @@ public class BorrowBookControllerTest {
     void testGetBorrowHistoryByBookId() {
         BorrowHistoryResponse expectedBookResponse = new BorrowHistoryResponse();
         Long correctBookId = 1L;
-        Mockito.when(borrowBookService
+        Mockito.when(borrowHistoryService
                 .getBorrowHistoryByBookId(correctBookId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(expectedBookResponse);
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController
                 .getBorrowHistoryByBookId(correctBookId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(expectedBookResponse, response.getBody());
@@ -203,9 +203,9 @@ public class BorrowBookControllerTest {
         // Test data
         boolean returned = true;
         BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-        Mockito.when(borrowBookService
+        Mockito.when(borrowHistoryService
                 .getBorrowHistoryByReturned(returned, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController
                 .getBorrowHistoryByReturned(returned, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(borrowHistoryResponse, response.getBody());
@@ -216,9 +216,9 @@ public class BorrowBookControllerTest {
         // Test data
         LocalDate borrowDate = LocalDate.now();
         BorrowHistoryResponse borrowHistoryResponse = new BorrowHistoryResponse();
-        Mockito.when(borrowBookService
+        Mockito.when(borrowHistoryService
                 .getBorrowHistoryByBorrowDate(borrowDate, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(borrowHistoryResponse);
-        ResponseEntity<BorrowHistoryResponse> response = borrowBookController
+        ResponseEntity<BorrowHistoryResponse> response = borrowHistoryController
                 .getBorrowHistoryByBorrowDate(borrowDate, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(borrowHistoryResponse, response.getBody());

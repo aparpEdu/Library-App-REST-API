@@ -2,7 +2,7 @@ package com.mm.libraryrestapi.controller;
 
 import com.mm.libraryrestapi.payload.dtos.BorrowHistoryDto;
 import com.mm.libraryrestapi.payload.response.BorrowHistoryResponse;
-import com.mm.libraryrestapi.services.BorrowBookService;
+import com.mm.libraryrestapi.services.BorrowHistoryService;
 import com.mm.libraryrestapi.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,12 +18,12 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/api/v1/")
 @Tag(name = "CRUD REST APIs for Borrow Book Resource")
-public class BorrowBookController {
+public class BorrowHistoryController {
 
-    private final BorrowBookService borrowBookService;
+    private final BorrowHistoryService borrowHistoryService;
 
-    public BorrowBookController(BorrowBookService borrowBookService) {
-        this.borrowBookService = borrowBookService;
+    public BorrowHistoryController(BorrowHistoryService borrowHistoryService) {
+        this.borrowHistoryService = borrowHistoryService;
     }
 
     @Operation(
@@ -40,7 +40,7 @@ public class BorrowBookController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("borrow/{bookId}")
     public ResponseEntity<BorrowHistoryDto> borrowBook(@PathVariable Long bookId) {
-        return new ResponseEntity<>(borrowBookService.borrowBook(bookId), HttpStatus.CREATED);
+        return new ResponseEntity<>(borrowHistoryService.borrowBook(bookId), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -57,7 +57,7 @@ public class BorrowBookController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PatchMapping("/postpone/{borrowId}")
     public ResponseEntity<BorrowHistoryDto> borrowBook(@PathVariable Long borrowId, @RequestParam("days") Long days) {
-        return new ResponseEntity<>(borrowBookService.postponeReturnDate(borrowId, days), HttpStatus.OK);
+        return new ResponseEntity<>(borrowHistoryService.postponeReturnDate(borrowId, days), HttpStatus.OK);
     }
 
     @Operation(
@@ -74,7 +74,7 @@ public class BorrowBookController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PatchMapping("/return/{borrowId}")
     public ResponseEntity<BorrowHistoryDto> returnBook(@PathVariable Long borrowId) {
-        return new ResponseEntity<>(borrowBookService.returnPaperBook(borrowId), HttpStatus.OK);
+        return new ResponseEntity<>(borrowHistoryService.returnPaperBook(borrowId), HttpStatus.OK);
     }
 
     @Operation(
@@ -97,7 +97,7 @@ public class BorrowBookController {
              @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
              @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
             ) {
-        return ResponseEntity.ok(borrowBookService.getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getAllBooksBorrowedByUser(userId, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -120,7 +120,7 @@ public class BorrowBookController {
                     @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
             ) {
-        return ResponseEntity.ok(borrowBookService.getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getAllBooksBorrowedByLoggedUser(pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -141,7 +141,7 @@ public class BorrowBookController {
              @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
              @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
              @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-        return ResponseEntity.ok(borrowBookService.getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getAllBooksBorrowed(pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -165,7 +165,7 @@ public class BorrowBookController {
                     @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
             ) {
-        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByUserId(userId, pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getBorrowHistoryByUserId(userId, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -189,7 +189,7 @@ public class BorrowBookController {
                     @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
             ) {
-        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByBookId(bookId, pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getBorrowHistoryByBookId(bookId, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -211,7 +211,7 @@ public class BorrowBookController {
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByBorrowDate(borrowDate, pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getBorrowHistoryByBorrowDate(borrowDate, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -233,6 +233,6 @@ public class BorrowBookController {
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-        return ResponseEntity.ok(borrowBookService.getBorrowHistoryByReturned(returned, pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(borrowHistoryService.getBorrowHistoryByReturned(returned, pageNo, pageSize, sortBy, sortDir));
     }
 }
