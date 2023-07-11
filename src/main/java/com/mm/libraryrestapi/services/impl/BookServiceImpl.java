@@ -38,12 +38,6 @@ public class BookServiceImpl implements BookService {
         Book bookToCreate = mapToEntity(bookDto);
         Author author = authorRepository.findById(bookDto.getAuthorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Author", "id", bookDto.getAuthorId()));
-        if(bookDto.getDownloadLink() == null){
-            bookToCreate.setDownloadLink("No URL Available");
-        }
-        if(bookDto.getReadingLink() == null){
-            bookToCreate.setReadingLink("No URL Available");
-        }
         bookToCreate.setAuthor(author);
         if(bookDto.getAvailableCopies()>bookDto.getTotalCopies())
             throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.AVAILABLE_BOOKS_BIGGER_THAN_TOTAL);

@@ -44,7 +44,7 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
                 .orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("Book", "id", bookId));
-        if(book.getDownloadLink().contains("No URL Available") && book.getReadingLink().contains("No URL Available")){
+        if(book.getDownloadLink() == null && book.getReadingLink() == null){
             throw new LibraryAPIException(HttpStatus.NOT_FOUND, "Book URL NOT FOUND");
         }
         UserCloudHistory userCloudHistory = new UserCloudHistory();
