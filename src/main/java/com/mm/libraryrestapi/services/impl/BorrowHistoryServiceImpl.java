@@ -191,7 +191,7 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
-        Page<BorrowHistory> content =  borrowHistoryRepository.getBorrowHistoryByBookId(user.getId(), bookId, pageable);
+        Page<BorrowHistory> content =  borrowHistoryRepository.findBorrowHistoryByUserIdAndBookId(user.getId(), bookId, pageable);
         return getBorrowHistoryResponse(content);
     }
 
@@ -202,7 +202,7 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
-        Page<BorrowHistory> content = borrowHistoryRepository.getBorrowHistoryByBorrowDate(user.getId(), borrowDate, pageable);
+        Page<BorrowHistory> content = borrowHistoryRepository.findBorrowHistoryByUserIdAndBorrowDate(user.getId(), borrowDate, pageable);
         return getBorrowHistoryResponse(content);
     }
 
@@ -213,7 +213,7 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
-        Page<BorrowHistory> content = borrowHistoryRepository.getBorrowHistoryByReturned(user.getId(), returned, pageable);
+        Page<BorrowHistory> content = borrowHistoryRepository.findBorrowHistoryByUserIdAndReturned(user.getId(), returned, pageable);
         return getBorrowHistoryResponse(content);
     }
 
