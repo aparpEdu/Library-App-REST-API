@@ -10,9 +10,9 @@ public interface UserCloudHistoryService {
 
     UserCloudHistoryDto downloadABook(Long bookId, Long userId);
 
-    UserCloudHistoryDto getUserReadBook(Long bookId, Long userId);
+    UserCloudHistoryDto getBookByBookId(Long bookId, Long userId);
 
-    UserCloudHistoryResponse getAllReadBooksByUser(Long userId, int pageNo, int pageSize, String sortBy, String sortDir);
+    UserCloudHistoryResponse getAllBooksByUserId(Long userId, int pageNo, int pageSize, String sortBy, String sortDir);
 
     UserCloudHistoryResponse getCloudHistoryByReadTime(Long userId, LocalDateTime readTime, int pageNo, int pageSize, String sortBy, String sortDir);
 

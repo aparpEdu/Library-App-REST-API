@@ -141,7 +141,7 @@ public class BookController {
 
     @Operation(
             summary = "Get Books By Tags REST API",
-            description = "Search books By Tags REST API is used to search for books by tags in the database"
+            description = "Search Books By Tags REST API is used to search books by tags in the database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -163,8 +163,8 @@ public class BookController {
     }
 
     @Operation(
-            summary = "Get all Books By Genre REST API",
-            description = "Get all Books By Genre REST API is used to search books by genre in the database"
+            summary = "Get Books By Genre REST API",
+            description = "Search Books By Genre REST API is used to search books by genre in the database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -209,8 +209,8 @@ public class BookController {
     }
 
     @Operation(
-            summary = "Get Books By Author  Name REST API",
-            description = "Search Books By Author  Name REST API is used to search books by author in the database"
+            summary = "Get Books By Author Name REST API",
+            description = "Search Books By Author Name REST API is used to search books by author in the database"
     )
     @ApiResponse(
             responseCode = "200",

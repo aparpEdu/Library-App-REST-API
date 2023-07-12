@@ -74,7 +74,7 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
     }
 
     @Override
-    public UserCloudHistoryDto getUserReadBook(Long bookId, Long userId) {
+    public UserCloudHistoryDto getBookByBookId(Long bookId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
         Book book = bookRepository.findById(bookId)
@@ -86,8 +86,8 @@ public class UserCloudHistoryServiceImpl implements UserCloudHistoryService {
     }
 
     @Override
-    public UserCloudHistoryResponse getAllReadBooksByUser(Long userId, int pageNo, int pageSize,
-                                                          String sortBy, String sortDir) {
+    public UserCloudHistoryResponse getAllBooksByUserId(Long userId, int pageNo, int pageSize,
+                                                        String sortBy, String sortDir) {
         Sort sortDirection = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection);

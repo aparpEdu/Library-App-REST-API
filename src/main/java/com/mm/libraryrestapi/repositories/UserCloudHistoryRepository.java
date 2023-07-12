@@ -16,26 +16,26 @@ import java.util.Optional;
 public interface UserCloudHistoryRepository extends JpaRepository<UserCloudHistory, Long> {
 
     @Operation(
-            summary = "Get Cloud History By EBook Id and User Id",
-            description = "Search Cloud History By EBook Id and User Id is used to get cloud history from the database"
+            summary = "Get Cloud History By Book Id and User Id",
+            description = "Search Cloud History By Book Id and User Id is used to get cloud history from the database"
     )
     Optional<UserCloudHistory> findByBookIdAndUserId(Long bookId, Long userId);
 
     @Operation(
-            summary = "Get Cloud History By Read Time",
-            description = "Search Cloud History By Read Time is used to get cloud history for a user by read time from the database"
+            summary = "Get User's Cloud History By Read Time",
+            description = "Search User's Cloud History By Read Time is used to get cloud history for a user by read time from the database"
     )
     Page<UserCloudHistory> findCloudHistoryByUserIdAndReadTime(Long userId, LocalDateTime readTime, Pageable pageable);
 
     @Operation(
-            summary = "Get Cloud History By Download Time",
-            description = "Search Cloud History By Download Time is used to get cloud history for a user by download time from the database"
+            summary = "Get User's Cloud History By Download Time",
+            description = "Search User's Cloud History By Download Time is used to get cloud history for a user by download time from the database"
     )
     Page<UserCloudHistory> findCloudHistoryByUserIdAndDownloadTime(Long userId, LocalDateTime downloadTime, Pageable pageable);
 
     @Operation(
-            summary = "Get Cloud Histories By User Id",
-            description = "Search Cloud Histories By User Id is used to get cloud histories from the database"
+            summary = "Get User's Cloud History By User Id",
+            description = "Search User's Cloud History By User Id is used to get user's  cloud history from the database"
     )
     Page<UserCloudHistory> findAllByUserId(Long userId, Pageable pageable);
 

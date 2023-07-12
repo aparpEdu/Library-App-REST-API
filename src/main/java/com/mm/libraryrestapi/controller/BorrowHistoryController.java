@@ -44,8 +44,8 @@ public class BorrowHistoryController {
     }
 
     @Operation(
-            summary = "Borrow Book With Postpone Days REST API",
-            description = "Borrow Book With Postpone Days REST API is used to postpone the days of a borrowed book in the database"
+            summary = "Postpone Return Date Of Borrowed Book By Days REST API",
+            description = "Postpone Return Date Of Borrowed Book By Days REST API is used to postpone the days of a borrowed book in the database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -61,8 +61,8 @@ public class BorrowHistoryController {
     }
 
     @Operation(
-            summary = "Return Book REST API",
-            description = "Return Book REST API is used to return a particular book in the database"
+            summary = "Return Borrowed Book REST API",
+            description = "Return Borrowed Book REST API is used to return a particular borrowed book in the database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -78,8 +78,8 @@ public class BorrowHistoryController {
     }
 
     @Operation(
-            summary = "Get All Borrowed Books By User REST API",
-            description = "Get All Borrowed Books By User REST API is used to fetch all borrowed books by a particular user in the database"
+            summary = "Get All User's Borrowed Books REST API",
+            description = "Get All User's Borrowed Books REST API is used to fetch all borrowed books by a particular user in the database"
     )
     @ApiResponse(
             responseCode = "200",

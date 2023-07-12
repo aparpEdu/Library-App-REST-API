@@ -8,12 +8,12 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "confirmation_token")
 public class ConfirmationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

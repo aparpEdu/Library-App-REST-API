@@ -59,8 +59,8 @@ class UserCloudHistoryControllerTest {
         long userId = 1L;
         long bookId = 1L;
         UserCloudHistoryDto userCloudHistoryDto = new UserCloudHistoryDto();
-        Mockito.when(userCloudHistoryService.getUserReadBook(bookId, userId)).thenReturn(userCloudHistoryDto);
-        ResponseEntity<UserCloudHistoryDto> response = userCloudHistoryController.getReadBookByUser(userId, bookId);
+        Mockito.when(userCloudHistoryService.getBookByBookId(bookId, userId)).thenReturn(userCloudHistoryDto);
+        ResponseEntity<UserCloudHistoryDto> response = userCloudHistoryController.getUserBookByBookId(userId, bookId);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(userCloudHistoryDto, response.getBody());
     }
@@ -70,9 +70,9 @@ class UserCloudHistoryControllerTest {
         long userId = 1L;
         UserCloudHistoryResponse userCloudHistoryResponse = new UserCloudHistoryResponse();
         Mockito.when(userCloudHistoryService
-                .getAllReadBooksByUser(userId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(userCloudHistoryResponse);
+                .getAllBooksByUserId(userId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION)).thenReturn(userCloudHistoryResponse);
         ResponseEntity<UserCloudHistoryResponse> response = userCloudHistoryController
-                .getReadBookByUser(userId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
+                .getAllBooksByUserId(userId, Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE), AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(userCloudHistoryResponse, response.getBody());
     }

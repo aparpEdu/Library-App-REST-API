@@ -23,8 +23,8 @@ public interface BorrowHistoryRepository extends JpaRepository<BorrowHistory, Lo
     List<BorrowHistory> findByUser(User user);
 
     @Operation(
-            summary = "Get Borrow History By User",
-            description = "Search Borrow History By User is used to get borrow history for a user from the database"
+            summary = "Get Borrow History By User Id",
+            description = "Search Borrow History By User Id is used to get borrow history for a user by user's id from the database"
     )
     Page<BorrowHistory> findBorrowHistoryByUserId(Long userId, Pageable pageable);
 
@@ -48,7 +48,7 @@ public interface BorrowHistoryRepository extends JpaRepository<BorrowHistory, Lo
 
     @Operation(
             summary = "Get Borrow History By Returned",
-            description = "Search Borrow History By Returned is used to get borrow history for a user from the database if the book is returned"
+            description = "Search Borrow History By Returned is used to get borrow history for a user from the database if the book is returned or not"
     )
     Page<BorrowHistory> findBorrowHistoryByUserIdAndReturned(Long userId, boolean returned, Pageable pageable);
 }

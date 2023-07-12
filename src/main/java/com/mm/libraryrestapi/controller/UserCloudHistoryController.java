@@ -27,8 +27,8 @@ public class UserCloudHistoryController {
     }
 
     @Operation(
-            summary = "Read An EBook REST API",
-            description = "Read An EBook REST API is used to read an ebook from database"
+            summary = "Read A Book REST API",
+            description = "Read A Book REST API is used to read a book from database"
     )
     @ApiResponse(
             responseCode = "201",
@@ -44,8 +44,8 @@ public class UserCloudHistoryController {
     }
 
     @Operation(
-            summary = "Download An EBook REST API",
-            description = "Download An EBook REST API is used to download an ebook from database"
+            summary = "Download A Book REST API",
+            description = "Download A Book REST API is used to download a book from database"
     )
     @ApiResponse(
             responseCode = "201",
@@ -61,8 +61,8 @@ public class UserCloudHistoryController {
     }
 
     @Operation(
-            summary = "Read An EBook By User REST API",
-            description = "Read An EBook By User REST API is used to read an ebook by user from database"
+            summary = "Get User's Read Or Downloaded Book By Book Id REST API",
+            description = "Search User's Read Or Downloaded Book By Book Id REST API is used to search a user's book by book id from database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -73,13 +73,13 @@ public class UserCloudHistoryController {
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/mybooks/{bookId}")
-    public ResponseEntity<UserCloudHistoryDto> getReadBookByUser(@PathVariable Long userId, @PathVariable Long bookId) {
-        return ResponseEntity.ok(userCloudHistoryService.getUserReadBook(bookId, userId));
+    public ResponseEntity<UserCloudHistoryDto> getUserBookByBookId(@PathVariable Long userId, @PathVariable Long bookId) {
+        return ResponseEntity.ok(userCloudHistoryService.getBookByBookId(bookId, userId));
     }
 
     @Operation(
-            summary = "Get Read EBook By User REST API",
-            description = "Get Read EBook By User REST API is used to get all read ebooks by a user from database"
+            summary = "Get All User's Books REST API",
+            description = "Search All User's Books REST API is used to get all books by a user's id from database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -90,18 +90,18 @@ public class UserCloudHistoryController {
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{userId}/mybooks")
-    public ResponseEntity<UserCloudHistoryResponse> getReadBookByUser
+    public ResponseEntity<UserCloudHistoryResponse> getAllBooksByUserId
             (@PathVariable Long userId,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
              @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
              @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
              @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-        return ResponseEntity.ok(userCloudHistoryService.getAllReadBooksByUser(userId, pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(userCloudHistoryService.getAllBooksByUserId(userId, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
-            summary = "Get Read EBook By Read Time REST API",
-            description = "Get Read EBook By Read Time REST API is used to get all read ebooks by a user from database"
+            summary = "Get User's History By Read Time REST API",
+            description = "Search User's History By Read Time REST API is used to get user's all read books by read time from database"
     )
     @ApiResponse(
             responseCode = "200",
@@ -123,8 +123,8 @@ public class UserCloudHistoryController {
     }
 
     @Operation(
-            summary = "Get Read EBook By Read Time REST API",
-            description = "Get Read EBook By Read Time REST API is used to get all read ebooks by a user from database"
+            summary = "Get User's History By Download Time REST API",
+            description = "Get User's History By Download Time REST API is used to get user's all read books by download time from database"
     )
     @ApiResponse(
             responseCode = "200",
