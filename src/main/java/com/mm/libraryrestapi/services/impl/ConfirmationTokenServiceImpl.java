@@ -5,6 +5,7 @@ import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.repositories.ConfirmationTokenRepository;
 import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.services.ConfirmationTokenService;
+import com.mm.libraryrestapi.utils.ErrorMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,12 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     @Override
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new LibraryAPIException(HttpStatus.NOT_FOUND,"Token not found"));
+                .orElseThrow(() -> new LibraryAPIException(HttpStatus.NOT_FOUND, ErrorMessages.TOKEN_NOT_FOUND));
         if(confirmationToken.getConfirmedAt() != null){
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "Email already confirmed");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.EMAIL_ALREADY_CONFIRMED);
         }
         if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST,"Token expired");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.EXPIRED_TOKEN);
         }
         setConfirmationDate(token);
         userRepository.confirmEmail(confirmationToken.getUser().getEmail());

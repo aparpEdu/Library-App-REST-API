@@ -12,6 +12,7 @@ import com.mm.libraryrestapi.security.JwtTokenProvider;
 import com.mm.libraryrestapi.services.AuthenticationService;
 import com.mm.libraryrestapi.services.ConfirmationTokenService;
 import com.mm.libraryrestapi.services.EmailService;
+import com.mm.libraryrestapi.utils.ErrorMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,9 +59,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String login(LoginDto loginDto) {
         User userToVerify = userRepository
                 .getUserByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail())
-                .orElseThrow(() -> new LibraryAPIException(HttpStatus.NOT_FOUND, "User Does not exist"));
+                .orElseThrow(() -> new LibraryAPIException(HttpStatus.NOT_FOUND, ErrorMessages.NON_EXISTENT_USER));
         if(!userToVerify.isConfirmed()){
-            throw new LibraryAPIException(HttpStatus.UNAUTHORIZED, "Email has not been confirmed!");
+            throw new LibraryAPIException(HttpStatus.UNAUTHORIZED, ErrorMessages.NOT_CONFIRMED_EMAIL);
         }
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
@@ -71,11 +72,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String register(RegisterDto registerDto) {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
-            throw  new LibraryAPIException(HttpStatus.BAD_REQUEST, "Username already exists!");
+            throw  new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.USERNAME_ALREADY_EXISTS);
         }
 
         if (userRepository.existsByEmail(registerDto.getEmail())) {
-            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, "Email already exists!");
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.EMAIL_ALREADY_EXISTS);
         }
 
         User user = new User();

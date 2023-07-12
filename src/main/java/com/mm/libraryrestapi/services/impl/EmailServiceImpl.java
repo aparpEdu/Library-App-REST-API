@@ -2,6 +2,7 @@ package com.mm.libraryrestapi.services.impl;
 
 import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.services.EmailService;
+import com.mm.libraryrestapi.utils.ErrorMessages;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
 
         }catch (MessagingException exception){
             LOGGER.error("Failed to send Email", exception);
-            throw new LibraryAPIException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to send email");
+            throw new LibraryAPIException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.EMAIL_SEND_FAILURE);
         }
     }
 
