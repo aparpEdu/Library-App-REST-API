@@ -11,6 +11,7 @@ import com.mm.libraryrestapi.repositories.UserRepository;
 import com.mm.libraryrestapi.security.JwtTokenProvider;
 import com.mm.libraryrestapi.services.AuthenticationService;
 import com.mm.libraryrestapi.services.ConfirmationTokenService;
+import com.mm.libraryrestapi.services.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,21 +36,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final ConfirmationTokenService confirmationTokenService;
+    private final EmailService emailService;
 
     public AuthenticationServiceImpl(AuthenticationManager authenticationManager,
-                                     UserRepository userRepository, RoleRepository roleRepository,
-                                     PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider,
-                                     ConfirmationTokenService confirmationTokenService) {
+                                     UserRepository userRepository,
+                                     RoleRepository roleRepository,
+                                     PasswordEncoder passwordEncoder,
+                                     JwtTokenProvider jwtTokenProvider,
+                                     ConfirmationTokenService confirmationTokenService,
+                                     EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.confirmationTokenService = confirmationTokenService;
+        this.emailService = emailService;
     }
 
     @Override
     public String login(LoginDto loginDto) {
+        User userToVerify = userRepository
+                .getUserByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail())
+                .orElseThrow(() -> new LibraryAPIException(HttpStatus.NOT_FOUND, "User Does not exist"));
+        if(!userToVerify.isConfirmed()){
+            throw new LibraryAPIException(HttpStatus.UNAUTHORIZED, "Email has not been confirmed!");
+        }
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -96,6 +108,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
         confirmationToken.setUser(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return "User registered successfully! Confirmation token: "+ token;
+        String confirmationLink = "http://localhost:8080/api/v1/auth/confirm?token=" + token;
+        emailService.send(registerDto.getEmail(), emailService.buildEmail(registerDto.getName(), confirmationLink));
+        return "User registered successfully! DEV TOKEN: "+ token;
     }
 }

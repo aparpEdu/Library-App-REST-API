@@ -4,16 +4,14 @@ import com.mm.libraryrestapi.payload.response.JWTAuthenticationResponse;
 import com.mm.libraryrestapi.payload.dtos.LoginDto;
 import com.mm.libraryrestapi.payload.dtos.RegisterDto;
 import com.mm.libraryrestapi.services.AuthenticationService;
+import com.mm.libraryrestapi.services.ConfirmationTokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -21,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private final AuthenticationService  authService;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public AuthenticationController(AuthenticationService authService) {
+    public AuthenticationController(AuthenticationService authService, ConfirmationTokenService confirmationTokenService) {
         this.authService = authService;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Operation(
@@ -54,5 +54,10 @@ public class AuthenticationController {
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto){
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("confirm")
+    public ResponseEntity<String> confirm(@RequestParam String token){
+        return ResponseEntity.ok(confirmationTokenService.confirmToken(token));
     }
 }
