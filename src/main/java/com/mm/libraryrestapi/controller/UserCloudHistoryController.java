@@ -57,7 +57,7 @@ public class UserCloudHistoryController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("{userId}/download/{bookId}")
     public ResponseEntity<UserCloudHistoryDto> downloadABook(@PathVariable Long userId, @PathVariable Long bookId) {
-        return new ResponseEntity<>(userCloudHistoryService.readABook(bookId, userId), HttpStatus.CREATED);
+        return new ResponseEntity<>(userCloudHistoryService.downloadABook(bookId, userId), HttpStatus.CREATED);
     }
 
     @Operation(
