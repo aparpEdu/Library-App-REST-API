@@ -39,5 +39,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u " +
             "SET u.confirmed = TRUE WHERE u.email = ?1")
-    int confirmEmail(String email);
+    void confirmEmail(String email);
 }
