@@ -4,6 +4,8 @@ import com.mm.libraryrestapi.entity.ConfirmationToken;
 import com.mm.libraryrestapi.entity.Role;
 import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.LibraryAPIException;
+import com.mm.libraryrestapi.exception.ResourceNotFoundException;
+import com.mm.libraryrestapi.payload.dtos.ChangePasswordDto;
 import com.mm.libraryrestapi.payload.dtos.LoginDto;
 import com.mm.libraryrestapi.payload.dtos.RegisterDto;
 import com.mm.libraryrestapi.repositories.RoleRepository;
@@ -112,5 +114,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String confirmationLink = "http://localhost:8080/api/v1/auth/confirm?token=" + token;
         emailService.send(registerDto.getEmail(), emailService.buildEmail(registerDto.getName(), confirmationLink));
         return "User registered successfully! DEV TOKEN: "+ token;
+    }
+
+    @Override
+    public String changePassword(ChangePasswordDto changePasswordDto, Long userId) {
+        User userWithNewPassword = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userWithNewPassword.getUsername(), changePasswordDto.getOldPassword()));
+
+        if(!changePasswordDto.getNewPassword().equals(changePasswordDto.getRepeatedNewPassword()))
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.NEW_PASSWORD_NO_MATCH);
+
+        userWithNewPassword.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
+        userRepository.save(userWithNewPassword);
+        return "Password changed successfully";
     }
 }

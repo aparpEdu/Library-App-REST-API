@@ -1,5 +1,6 @@
 package com.mm.libraryrestapi.controller;
 
+import com.mm.libraryrestapi.payload.dtos.ChangePasswordDto;
 import com.mm.libraryrestapi.payload.response.JWTAuthenticationResponse;
 import com.mm.libraryrestapi.payload.dtos.LoginDto;
 import com.mm.libraryrestapi.payload.dtos.RegisterDto;
@@ -7,6 +8,7 @@ import com.mm.libraryrestapi.services.AuthenticationService;
 import com.mm.libraryrestapi.services.ConfirmationTokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -69,4 +71,26 @@ public class AuthenticationController {
     public ResponseEntity<String> confirm(@RequestParam String token){
         return ResponseEntity.ok(confirmationTokenService.confirmToken(token));
     }
+
+    @Operation(
+            summary = "Change User Password REST API",
+            description = "Change User Password API is used to change the password of an existing user in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PatchMapping (value ="/{userId}/changePassword")
+    public ResponseEntity<String> changePassword(
+            @RequestBody @Valid ChangePasswordDto changePasswordDto,
+            @PathVariable Long userId)
+    {
+        String response = authService.changePassword(changePasswordDto,userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

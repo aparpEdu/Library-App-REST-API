@@ -1,6 +1,5 @@
 package com.mm.libraryrestapi.utils;
 
-
 public class ErrorMessages {
     public static final String PENDING_RETURN = "You have at least one book with a pending return";
     public static final String INVALID_USER = "The borrow history in not from the current user";
@@ -19,4 +18,6 @@ public class ErrorMessages {
     public static final String EMAIL_ALREADY_EXISTS = "Email already exists!";
     public static final String NON_EXISTENT_USER = "User Does not exist";
     public static final String NOT_CONFIRMED_EMAIL ="Email has not been confirmed!";
+    public static final String WRONG_PASSWORD = "Invalid password. Please try again.";
+    public static final String NEW_PASSWORD_NO_MATCH = "Please ensure the new password is entered correctly twice.";
 }
