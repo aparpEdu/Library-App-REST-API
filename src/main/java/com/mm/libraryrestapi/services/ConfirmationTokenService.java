@@ -6,5 +6,5 @@ public interface ConfirmationTokenService {
 
     void saveConfirmationToken(ConfirmationToken token);
     String confirmToken(String token);
-    int setConfirmationDate(String token);
+    void setConfirmationDate(String token);
 }
