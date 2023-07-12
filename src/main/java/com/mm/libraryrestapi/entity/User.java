@@ -39,6 +39,8 @@ public class User {
     private String city;
     @Column(nullable = false)
     private String country;
+
+    @Column(columnDefinition = "boolean default false")
     private boolean confirmed;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

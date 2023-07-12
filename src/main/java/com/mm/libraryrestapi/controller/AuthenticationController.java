@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -56,6 +57,14 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Confirm User's Email REST API",
+            description = "Confirm User's Email REST API is used to confirm a new user's email by confirmation token"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
     @GetMapping("confirm")
     public ResponseEntity<String> confirm(@RequestParam String token){
         return ResponseEntity.ok(confirmationTokenService.confirmToken(token));
