@@ -103,7 +103,7 @@ public class AuthenticationController {
             description = "Http Status 200 SUCCESS"
     )
     @PostMapping("forgot")
-    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto){
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ForgotPasswordDto forgotPasswordDto){
         return ResponseEntity.ok(authService.forgotPassword(forgotPasswordDto));
     }
     @Operation(
@@ -115,7 +115,7 @@ public class AuthenticationController {
             description = "Http Status 200 SUCCESS"
     )
     @PutMapping("reset")
-    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestBody ForgotPasswordDto forgotPasswordDto){
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @Valid @RequestBody ForgotPasswordDto forgotPasswordDto){
        return ResponseEntity.ok(authService.resetPassword(forgotPasswordDto, token));
     }
 }
