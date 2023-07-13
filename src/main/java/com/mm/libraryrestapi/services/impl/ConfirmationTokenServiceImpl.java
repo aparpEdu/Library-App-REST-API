@@ -43,6 +43,21 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     }
 
     @Override
+    public ConfirmationToken confirmResetToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new LibraryAPIException(HttpStatus.NOT_FOUND, ErrorMessages.TOKEN_NOT_FOUND));
+        if(confirmationToken.getConfirmedAt() != null){
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.EMAIL_ALREADY_CONFIRMED);
+        }
+        if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.EXPIRED_TOKEN);
+        }
+        setConfirmationDate(token);
+        return confirmationToken;
+    }
+
+
+    @Override
     public void setConfirmationDate(String token) {
         confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
     }

@@ -6,6 +6,7 @@ import com.mm.libraryrestapi.entity.User;
 import com.mm.libraryrestapi.exception.LibraryAPIException;
 import com.mm.libraryrestapi.exception.ResourceNotFoundException;
 import com.mm.libraryrestapi.payload.dtos.ChangePasswordDto;
+import com.mm.libraryrestapi.payload.dtos.ForgotPasswordDto;
 import com.mm.libraryrestapi.payload.dtos.LoginDto;
 import com.mm.libraryrestapi.payload.dtos.RegisterDto;
 import com.mm.libraryrestapi.repositories.RoleRepository;
@@ -128,6 +129,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userWithNewPassword.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
         userRepository.save(userWithNewPassword);
+        return "Password changed successfully";
+    }
+
+    @Override
+    public String forgotPassword(ForgotPasswordDto forgotPasswordDto) {
+        User userToResetPassword = userRepository
+                .getUserByUsernameOrEmail(forgotPasswordDto.getUsernameOrEmail(), forgotPasswordDto.getUsernameOrEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "usernameOrEmail", forgotPasswordDto.getUsernameOrEmail()));
+        String userEmail = userToResetPassword.getEmail();
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken();
+        confirmationToken.setToken(token);
+        confirmationToken.setCreatedAt(LocalDateTime.now());
+        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+        confirmationToken.setUser(userToResetPassword);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        String confirmationLink = "http://localhost:8080/api/v1/auth/reset?token=" + token;
+        emailService.send(userEmail, emailService.buildEmailForgotPassword(userToResetPassword.getName(), confirmationLink));
+        return "Email was sent with additional steps to reset your password! DEV TOKEN:" + token;
+    }
+
+    @Override
+    public String resetPassword(ForgotPasswordDto forgotPasswordDto, String token) {
+        User userToResetPassword =  confirmationTokenService.confirmResetToken(token).getUser();
+        if(!forgotPasswordDto.getNewPassword().equals(forgotPasswordDto.getConfirmPassword())) {
+            throw new LibraryAPIException(HttpStatus.BAD_REQUEST, ErrorMessages.NEW_PASSWORD_NO_MATCH);
+        }
+        userToResetPassword.setPassword(passwordEncoder.encode(forgotPasswordDto.getConfirmPassword()));
+        userRepository.save(userToResetPassword);
         return "Password changed successfully";
     }
 }

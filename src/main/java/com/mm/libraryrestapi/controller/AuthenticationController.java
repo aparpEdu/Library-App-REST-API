@@ -1,6 +1,7 @@
 package com.mm.libraryrestapi.controller;
 
 import com.mm.libraryrestapi.payload.dtos.ChangePasswordDto;
+import com.mm.libraryrestapi.payload.dtos.ForgotPasswordDto;
 import com.mm.libraryrestapi.payload.response.JWTAuthenticationResponse;
 import com.mm.libraryrestapi.payload.dtos.LoginDto;
 import com.mm.libraryrestapi.payload.dtos.RegisterDto;
@@ -93,4 +94,13 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("forgot")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto){
+        return ResponseEntity.ok(authService.forgotPassword(forgotPasswordDto));
+    }
+
+    @PutMapping("reset")
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestBody ForgotPasswordDto forgotPasswordDto){
+       return ResponseEntity.ok(authService.resetPassword(forgotPasswordDto, token));
+    }
 }
