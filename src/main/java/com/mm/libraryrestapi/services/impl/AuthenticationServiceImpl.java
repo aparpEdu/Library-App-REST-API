@@ -129,6 +129,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userWithNewPassword.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
         userRepository.save(userWithNewPassword);
+        emailService.send(userWithNewPassword.getEmail(), emailService.buildEmailChangePassword(userWithNewPassword.getName()));
         return "Password changed successfully";
     }
 

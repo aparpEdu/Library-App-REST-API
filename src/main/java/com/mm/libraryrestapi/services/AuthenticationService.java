@@ -14,5 +14,6 @@ public interface AuthenticationService {
     String changePassword(ChangePasswordDto changePasswordDto, Long userId);
 
     String forgotPassword(ForgotPasswordDto forgotPasswordDto);
+
     String resetPassword(ForgotPasswordDto forgotPasswordDto, String token);
 }
