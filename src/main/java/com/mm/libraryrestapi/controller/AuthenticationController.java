@@ -94,11 +94,26 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Forgot Password Request REST API",
+            description = "Forgot Password Request REST API is used to send reset token to user's email "
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @PostMapping("forgot")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto){
         return ResponseEntity.ok(authService.forgotPassword(forgotPasswordDto));
     }
-
+    @Operation(
+            summary = "Reset User Password REST API",
+            description = "Reset User Password REST API is used to reset user's password"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @PutMapping("reset")
     public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestBody ForgotPasswordDto forgotPasswordDto){
        return ResponseEntity.ok(authService.resetPassword(forgotPasswordDto, token));
