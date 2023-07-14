@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class ForgotPasswordDto {
     private String usernameOrEmail;
+    @Size(min = 8, message = "password should be at least 8 symbols long")
     private String newPassword;
     private String confirmPassword;
 }
