@@ -23,6 +23,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,14 +43,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtTokenProvider jwtTokenProvider;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailService emailService;
+    private final TemplateEngine templateEngine;
 
     public AuthenticationServiceImpl(AuthenticationManager authenticationManager,
                                      UserRepository userRepository,
                                      RoleRepository roleRepository,
-                                     PasswordEncoder passwordEncoder,
-                                     JwtTokenProvider jwtTokenProvider,
+                                     PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider,
                                      ConfirmationTokenService confirmationTokenService,
-                                     EmailService emailService) {
+                                     EmailService emailService, TemplateEngine templateEngine) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -56,6 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.jwtTokenProvider = jwtTokenProvider;
         this.confirmationTokenService = confirmationTokenService;
         this.emailService = emailService;
+        this.templateEngine = templateEngine;
     }
 
     @Override
@@ -112,8 +115,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
         confirmationToken.setUser(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
+        Context context = new Context();
+        context.setVariable("name", user.getName());
         String confirmationLink = "http://localhost:8080/api/v1/auth/confirm?token=" + token;
-        emailService.send(registerDto.getEmail(), emailService.buildEmail(registerDto.getName(), confirmationLink));
+        context.setVariable("link", confirmationLink);
+        emailService.send(registerDto.getEmail(), templateEngine.process("emailConfirmation", context));
         return "User registered successfully! DEV TOKEN: "+ token;
     }
 
