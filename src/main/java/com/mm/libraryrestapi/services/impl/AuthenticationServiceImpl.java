@@ -135,7 +135,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userWithNewPassword.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
         userRepository.save(userWithNewPassword);
-        emailService.send(userWithNewPassword.getEmail(), emailService.buildEmailChangePassword(userWithNewPassword.getName()));
+        Context context = new Context();
+        context.setVariable("name", userWithNewPassword.getName());
+        emailService.send(userWithNewPassword.getEmail(), templateEngine.process("emailChangePassword.", context));
         return "Password changed successfully";
     }
 
@@ -153,7 +155,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         confirmationToken.setUser(userToResetPassword);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String confirmationLink = "http://localhost:8080/api/v1/auth/reset?token=" + token;
-        emailService.send(userEmail, emailService.buildEmailForgotPassword(userToResetPassword.getName(), confirmationLink));
+        Context context = new Context();
+        context.setVariable("name", userToResetPassword.getName());
+        context.setVariable("link", confirmationLink);
+        emailService.send(userEmail, templateEngine.process("emailForgotPassword", context));
         return "Email was sent with additional steps to reset your password! DEV TOKEN:" + token;
     }
 
