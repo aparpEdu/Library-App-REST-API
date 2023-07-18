@@ -119,7 +119,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         context.setVariable("name", user.getName());
         String confirmationLink = "http://localhost:8080/api/v1/auth/confirm?token=" + token;
         context.setVariable("link", confirmationLink);
-        emailService.send(registerDto.getEmail(), templateEngine.process("emailConfirmation", context));
+        emailService.send(registerDto.getEmail(), templateEngine.process("email-Confirmation", context));
         return "User registered successfully! DEV TOKEN: "+ token;
     }
 
@@ -137,7 +137,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userRepository.save(userWithNewPassword);
         Context context = new Context();
         context.setVariable("name", userWithNewPassword.getName());
-        emailService.send(userWithNewPassword.getEmail(), templateEngine.process("emailChangePassword.", context));
+        emailService.send(userWithNewPassword.getEmail(), templateEngine.process("email-change-password", context));
         return "Password changed successfully";
     }
 
@@ -158,7 +158,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Context context = new Context();
         context.setVariable("name", userToResetPassword.getName());
         context.setVariable("link", confirmationLink);
-        emailService.send(userEmail, templateEngine.process("emailForgotPassword", context));
+        emailService.send(userEmail, templateEngine.process("email-forgot-password", context));
         return "Email was sent with additional steps to reset your password! DEV TOKEN:" + token;
     }
 
