@@ -89,7 +89,7 @@ public class BorrowHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/myBorrowHistory")
+    @GetMapping("{userId}/my-borrow-history")
     public ResponseEntity<BorrowHistoryResponse> getAllBooksBorrowedByUser
             (@PathVariable Long userId,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -112,7 +112,7 @@ public class BorrowHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/myBorrowHistory/{bookId}")
+    @GetMapping("{userId}/my-borrow-history/{bookId}")
     public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByBookId
             (
                     @PathVariable Long userId,
@@ -137,7 +137,7 @@ public class BorrowHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/myBorrowHistory/date")
+    @GetMapping("{userId}/my-borrow-history/date")
     public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByBorrowDate(
             @PathVariable Long userId,
             @RequestParam(value = "date") LocalDate borrowDate,
@@ -160,7 +160,7 @@ public class BorrowHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/myBorrowHistory/returned")
+    @GetMapping("{userId}/my-borrow-history/returned")
     public ResponseEntity<BorrowHistoryResponse> getBorrowHistoryByReturned(
             @PathVariable Long userId,
             @RequestParam boolean returned,

@@ -73,7 +73,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/mybooks/{bookId}")
+    @GetMapping("{userId}/my-books/{bookId}")
     public ResponseEntity<UserCloudHistoryDto> getUserBookByBookId(@PathVariable Long userId, @PathVariable Long bookId) {
         return ResponseEntity.ok(userCloudHistoryService.getBookByBookId(bookId, userId));
     }
@@ -90,7 +90,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/mybooks")
+    @GetMapping("{userId}/my-books")
     public ResponseEntity<UserCloudHistoryResponse> getAllBooksByUserId
             (@PathVariable Long userId,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -112,7 +112,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/mybooks/read")
+    @GetMapping("{userId}/my-books/read")
     public ResponseEntity<UserCloudHistoryResponse> getCloudHistoryByReadTime
             (@PathVariable Long userId,
              @RequestParam(value = "time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime readTime,
@@ -135,7 +135,7 @@ public class UserCloudHistoryController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("{userId}/mybooks/downloaded")
+    @GetMapping("{userId}/my-books/downloaded")
     public ResponseEntity<UserCloudHistoryResponse> getCloudHistoryByDownloadTime
             (@PathVariable Long userId,
              @RequestParam(value = "time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime downloadTime,

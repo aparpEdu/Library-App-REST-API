@@ -127,7 +127,7 @@ public class AuthorController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("/firstName")
+    @GetMapping("/first-name")
     public ResponseEntity<AuthorResponse> getAuthorsByFirstName
             (@RequestParam(value = "firstName") String firstName,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -149,7 +149,7 @@ public class AuthorController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("/lastName")
+    @GetMapping("/last-name")
     public ResponseEntity<AuthorResponse> getAuthorsByLastName
             (@RequestParam(value = "lastName") String lastName,
              @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
